@@ -115,9 +115,9 @@ function TreeNode({ category, selectedCategories, onCategorySelect, level }: Tre
       {/* Children */}
       {hasChildren && isExpanded && (
         <div className="ml-2">
-          {category.children!.map((child) => (
+          {category.children!.map((child, index) => (
             <TreeNode
-              key={child.id}
+              key={`${child.id}-${index}-${level}`}
               category={child}
               selectedCategories={selectedCategories}
               onCategorySelect={onCategorySelect}
@@ -147,9 +147,9 @@ export default function TargetingTree({
 
   return (
     <div className="space-y-1" data-testid="targeting-tree">
-      {categories.map((category) => (
+      {categories.map((category, index) => (
         <TreeNode
-          key={category.id}
+          key={`${category.id}-root-${index}`}
           category={category}
           selectedCategories={selectedCategories}
           onCategorySelect={onCategorySelect}

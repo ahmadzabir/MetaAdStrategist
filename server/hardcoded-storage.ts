@@ -1,7 +1,6 @@
 import { TARGETING_CATEGORIES, CATEGORY_STATS } from '../shared/targeting-categories';
 import type { TargetingCategory as HardcodedTargetingCategory } from '../shared/targeting-categories';
 import type { 
-  IStorage, 
   User, 
   InsertUser, 
   TargetingCategory,
@@ -9,6 +8,7 @@ import type {
   Recommendation, 
   InsertRecommendation 
 } from '@shared/schema';
+import type { IStorage } from './storage';
 
 /**
  * HARDCODED STORAGE IMPLEMENTATION
@@ -101,7 +101,7 @@ export class HardcodedStorage implements IStorage {
 
   async getRecommendationsByUser(userId?: string): Promise<Recommendation[]> {
     if (userId) {
-      return this.recommendations.filter(r => r.userId === userId);
+      return this.recommendations.filter(r => r.userInput === userId); // Using userInput as identifier
     }
     return this.recommendations.sort((a, b) => b.createdAt!.getTime() - a.createdAt!.getTime());
   }
@@ -111,15 +111,15 @@ export class HardcodedStorage implements IStorage {
     return CATEGORY_STATS;
   }
 
-  getCategoriesByType(type: 'interests' | 'behaviors' | 'demographics'): TargetingCategory[] {
+  getCategoriesByType(type: 'interests' | 'behaviors' | 'demographics'): HardcodedTargetingCategory[] {
     return this.categories.filter(cat => cat.categoryType === type);
   }
 
-  getCategoriesByLevel(level: number): TargetingCategory[] {
+  getCategoriesByLevel(level: number): HardcodedTargetingCategory[] {
     return this.categories.filter(cat => cat.level === level);
   }
 
-  searchCategories(query: string): TargetingCategory[] {
+  searchCategories(query: string): HardcodedTargetingCategory[] {
     const searchTerm = query.toLowerCase();
     return this.categories.filter(cat => 
       cat.name.toLowerCase().includes(searchTerm) ||
@@ -132,26 +132,80 @@ export class HardcodedStorage implements IStorage {
     
     const categoryMap = new Map<string, any>();
     const rootCategories: any[] = [];
+    const processedIds = new Set<string>();
 
     // Create category objects with children arrays
     this.categories.forEach(cat => {
-      categoryMap.set(cat.id, {
-        ...cat,
-        children: []
-      });
-    });
-
-    // Build parent-child relationships
-    this.categories.forEach(cat => {
-      const categoryWithChildren = categoryMap.get(cat.id)!;
-      
-      if (cat.parentId && categoryMap.has(cat.parentId)) {
-        const parent = categoryMap.get(cat.parentId)!;
-        parent.children.push(categoryWithChildren);
-      } else {
-        rootCategories.push(categoryWithChildren);
+      if (!processedIds.has(cat.id)) {
+        categoryMap.set(cat.id, {
+          ...cat,
+          children: []
+        });
+        processedIds.add(cat.id);
       }
     });
+
+    // Build parent-child relationships with cycle prevention
+    this.categories.forEach(cat => {
+      if (!categoryMap.has(cat.id)) return;
+      
+      const categoryWithChildren = categoryMap.get(cat.id)!;
+      
+      if (cat.parentId && categoryMap.has(cat.parentId) && cat.parentId !== cat.id) {
+        const parent = categoryMap.get(cat.parentId)!;
+        
+        // Check for circular reference
+        let currentParent = parent;
+        let isCircular = false;
+        const visitedIds = new Set([cat.id]);
+        
+        while (currentParent && currentParent.parentId && visitedIds.size < 10) {
+          if (visitedIds.has(currentParent.id)) {
+            isCircular = true;
+            break;
+          }
+          visitedIds.add(currentParent.id);
+          currentParent = categoryMap.get(currentParent.parentId) || null;
+        }
+        
+        if (!isCircular) {
+          // Avoid duplicate children
+          const isDuplicate = parent.children.some((child: any) => child.id === categoryWithChildren.id);
+          if (!isDuplicate) {
+            parent.children.push(categoryWithChildren);
+          }
+        } else {
+          console.warn(`Circular reference prevented for ${cat.id} -> ${cat.parentId}`);
+          rootCategories.push(categoryWithChildren);
+        }
+      } else if (!cat.parentId || cat.parentId === cat.id) {
+        // Only add level 1 categories as roots
+        if (cat.level === 1) {
+          rootCategories.push(categoryWithChildren);
+        } else {
+          console.warn(`Orphaned category (level ${cat.level}): ${cat.name} (${cat.id})`);
+        }
+      }
+    });
+
+    // Sort root categories by level then name
+    rootCategories.sort((a, b) => {
+      if (a.level !== b.level) return a.level - b.level;
+      return a.name.localeCompare(b.name);
+    });
+
+    // Sort children recursively
+    const sortChildren = (category: any) => {
+      if (category.children && category.children.length > 0) {
+        category.children.sort((a: any, b: any) => {
+          if (a.level !== b.level) return a.level - b.level;
+          return a.name.localeCompare(b.name);
+        });
+        category.children.forEach(sortChildren);
+      }
+    };
+
+    rootCategories.forEach(sortChildren);
 
     console.log(`Built hierarchy with ${rootCategories.length} root categories`);
     rootCategories.forEach(root => {
