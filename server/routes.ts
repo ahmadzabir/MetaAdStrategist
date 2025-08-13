@@ -1,9 +1,10 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { storage } from "./storage";
+import { storage } from "./storage-factory";
 import { generateRecommendationSchema } from "@shared/schema";
 import { generateTargetingRecommendations } from "./services/gemini";
 import { FirebaseStorage } from "./services/firebase";
+import { flattenMetaData, validateMetaData, type MetaTargetingItem } from "./utils/data-processor";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
@@ -90,7 +91,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Bulk upload targeting categories to Firebase
+  // Process and upload Meta targeting data to Firebase
+  app.post("/api/targeting-categories/upload-meta-data", async (req, res) => {
+    try {
+      const rawData = req.body;
+      
+      if (!validateMetaData(rawData)) {
+        return res.status(400).json({ message: "Invalid Meta targeting data format" });
+      }
+
+      const flattened = flattenMetaData(rawData as MetaTargetingItem[]);
+      const firebaseStorage = new FirebaseStorage();
+      
+      // Upload to Firebase
+      await firebaseStorage.bulkInsertTargetingCategories(flattened);
+      
+      res.json({ 
+        message: `Successfully processed and uploaded ${flattened.length} targeting categories to Firebase`,
+        count: flattened.length,
+        categories: flattened.slice(0, 5) // Show first 5 as preview
+      });
+    } catch (error) {
+      console.error("Error processing Meta data:", error);
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to process Meta targeting data" 
+      });
+    }
+  });
+
+  // Legacy bulk upload endpoint for simple arrays
   app.post("/api/targeting-categories/bulk-upload", async (req, res) => {
     try {
       const { categories } = req.body;
