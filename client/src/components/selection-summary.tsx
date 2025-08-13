@@ -170,7 +170,6 @@ export default function SelectionSummary({
   };
 
   const aiAnalysis = getAIInsights();
-
   const [activeTab, setActiveTab] = useState("overview");
 
   if (selectedCategories.length === 0) {
