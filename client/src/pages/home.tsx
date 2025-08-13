@@ -63,11 +63,15 @@ export default function Home() {
   });
 
   const handleCategorySelect = (categoryId: string, selected: boolean) => {
-    setSelectedCategories(prev => 
-      selected 
-        ? [...prev, categoryId]
-        : prev.filter(id => id !== categoryId)
-    );
+    setSelectedCategories(prev => {
+      if (selected) {
+        // Only add if not already present
+        return prev.includes(categoryId) ? prev : [...prev, categoryId];
+      } else {
+        // Remove all instances of the categoryId
+        return prev.filter(id => id !== categoryId);
+      }
+    });
   };
 
   const handleGenerateStrategy = () => {
