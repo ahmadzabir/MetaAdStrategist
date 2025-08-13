@@ -84,13 +84,10 @@ function TreeItem({
               onClick={handleSelect}
               className={`w-4 h-4 transition-all duration-200 ${
                 isSelected 
-                  ? 'bg-emerald-500 border-emerald-500 shadow-md' 
-                  : 'hover:border-emerald-400 hover:shadow-sm'
+                  ? 'bg-emerald-500 border-emerald-500 text-white shadow-md' 
+                  : 'hover:border-emerald-400 hover:shadow-sm border-gray-300'
               }`}
             />
-            {isSelected && (
-              <div className="absolute inset-0 bg-emerald-400 rounded-sm animate-ping opacity-75"></div>
-            )}
           </div>
         )}
 
