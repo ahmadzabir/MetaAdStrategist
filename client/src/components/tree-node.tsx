@@ -35,11 +35,12 @@ export default function TreeNode({
   const indent = (level - 1) * 16;
 
   const handleClick = () => {
-    console.log(`TreeNode clicked: ${category.name}, hasChildren: ${hasChildren}, current expanded: ${isExpanded}`);
+    console.log(`TreeNode clicked: ${category.name}, hasChildren: ${hasChildren}, children count: ${category.children?.length || 0}, current expanded: ${isExpanded}`);
     
     if (hasChildren) {
       // Parent nodes: expand/collapse
       setIsExpanded(!isExpanded);
+      console.log(`Setting expanded to: ${!isExpanded}`);
     } else {
       // Leaf nodes: select/deselect
       onCategorySelect(category.id, !isSelected);
@@ -73,7 +74,7 @@ export default function TreeNode({
       {/* Current Node */}
       <div 
         className={cn(
-          "group flex items-center gap-2 px-2 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded cursor-pointer transition-all duration-150",
+          "group flex items-center gap-2 px-2 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded cursor-pointer transition-all duration-150",
           isSelected && "bg-blue-50 dark:bg-blue-900/20",
           hasChildren && "font-medium"
         )}
@@ -82,17 +83,17 @@ export default function TreeNode({
         data-testid={`tree-node-${category.id}`}
       >
         {/* Expand/Collapse Arrow */}
-        <div className="flex-shrink-0 w-4 h-4 flex items-center justify-center">
+        <div className="flex-shrink-0 w-5 h-5 flex items-center justify-center">
           {hasChildren ? (
-            <div className="w-4 h-4 flex items-center justify-center">
+            <div className="w-5 h-5 flex items-center justify-center bg-gray-100 dark:bg-gray-700 rounded hover:bg-gray-200 dark:hover:bg-gray-600 cursor-pointer">
               {isExpanded ? (
-                <ChevronDown className="h-3 w-3 text-gray-700 dark:text-gray-300" />
+                <ChevronDown className="h-4 w-4 text-gray-700 dark:text-gray-300" />
               ) : (
-                <ChevronRight className="h-3 w-3 text-gray-700 dark:text-gray-300" />
+                <ChevronRight className="h-4 w-4 text-gray-700 dark:text-gray-300" />
               )}
             </div>
           ) : (
-            <div className="w-4 h-4" />
+            <div className="w-5 h-5" />
           )}
         </div>
         
@@ -157,7 +158,7 @@ export default function TreeNode({
         <div className="space-y-0.5">
           {category.children!.map((child, index) => (
             <TreeNode
-              key={`${child.id}-${index}-${level}`}
+              key={child.id}
               item={child}
               selectedCategories={selectedCategories}
               onCategorySelect={onCategorySelect}
