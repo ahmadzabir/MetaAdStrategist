@@ -159,7 +159,7 @@ export default function TreeNode({
           </Badge>
           
           {hasChildren && (
-            <Badge variant="ghost" className="text-xs text-gray-500">
+            <Badge variant="secondary" className="text-xs text-gray-500">
               {category.children!.length} items
             </Badge>
           )}
