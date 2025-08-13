@@ -1,5 +1,5 @@
 import { initializeApp, getApps, type FirebaseApp } from "firebase/app";
-import { getFirestore, Firestore, collection, addDoc, getDocs, query, where, doc, getDoc } from "firebase/firestore";
+import { getFirestore, Firestore, collection, addDoc, getDocs, query, where, doc, getDoc, deleteDoc, writeBatch } from "firebase/firestore";
 import { 
   type TargetingCategory, 
   type InsertTargetingCategory,
@@ -143,6 +143,7 @@ export class FirebaseStorage {
   async getHierarchicalTargetingCategories(): Promise<TargetingCategory[]> {
     try {
       const allCategories = await this.getAllTargetingCategories();
+      console.log(`Building hierarchy from ${allCategories.length} categories`);
       
       // Build a map for quick lookups
       const categoryMap = new Map<string, TargetingCategory & { children?: TargetingCategory[] }>();
@@ -160,9 +161,30 @@ export class FirebaseStorage {
           const parent = categoryMap.get(category.parentId)!;
           if (!parent.children) parent.children = [];
           parent.children.push(categoryWithChildren);
-        } else {
+        } else if (!category.parentId) {
+          // This is a root category
           rootCategories.push(categoryWithChildren);
         }
+      });
+
+      // Sort categories by level and name
+      const sortCategories = (categories: any[]) => {
+        categories.sort((a, b) => {
+          if (a.level !== b.level) return a.level - b.level;
+          return a.name.localeCompare(b.name);
+        });
+        categories.forEach(cat => {
+          if (cat.children && cat.children.length > 0) {
+            sortCategories(cat.children);
+          }
+        });
+      };
+
+      sortCategories(rootCategories);
+      
+      console.log(`Built hierarchy with ${rootCategories.length} root categories`);
+      rootCategories.forEach(cat => {
+        console.log(`  - ${cat.name} (Level ${cat.level}, ${cat.children?.length || 0} children)`);
       });
 
       return rootCategories;
@@ -190,31 +212,62 @@ export class FirebaseStorage {
     }
   }
 
-  // Bulk insert targeting categories from JSON data
-  async bulkInsertTargetingCategories(categories: any[]): Promise<void> {
+  // Clear all targeting categories
+  async clearAllTargetingCategories(): Promise<void> {
     try {
-      const batch = [];
-      for (const category of categories) {
-        const docRef = doc(this.db, "targeting_categories", category.id);
-        batch.push(
-          addDoc(collection(this.db, "targeting_categories"), {
-            id: category.id,
-            name: category.name,
-            parentId: category.parent_id || null,
-            level: category.level || 0,
-            size: category.size || "Unknown",
-            categoryType: category.category_type || "interests",
-            createdAt: new Date(),
-          })
-        );
-      }
+      const querySnapshot = await getDocs(collection(this.db, "targeting_categories"));
+      const batch = writeBatch(this.db);
       
-      await Promise.all(batch);
-      console.log(`Bulk inserted ${categories.length} targeting categories`);
+      querySnapshot.docs.forEach((doc) => {
+        batch.delete(doc.ref);
+      });
+      
+      await batch.commit();
+      console.log(`Cleared ${querySnapshot.docs.length} targeting categories`);
     } catch (error) {
-      console.error("Error bulk inserting targeting categories:", error);
+      console.error("Error clearing targeting categories:", error);
       throw error;
     }
+  }
+
+  // Batch upload targeting categories (improved version)
+  async batchUploadTargetingCategories(categories: any[]): Promise<void> {
+    try {
+      console.log(`Starting batch upload of ${categories.length} categories...`);
+      
+      // Process in batches of 500 (Firestore limit)
+      const batchSize = 500;
+      for (let i = 0; i < categories.length; i += batchSize) {
+        const batch = writeBatch(this.db);
+        const batchCategories = categories.slice(i, i + batchSize);
+        
+        batchCategories.forEach((category) => {
+          // Use the original ID as the document ID
+          const docRef = doc(this.db, "targeting_categories", category.id);
+          batch.set(docRef, {
+            name: category.name,
+            parentId: category.parentId || null,
+            level: category.level || 0,
+            size: category.size || "Unknown",
+            categoryType: category.categoryType || "interests",
+            createdAt: new Date(),
+          });
+        });
+        
+        await batch.commit();
+        console.log(`Uploaded batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(categories.length / batchSize)}`);
+      }
+      
+      console.log(`Successfully uploaded ${categories.length} targeting categories`);
+    } catch (error) {
+      console.error("Error batch uploading targeting categories:", error);
+      throw error;
+    }
+  }
+
+  // Bulk insert targeting categories from JSON data (legacy method)
+  async bulkInsertTargetingCategories(categories: any[]): Promise<void> {
+    await this.batchUploadTargetingCategories(categories);
   }
 
   // Recommendations
