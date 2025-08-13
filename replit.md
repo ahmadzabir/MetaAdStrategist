@@ -6,9 +6,12 @@ IntelliTarget is a clean, focused AI-powered Meta ads strategist designed for en
 
 ## Recent Changes (January 2025)
 
-- **AI-Powered Targeting Summary COMPLETE**: Completely redesigned "Your Ad Targeting Summary" with comprehensive AI intelligence and 4-tab interface (Overview, AI Insights, Categories, Optimization)
-- **Advanced Analytics**: Enhanced metrics include Diversity Score, Cost Efficiency, Campaign Fit analysis, and AI-generated strategic recommendations
-- **Smart Audience Calculations**: Advanced reach calculations with overlap consideration, authentic data coverage tracking, and campaign type detection
+- **UI/UX Improvements COMPLETE**: Fixed checkbox styling, removed distracting pulsating effects, added clean green checkmarks for selected categories
+- **AI Chatbot Reliability FIXED**: Switched from gemini-2.5-pro to gemini-2.5-flash for better performance and reduced timeout issues
+- **Validation Improvements**: Reduced minimum input requirement from 10 to 3 characters for AI strategy generation
+- **Enhanced AI Prompt**: Updated IntelliTarget AI with professional consultant-style prompting for better user guidance
+- **Error Handling**: Improved validation error messages and user feedback for failed AI generation attempts
+- **Simplified Targeting Summary**: Replaced complex 4-tab interface with clean, focused single layout showing essential metrics
 - **Selection Bug FIXED**: Resolved duplicate category counting issue in handleCategorySelect function
 - **Hierarchical Tree Navigation WORKING**: Fixed tree expand/collapse functionality - users can now properly navigate through all 5 levels (L1→L2→L3→L4→L5)
 - **Database Restoration Complete**: Successfully restored 653/673 authentic Meta targeting categories from HTML source with 85% audience size coverage
