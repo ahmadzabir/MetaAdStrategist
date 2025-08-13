@@ -10,7 +10,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
-import HierarchicalDropdown from "@/components/hierarchical-dropdown";
+import ThreeLevelDropdown from "@/components/three-level-dropdown";
 import type { TargetingCategory, HierarchicalTargetingCategory, TargetingRecommendation } from "@shared/schema";
 
 export default function Home() {
@@ -303,8 +303,8 @@ export default function Home() {
                       )}
                     </div>
                   ) : viewMode === "tree" ? (
-                    // Hierarchical dropdown view
-                    <HierarchicalDropdown
+                    // Three level dropdown view
+                    <ThreeLevelDropdown
                       categories={hierarchicalCategories}
                       selectedCategories={selectedCategories}
                       onCategorySelect={handleCategorySelect}
