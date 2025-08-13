@@ -17,10 +17,11 @@ import {
 interface RecommendationItem {
   id: string;
   name: string;
-  justification: string;
+  justification?: string;
   priority?: "high" | "medium" | "low";
-  breadcrumbs: string[];
+  breadcrumbs?: string[];
   estimatedReach?: string;
+  size?: string;
 }
 
 interface AIRecommendationsProps {
@@ -131,16 +132,18 @@ export function AIRecommendations({
                     </div>
 
                     {/* Breadcrumbs */}
-                    <div className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400">
-                      {rec.breadcrumbs.map((crumb, i) => (
-                        <div key={i} className="flex items-center gap-1">
-                          <span className="hover:text-blue-600 cursor-default">{crumb}</span>
-                          {i < rec.breadcrumbs.length - 1 && (
-                            <ChevronRight className="h-3 w-3 text-gray-400" />
-                          )}
-                        </div>
-                      ))}
-                    </div>
+                    {rec.breadcrumbs && rec.breadcrumbs.length > 0 && (
+                      <div className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400">
+                        {rec.breadcrumbs.map((crumb, i) => (
+                          <div key={i} className="flex items-center gap-1">
+                            <span className="hover:text-blue-600 cursor-default">{crumb}</span>
+                            {i < rec.breadcrumbs.length - 1 && (
+                              <ChevronRight className="h-3 w-3 text-gray-400" />
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
 
                     {/* Target Name */}
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
@@ -155,12 +158,14 @@ export function AIRecommendations({
                     </h3>
 
                     {/* Justification Preview */}
-                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                      {isExpanded ? rec.justification : `${rec.justification.slice(0, 120)}${rec.justification.length > 120 ? '...' : ''}`}
-                    </p>
+                    {rec.justification && (
+                      <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                        {isExpanded ? rec.justification : `${rec.justification.slice(0, 120)}${rec.justification.length > 120 ? '...' : ''}`}
+                      </p>
+                    )}
 
                     {/* Expand/Collapse */}
-                    {rec.justification.length > 120 && (
+                    {rec.justification && rec.justification.length > 120 && (
                       <Button
                         variant="ghost"
                         size="sm"

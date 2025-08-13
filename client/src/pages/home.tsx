@@ -31,8 +31,22 @@ type AppMode = "questionnaire" | "recommendations" | "chat";
 
 export default function Home() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [aiRecommendations, setAiRecommendations] = useState<RecommendationWithBreadcrumbs[]>([]);
-  const [appMode, setAppMode] = useState<AppMode>("questionnaire");
+  const [aiRecommendations, setAiRecommendations] = useState<RecommendationWithBreadcrumbs[]>([
+    {
+      id: "demographics_age_25_34",
+      name: "Age 25-34",
+      justification: "Perfect demographic for your target audience based on industry data.",
+      priority: "high" as const,
+      breadcrumbs: ["Demographics", "Age", "Age 25-34"],
+      estimatedReach: "150M-200M",
+      size: "150M-200M",
+      createdAt: null,
+      categoryType: "Demographics",
+      level: 3,
+      parentId: "demographics_age"
+    }
+  ]);
+  const [appMode, setAppMode] = useState<AppMode>("recommendations");
   const [questionnaireData, setQuestionnaireData] = useState<QuestionnaireData | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState<"tree" | "list">("tree");
@@ -63,7 +77,7 @@ export default function Home() {
       let currentCategory = categoryMap.get(categoryId);
       while (currentCategory) {
         breadcrumbs.unshift(currentCategory.name);
-        currentCategory = currentCategory.parentId ? categoryMap.get(currentCategory.parentId) : null;
+        currentCategory = currentCategory.parentId ? categoryMap.get(currentCategory.parentId) : undefined;
       }
       
       return breadcrumbs.length > 0 ? breadcrumbs : ["Unknown Category"];
@@ -91,7 +105,7 @@ export default function Home() {
       const recommendationsWithBreadcrumbs = await Promise.all(
         recommendations.map(async (rec: TargetingRecommendation) => ({
           ...rec,
-          name: rec.name || rec.id,
+          name: rec.name || rec.id || "Unknown Category",
           breadcrumbs: await generateBreadcrumbs(rec.id),
           estimatedReach: rec.size || "Unknown"
         }))
@@ -184,7 +198,6 @@ export default function Home() {
                 {/* Selection Summary */}
                 <SelectionSummary
                   selectedCategories={selectedCategories}
-                  onClearAll={() => setSelectedCategories([])}
                 />
               </div>
             </div>
