@@ -10,7 +10,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
-import TargetingDropdownTree from "@/components/targeting-dropdown-tree";
+import TargetingDropdownSelector from "@/components/targeting-dropdown-selector";
 import type { TargetingCategory, HierarchicalTargetingCategory, TargetingRecommendation } from "@shared/schema";
 
 export default function Home() {
@@ -214,10 +214,10 @@ export default function Home() {
                       size="sm"
                       onClick={() => setViewMode("tree")}
                       className="h-8 px-3"
-                      data-testid="tree-view-button"
+                      data-testid="dropdown-view-button"
                     >
                       <TreePine className="h-3 w-3 mr-1" />
-                      Tree
+                      Dropdown
                     </Button>
                     <Button
                       variant={viewMode === "list" ? "default" : "ghost"}
@@ -303,8 +303,8 @@ export default function Home() {
                       )}
                     </div>
                   ) : viewMode === "tree" ? (
-                    // Tree view
-                    <TargetingDropdownTree
+                    // Dropdown selector view
+                    <TargetingDropdownSelector
                       categories={hierarchicalCategories}
                       selectedCategories={selectedCategories}
                       onCategorySelect={handleCategorySelect}
