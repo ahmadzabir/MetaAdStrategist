@@ -42,7 +42,18 @@ export default function TreeNode({
     }
   };
 
-  const handleSelect = (e: React.MouseEvent) => {
+  const handleRowClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    // For parent nodes: expand/collapse on click
+    // For leaf nodes: select/deselect on click
+    if (hasChildren) {
+      setIsExpanded(!isExpanded);
+    } else {
+      onCategorySelect(category.id, !isSelected);
+    }
+  };
+
+  const handleCheckboxChange = (e: React.MouseEvent) => {
     e.stopPropagation();
     onCategorySelect(category.id, !isSelected);
   };
@@ -74,7 +85,7 @@ export default function TreeNode({
           level > 1 && "ml-4"
         )}
         style={{ paddingLeft: `${12 + indent}px` }}
-        onClick={handleSelect}
+        onClick={handleRowClick}
         data-testid={`tree-node-${category.id}`}
       >
         {/* Expand/Collapse Button */}
@@ -99,14 +110,19 @@ export default function TreeNode({
           )}
         </div>
         
-        {/* Selection Checkbox */}
-        <Checkbox
-          checked={isSelected}
-          onCheckedChange={(checked) => onCategorySelect(category.id, !!checked)}
-          className="h-4 w-4"
-          onClick={(e) => e.stopPropagation()}
-          data-testid={`checkbox-${category.id}`}
-        />
+        {/* Selection Checkbox - Only show for leaf nodes */}
+        {!hasChildren && (
+          <Checkbox
+            checked={isSelected}
+            onCheckedChange={(checked) => onCategorySelect(category.id, !!checked)}
+            className="h-4 w-4"
+            onClick={handleCheckboxChange}
+            data-testid={`checkbox-${category.id}`}
+          />
+        )}
+        
+        {/* Spacer for parent nodes */}
+        {hasChildren && <div className="w-4" />}
         
         {/* Category Icon */}
         <div className="flex-shrink-0">
