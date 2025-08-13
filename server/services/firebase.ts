@@ -140,6 +140,10 @@ export class FirebaseStorage {
     }
   }
 
+  async listTargetingCategories(): Promise<TargetingCategory[]> {
+    return this.getAllTargetingCategories();
+  }
+
   async getHierarchicalTargetingCategories(): Promise<TargetingCategory[]> {
     try {
       const allCategories = await this.getAllTargetingCategories();
