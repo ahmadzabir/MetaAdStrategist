@@ -18,6 +18,7 @@ export interface IStorage {
   getTargetingCategoriesByParent(parentId: string | null): Promise<TargetingCategory[]>;
   searchTargetingCategories(query: string): Promise<TargetingCategory[]>;
   getAllTargetingCategories(): Promise<TargetingCategory[]>;
+  listTargetingCategories(): Promise<TargetingCategory[]>;
   createTargetingCategory(category: InsertTargetingCategory): Promise<TargetingCategory>;
   
   // Recommendations
@@ -201,6 +202,10 @@ export class MemStorage implements IStorage {
 
   async getAllTargetingCategories(): Promise<TargetingCategory[]> {
     return Array.from(this.targetingCategories.values());
+  }
+
+  async listTargetingCategories(): Promise<TargetingCategory[]> {
+    return this.getAllTargetingCategories();
   }
 
   async createTargetingCategory(category: InsertTargetingCategory): Promise<TargetingCategory> {
