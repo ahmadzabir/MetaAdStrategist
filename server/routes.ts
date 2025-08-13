@@ -36,8 +36,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       console.error("Error generating recommendations:", error);
+      
+      // Handle validation errors specifically
+      if (error instanceof Error && error.name === 'ZodError') {
+        return res.status(400).json({ 
+          message: "Please provide a description of your product or target audience"
+        });
+      }
+      
       res.status(500).json({ 
-        message: error instanceof Error ? error.message : "Failed to generate recommendations" 
+        message: "Failed to generate AI strategy. Please try again."
       });
     }
   });
