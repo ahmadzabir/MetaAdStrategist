@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta Detailed Targeting Explorer (AI Enhanced)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* slate-900 */
+        }
+
+        /* --- Micro-animations --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .category-item {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .category-item:hover {
+            background-color: #1e293b; /* slate-800 */
+        }
+
+        .children-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        
+        .children-container.open {
+            max-height: 2000px; /* Adjust if necessary for very long lists */
+        }
+
+        .arrow {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .arrow.open {
+            transform: rotate(90deg);
+        }
+        
+        /* Custom scrollbar for chat */
+        #chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+        #chat-messages::-webkit-scrollbar-track {
+            background: #1e293b; /* slate-800 */
+        }
+        #chat-messages::-webkit-scrollbar-thumb {
+            background: #475569; /* slate-600 */
+            border-radius: 3px;
+        }
+        #chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #64748b; /* slate-500 */
+        }
+
+        .typing-indicator span {
+            animation: pulse 1.4s infinite ease-in-out both;
+        }
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+    </style>
+</head>
+<body class="text-slate-300">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="mb-10 text-center fade-in">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">Meta Targeting Database</h1>
+            <p class="text-slate-400 mt-2 text-lg">Your AI-powered interactive explorer for detailed targeting.</p>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+            
+            <!-- Data Explorer Section -->
+            <div class="lg:col-span-3 bg-slate-800/50 p-4 sm:p-6 rounded-xl shadow-2xl border border-slate-700 fade-in" style="animation-delay: 0.1s;">
+                <div id="data-container">
+                    <!-- Data will be dynamically inserted here -->
+                </div>
+            </div>
+
+            <!-- AI Chatbot Section -->
+            <div class="lg:col-span-2 bg-slate-800/50 p-4 sm:p-6 rounded-xl shadow-2xl border border-slate-700 flex flex-col h-[70vh] fade-in" style="animation-delay: 0.2s;">
+                <div class="flex items-center mb-4 border-b border-slate-700 pb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-teal-400 mr-3"><path d="m12 8-2 4 2 4 2-4-2-4z"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.9 4.9 1.4 1.4"/><path d="m17.7 17.7 1.4 1.4"/><path d="m2 12 h2"/><path d="m20 12 h2"/><path d="m4.9 19.1 1.4-1.4"/><path d="m17.7 6.3 1.4-1.4"/></svg>
+                    <h2 class="text-xl font-semibold text-white">Targeting Assistant</h2>
+                </div>
+                <div id="chat-messages" class="flex-grow overflow-y-auto pr-2">
+                    <!-- Chat messages will be appended here -->
+                </div>
+                <form id="chat-form" class="mt-4 flex items-center gap-3">
+                    <input type="text" id="chat-input" placeholder="Ask about the data..." class="flex-grow bg-slate-700 border border-slate-600 rounded-lg py-2 px-4 text-white focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all">
+                    <button type="submit" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg transition-colors flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </form>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const targetingData = [
+            {
+                "name": "Demographics",
+                "children": [
+                    {
+                        "name": "Education",
+                        "children": [
+                            {
+                                "name": "Education Level",
+                                "children": [
+                                    { "name": "Associate degree", "size": "Not available" },
+                                    { "name": "College grad", "size": "529,431,971" },
+                                    { "name": "Doctorate degree", "size": "1,045,931" },
+                                    { "name": "High school grad", "size": "253,902,534" },
+                                    { "name": "In college", "size": "23,074,687" },
+                                    { "name": "In grad school", "size": "1,871,005" },
+                                    { "name": "In high school", "size": "6,257,127" },
+                                    { "name": "Master's degree", "size": "41,474,891" },
+                                    { "name": "Professional degree", "size": "1,454,980" },
+                                    { "name": "Some college", "size": "92,354,489" },
+                                    { "name": "Some grad school", "size": "5,527,068" },
+                                    { "name": "Some high school", "size": "62,648,035" },
+                                    { "name": "Unspecified", "size": "Below 1000" }
+                                ]
+                            },
+                            { "name": "Fields of study", "placeholder": "(Add fields of study here)" },
+                            { "name": "Schools", "placeholder": "(Add schools here)" },
+                            { "name": "Undergrad years", "placeholder": "(Add undergrad years here)" }
+                        ]
+                    },
+                    {
+                        "name": "Financial",
+                        "children": [
+                            {
+                                "name": "Income",
+                                "children": [
+                                    { "name": "Household income: top 10% of ZIP codes (US)", "size": "31,274,659" },
+                                    { "name": "Household income: top 10%-25% of ZIP codes (US)", "size": "39,026,156" },
+                                    { "name": "Household income: top 25%-50% of ZIP codes (US)", "size": "45,842,633" },
+                                    { "name": "Household income: top 5% of ZIP codes (US)", "size": "15,119,596" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Life Events",
+                        "children": [
+                            {
+                                "name": "Anniversary",
+                                "children": [
+                                    { "name": "Anniversary within 30 days", "size": "5,492,136" },
+                                    { "name": "Anniversary within 31-60 Days", "size": "7,243,698" }
+                                ]
+                            },
+                            { "name": "Away from family", "size": "131,716,848" },
+                            { "name": "Away from hometown", "size": "131,770,093" },
+                            {
+                                "name": "Birthday",
+                                "children": [
+                                    {
+                                        "name": "Birthday Month",
+                                        "children": [
+                                            { "name": "Birthday in January", "size": "230,111,493" },
+                                            { "name": "Birthday in February", "size": "155,411,780" },
+                                            { "name": "Birthday in March", "size": "163,457,308" },
+                                            { "name": "Birthday in April", "size": "158,305,094" },
+                                            { "name": "Birthday in May", "size": "172,205,908" },
+                                            { "name": "Birthday in June", "size": "168,127,108" },
+                                            { "name": "Birthday in July", "size": "176,567,176" },
+                                            { "name": "Birthday in August", "size": "164,237,098" },
+                                            { "name": "Birthday in September", "size": "149,028,851" },
+                                            { "name": "Birthday in October", "size": "156,258,456" },
+                                            { "name": "Birthday in November", "size": "143,348,363" },
+                                            { "name": "Birthday in December", "size": "175,587,641" }
+                                        ]
+                                    },
+                                    { "name": "Upcoming birthday", "size": "80,112,488" }
+                                ]
+                            },
+                            {
+                                "name": "Friends of",
+                                "children": [
+                                    { "name": "Friends of Men with a Birthday in 0-7 days", "size": "2,139,319,946" },
+                                    { "name": "Friends of Men with a Birthday in 7-30 days", "size": "2,458,452,947" },
+                                    { "name": "Friends of Recently Moved", "size": "1,362,959,948" },
+                                    { "name": "Friends of Women with a Birthday in 0-7 days", "size": "1,991,658,107" },
+                                    { "name": "Friends of Women with a Birthday in 7-30 days", "size": "2,345,550,072" },
+                                    { "name": "Friends of people with birthdays in a month", "size": "2,636,996,837" },
+                                    { "name": "Friends of people with birthdays in a week", "size": "2,419,331,204" }
+                                ]
+                            },
+                            { "name": "Long-distance relationship", "size": "9,348,523" },
+                            { "name": "New job", "size": "83,527" },
+                            { "name": "New relationship", "size": "1,573,537" },
+                            { "name": "Newly engaged (1 year)", "size": "4,705,551" },
+                            { "name": "Newly engaged (3 months)", "size": "1,517,420" },
+                            { "name": "Newly-engaged (6 months)", "size": "2,687,710" },
+                            { "name": "Newlywed (1 year)", "size": "16,518,204" },
+                            { "name": "Newlywed (3 months)", "size": "4,855,232" },
+                            { "name": "Newlywed (6 months)", "size": "8,866,840" },
+                            { "name": "Recently moved", "size": "680,611" }
+                        ]
+                    },
+                    {
+                        "name": "Parents",
+                        "children": [
+                            {
+                                "name": "All parents",
+                                "children": [
+                                    { "name": "Parents (All)", "size": "347,063,516" },
+                                    { "name": "Parents (up to 12 months)", "size": "6,316,041" },
+                                    { "name": "Parents with adult children (18-26 years)", "size": "78,826,966" },
+                                    { "name": "Parents with early school-age children (06-08 years)", "size": "11,390,485" },
+                                    { "name": "Parents with preschoolers (03-05 years)", "size": "6,639,075" },
+                                    { "name": "Parents with preteens (09-12 years)", "size": "13,799,315" },
+                                    { "name": "Parents with teenagers (13-17 years)", "size": "31,741,566" },
+                                    { "name": "Parents with toddlers (01-02 years)", "size": "3,981,682" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Relationship",
+                        "children": [
+                            {
+                                "name": "Relationship status",
+                                "children": [
+                                    { "name": "Engaged", "size": "26,743,202" },
+                                    { "name": "In a relationship", "size": "146,037,816" },
+                                    { "name": "Married", "size": "281,018,135" },
+                                    { "name": "Single", "size": "298,698,616" },
+                                    { "name": "Unspecified", "size": "1,488,182,511" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Work",
+                        "children": [
+                            { "name": "Employers", "placeholder": "(Add specific employers here, e.g., Google, Amazon)" },
+                            {
+                                "name": "Industries",
+                                "children": [
+                                    { "name": "Large business-to-business enterprise employees (500+ employees)", "size": "254,756,104" },
+                                    { "name": "Administrative Services", "size": "21,544,096" },
+                                    { "name": "Architecture and Engineering", "size": "7,392,654" },
+                                    { "name": "Arts, Entertainment, Sports and Media", "size": "12,387,337" },
+                                    { "name": "Business Decision Makers", "size": "46,596" },
+                                    { "name": "Business and Finance", "size": "9,017,198" },
+                                    { "name": "Business decision maker titles and interests", "size": "46,596" },
+                                    { "name": "Cleaning and Maintenance Services", "size": "3,087,073" },
+                                    { "name": "Community and Social Services", "size": "9,747,670" },
+                                    { "name": "Companies founded before 2000", "size": "982,345" },
+                                    { "name": "Companies founded between 2000 and 2009", "size": "1,025,383" },
+                                    { "name": "Companies founded between 2010 and now", "size": "1,635,400" },
+                                    { "name": "Company revenue: $1M to $10M", "size": "1,717,159" },
+                                    { "name": "Company revenue: less than $1M", "size": "2,609,565" },
+                                    { "name": "Company revenue: more than $10M", "size": "1,350,005" },
+                                    { "name": "Company size: 1-10 employees", "size": "2,593,602" },
+                                    { "name": "Company size: 101-500 employees", "size": "907,844" },
+                                    { "name": "Company size: 11-100 employees", "size": "1,660,398" },
+                                    { "name": "Company size: more than 500 employees", "size": "958,802" },
+                                    { "name": "Computation and Mathematics", "size": "5,711,659" },
+                                    { "name": "Construction and Extraction", "size": "4,799,739" },
+                                    { "name": "Education and Libraries", "size": "12,621,026" },
+                                    { "name": "Farming, Fishing and Forestry", "size": "4,717,522" },
+                                    { "name": "Food and Restaurants", "size": "5,253,187" },
+                                    { "name": "Government Employees (Global)", "size": "1,020,445" },
+                                    { "name": "Healthcare and Medical Services", "size": "12,046,853" },
+                                    { "name": "IT Decision Makers", "size": "16,715" },
+                                    { "name": "IT and Technical Services", "size": "7,823,906" },
+                                    { "name": "Installation and Repair Services", "size": "7,602,859" },
+                                    { "name": "Legal Services", "size": "1,168,766" },
+                                    { "name": "Life, Physical and Social Sciences", "size": "4,310,534" },
+                                    { "name": "Management", "size": "21,480,879" },
+                                    { "name": "Medium business-to-business enterprise employees (200 - 500 employees)", "size": "46,082,750" },
+                                    { "name": "Military (Global)", "size": "796,798" },
+                                    { "name": "Production", "size": "13,255,552" },
+                                    { "name": "Protective Services", "size": "2,634,512" },
+                                    { "name": "Sales", "size": "16,969,178" },
+                                    { "name": "Small business-to-business enterprise employees (10-200 employees)", "size": "122,668,512" },
+                                    { "name": "Transportation and Moving", "size": "7,332,642" },
+                                    { "name": "Veterans (US)", "size": "1,196,907" }
+                                ]
+                            },
+                            { "name": "Job Titles", "placeholder": "(Add specific job titles here)" }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Interests",
+                "children": [
+                    {
+                        "name": "Business and industry",
+                        "children": [
+                            { "name": "Advertising (marketing)", "size": "825,015,499" },
+                            { "name": "Agriculture (industry)", "size": "557,431,852" },
+                            { "name": "Architecture (architecture)", "size": "612,375,653" },
+                            { "name": "Aviation (air travel)", "size": "337,914,903" },
+                            {
+                                "name": "Banking (finance)",
+                                "children": [
+                                    { "name": "Investment banking (banking)", "size": "308,824,957" },
+                                    { "name": "Online banking (banking)", "size": "330,938,780" },
+                                    { "name": "Retail banking (banking)", "size": "191,394,767" }
+                                ]
+                            },
+                            { "name": "Business (business & finance)", "size": "1,093,030,857" },
+                            { "name": "Construction (industry)", "size": "697,305,938" },
+                            {
+                                "name": "Design (design)",
+                                "children": [
+                                    { "name": "Fashion design (design)", "size": "560,182,793" },
+                                    { "name": "Graphic design (visual art)", "size": "362,634,164" },
+                                    { "name": "Interior design (design)", "size": "829,817,005" }
+                                ]
+                            },
+                            { "name": "Economics (economics)", "size": "431,591,372" },
+                            { "name": "Engineering (science)", "size": "655,401,416" },
+                            { "name": "Entrepreneurship (business & finance)", "size": "840,307,863" },
+                            { "name": "Higher education (education)", "size": "590,998,523" },
+                            { "name": "Management (business & finance)", "size": "473,489,399" },
+                            { "name": "Marketing (business & finance)", "size": "743,863,085" },
+                            {
+                                "name": "Online (computing)",
+                                "children": [
+                                    { "name": "Digital marketing (marketing)", "size": "413,682,791" },
+                                    { "name": "Email marketing (marketing)", "size": "314,234,971" },
+                                    { "name": "Online advertising (marketing)", "size": "719,811,592" },
+                                    { "name": "Search engine optimization (software)", "size": "193,594,244" },
+                                    { "name": "Social media (online media)", "size": "1,007,367,647" },
+                                    { "name": "Social media marketing (marketing)", "size": "333,076,318" },
+                                    { "name": "Web design (websites)", "size": "211,792,897" },
+                                    { "name": "Web development (websites)", "size": "230,175,865" },
+                                    { "name": "Web hosting (computing)", "size": "207,884,096" }
+                                ]
+                            },
+                            {
+                                "name": "Personal finance (banking)",
+                                "children": [
+                                    { "name": "Credit cards (credit & lending)", "size": "464,498,275" },
+                                    { "name": "Insurance (business & finance)", "size": "362,310,222" },
+                                    { "name": "Investment (business & finance)", "size": "675,685,119" },
+                                    { "name": "Mortgage loans (banking)", "size": "312,965,263" }
+                                ]
+                            },
+                            { "name": "Real estate (industry)", "size": "681,925,213" },
+                            { "name": "Retail (industry)", "size": "821,392,816" },
+                            { "name": "Sales (business & finance)", "size": "633,928,324" },
+                            { "name": "Science (science)", "size": "683,283,398" },
+                            { "name": "Small business (business & finance)", "size": "638,739,573" }
+                        ]
+                    },
+                    {
+                        "name": "Entertainment",
+                        "children": [
+                            {
+                                "name": "Games (leisure)",
+                                "children": [
+                                    { "name": "Action games (video games)", "size": "379,404,892" },
+                                    { "name": "Board games (games)", "size": "350,941,338" },
+                                    { "name": "Browser games (video games)", "size": "165,366,239" },
+                                    { "name": "Card games (games)", "size": "497,965,503" },
+                                    { "name": "Casino games (gambling)", "size": "297,330,948" },
+                                    { "name": "First-person shooter games (video games)", "size": "239,527,689" },
+                                    { "name": "Gambling (gambling)", "size": "345,528,336" },
+                                    { "name": "Massively multiplayer online games (video games)", "size": "383,429,518" },
+                                    { "name": "Massively multiplayer online role-playing games (video games)", "size": "272,927,784" },
+                                    { "name": "Online games (video games)", "size": "450,221,680" },
+                                    { "name": "Online poker (gambling)", "size": "377,919,154" },
+                                    { "name": "Puzzle video games (video games)", "size": "386,904,636" },
+                                    { "name": "Racing games (video game)", "size": "260,557,394" },
+                                    { "name": "Role-playing games (video games)", "size": "409,424,902" },
+                                    { "name": "Simulation games (video games)", "size": "308,100,456" },
+                                    { "name": "Sports games (video games)", "size": "330,485,415" },
+                                    { "name": "Strategy games (games)", "size": "301,887,880" },
+                                    { "name": "Video games (gaming)", "size": "923,680,518" },
+                                    { "name": "Word games (games)", "size": "187,176,152" }
+                                ]
+                            },
+                            {
+                                "name": "Live events (entertainment)",
+                                "children": [
+                                    { "name": "Ballet (dance)", "size": "386,458,829" },
+                                    { "name": "Bars (bars, clubs & nightlife)", "size": "494,315,102" },
+                                    { "name": "Concerts (music event)", "size": "613,332,916" },
+                                    { "name": "Dancehalls (music)", "size": "443,601,644" },
+                                    { "name": "Music festivals (events)", "size": "743,835,278" },
+                                    { "name": "Nightclubs (bars, clubs & nightlife)", "size": "390,438,656" },
+                                    { "name": "Parties (event)", "size": "702,710,784" },
+                                    { "name": "Plays (performing arts)", "size": "471,317,801" },
+                                    { "name": "Theatre (performing arts)", "size": "417,045,446" }
+                                ]
+                            },
+                            {
+                                "name": "Movies (entertainment & media)",
+                                "children": [
+                                    { "name": "Action movies (movies)", "size": "578,880,666" },
+                                    { "name": "Animated movies (movies)", "size": "521,458,938" },
+                                    { "name": "Anime movies (movies)", "size": "640,121,949" },
+                                    { "name": "Bollywood movies (movies)", "size": "600,062,630" },
+                                    { "name": "Comedy movies (movies)", "size": "722,722,274" },
+                                    { "name": "Documentary movies (movies)", "size": "452,082,380" },
+                                    { "name": "Drama movies (movies)", "size": "771,405,227" },
+                                    { "name": "Horror movies (movies)", "size": "700,373,992" },
+                                    { "name": "Musical theatre (performing arts)", "size": "522,591,168" },
+                                    { "name": "Science fiction movies (movies)", "size": "438,102,302" },
+                                    { "name": "Thriller movies (movies)", "size": "520,852,761" }
+                                ]
+                            },
+                            {
+                                "name": "Music (entertainment & media)",
+                                "children": [
+                                    { "name": "Blues music (music)", "size": "382,766,143" },
+                                    { "name": "Classical music (music)", "size": "607,871,687" },
+                                    { "name": "Country music (music)", "size": "325,412,774" },
+                                    { "name": "Dance music (music)", "size": "590,345,366" },
+                                    { "name": "Electronic music (music)", "size": "402,330,543" },
+                                    { "name": "Heavy metal music (music)", "size": "529,629,586" },
+                                    { "name": "Hip hop music (music)", "size": "621,880,542" },
+                                    { "name": "Jazz music (music)", "size": "511,110,783" },
+                                    { "name": "Music videos (entertainment & media)", "size": "464,472,096" },
+                                    { "name": "Pop music (music)", "size": "641,168,704" },
+                                    { "name": "Rhythm and blues music (music)", "size": "474,939,554" },
+                                    { "name": "Rock music (music)", "size": "614,874,694" },
+                                    { "name": "Soul music (music)", "size": "447,861,157" }
+                                ]
+                            },
+                            {
+                                "name": "Reading (communication)",
+                                "children": [
+                                    { "name": "Books (publications)", "size": "663,433,194" },
+                                    { "name": "Comics (comics & cartoons)", "size": "567,268,258" },
+                                    { "name": "E-books (publications)", "size": "614,523,162" },
+                                    { "name": "Fiction books (publications)", "size": "625,852,629" },
+                                    { "name": "Literature (publications)", "size": "463,506,330" },
+                                    { "name": "Magazines (publications)", "size": "521,714,379" },
+                                    { "name": "Manga (anime & manga)", "size": "526,470,137" },
+                                    { "name": "Mystery fiction (entertainment & media)", "size": "190,745,179" },
+                                    { "name": "Newspapers (publications)", "size": "647,361,126" },
+                                    { "name": "Non-fiction books (publications)", "size": "287,299,482" },
+                                    { "name": "Romance novels (publications)", "size": "318,478,394" }
+                                ]
+                            },
+                            {
+                                "name": "TV (movies & television)",
+                                "children": [
+                                    { "name": "TV game shows (television show)", "size": "327,118,097" },
+                                    { "name": "TV reality shows (movies & television)", "size": "749,241,703" },
+                                    { "name": "TV talkshows (television show)", "size": "344,194,170" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Family and relationships",
+                        "children": [
+                            { "name": "Family (social concept)", "size": "885,165,196" },
+                            { "name": "Fatherhood (children & parenting)", "size": "384,175,181" },
+                            { "name": "Friendship (relationships)", "size": "337,688,177" },
+                            { "name": "Marriage (weddings)", "size": "512,723,334" },
+                            { "name": "Motherhood (children & parenting)", "size": "668,298,819" },
+                            { "name": "Parenting (children & parenting)", "size": "680,584,748" },
+                            { "name": "Weddings (weddings)", "size": "684,713,438" }
+                        ]
+                    },
+                    {
+                        "name": "Fitness and wellness",
+                        "children": [
+                            { "name": "Bodybuilding (sport)", "size": "417,546,693" },
+                            { "name": "Physical exercise (fitness)", "size": "820,580,574" },
+                            { "name": "Physical fitness (fitness)", "size": "970,573,840" },
+                            { "name": "Running (sport)", "size": "536,162,007" },
+                            { "name": "Weight training (weightlifting)", "size": "465,156,369" },
+                            { "name": "Yoga (fitness)", "size": "521,668,244" }
+                        ]
+                    },
+                    {
+                        "name": "Food and drink",
+                        "children": [
+                            {
+                                "name": "Alcoholic beverages (food & drink)",
+                                "children": [
+                                    { "name": "Beer (alcoholic drinks)", "size": "396,605,417" },
+                                    { "name": "Distilled beverage (liquor)", "size": "306,052,701" },
+                                    { "name": "Wine (alcoholic drinks)", "size": "369,012,112" }
+                                ]
+                            },
+                            {
+                                "name": "Beverages (food & drink)",
+                                "children": [
+                                    { "name": "Coffee (food & drink)", "size": "522,538,424" },
+                                    { "name": "Energy drinks (nonalcoholic beverage)", "size": "241,108,377" },
+                                    { "name": "Juice (nonalcoholic beverage)", "size": "338,157,298" },
+                                    { "name": "Soft drinks (nonalcoholic beverage)", "size": "391,467,566" },
+                                    { "name": "Tea (nonalcoholic beverage)", "size": "349,300,925" }
+                                ]
+                            },
+                            {
+                                "name": "Cooking (food & drink)",
+                                "children": [
+                                    { "name": "Baking (cooking)", "size": "418,268,634" },
+                                    { "name": "Recipes (food & drink)", "size": "857,748,854" }
+                                ]
+                            },
+                            {
+                                "name": "Cuisine (food & drink)",
+                                "children": [
+                                    { "name": "Chinese cuisine (food & drink)", "size": "385,002,175" },
+                                    { "name": "French cuisine (food & drink)", "size": "222,524,996" },
+                                    { "name": "German cuisine (food & drink)", "size": "158,243,214" },
+                                    { "name": "Greek cuisine (food & drink)", "size": "155,302,999" },
+                                    { "name": "Indian cuisine (food & drink)", "size": "284,762,131" },
+                                    { "name": "Italian cuisine (food & drink)", "size": "465,916,284" },
+                                    { "name": "Japanese cuisine (food & drink)", "size": "414,744,389" },
+                                    { "name": "Korean cuisine (food & drink)", "size": "384,534,145" },
+                                    { "name": "Latin American cuisine (food & drink)", "size": "176,254,462" },
+                                    { "name": "Mexican cuisine (food & drink)", "size": "243,901,990" },
+                                    { "name": "Middle Eastern cuisine (food & drink)", "size": "185,507,946" },
+                                    { "name": "Spanish cuisine (food & drink)", "size": "176,752,224" },
+                                    { "name": "Thai cuisine (food & drink)", "size": "217,337,274" },
+                                    { "name": "Vietnamese cuisine (food & drink)", "size": "222,888,320" }
+                                ]
+                            },
+                            {
+                                "name": "Food (food & drink)",
+                                "children": [
+                                    { "name": "Barbecue (cooking)", "size": "379,457,325" },
+                                    { "name": "Chocolate (food & drink)", "size": "393,053,613" },
+                                    { "name": "Desserts (food & drink)", "size": "480,351,659" },
+                                    { "name": "Fast food (food & drink)", "size": "531,990,334" },
+                                    { "name": "Organic food (food & drink)", "size": "476,221,696" },
+                                    { "name": "Pizza (food & drink)", "size": "183,904,910" },
+                                    { "name": "Seafood (food & drink)", "size": "145,015,366" },
+                                    { "name": "Veganism (diets)", "size": "294,509,119" },
+                                    { "name": "Vegetarianism (diets)", "size": "472,048,154" }
+                                ]
+                            },
+                            {
+                                "name": "Restaurants (dining)",
+                                "children": [
+                                    { "name": "Coffeehouses (coffee)", "size": "423,458,842" },
+                                    { "name": "Diners (restaurant)", "size": "316,543,073" },
+                                    { "name": "Fast casual restaurants (restaurant)", "size": "360,774,507" },
+                                    { "name": "Fast food restaurants (dining)", "size": "415,031,313" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Hobbies and activities",
+                        "children": [
+                            {
+                                "name": "Arts and music (art)",
+                                "children": [
+                                    { "name": "Acting (performing arts)", "size": "573,400,352" },
+                                    { "name": "Crafts (hobbies)", "size": "675,141,540" },
+                                    { "name": "Dance (art)", "size": "550,160,077" },
+                                    { "name": "Drawing (visual art)", "size": "308,376,386" },
+                                    { "name": "Drums (instruments)", "size": "212,583,280" },
+                                    { "name": "Fine art (visual art)", "size": "263,354,818" },
+                                    { "name": "Guitar (instruments)", "size": "470,019,840" },
+                                    { "name": "Painting (visual art)", "size": "353,489,852" },
+                                    { "name": "Performing arts (performing arts)", "size": "475,283,240" },
+                                    { "name": "Photography (visual art)", "size": "817,714,550" },
+                                    { "name": "Sculpture (art)", "size": "207,765,763" },
+                                    { "name": "Singing (music)", "size": "529,731,462" },
+                                    { "name": "Writing (communication)", "size": "503,566,046" }
+                                ]
+                            },
+                            { "name": "Current events (politics)", "size": "996,124,330" },
+                            {
+                                "name": "Home and garden",
+                                "children": [
+                                    { "name": "Do it yourself (DIY)", "size": "488,766,278" },
+                                    { "name": "Furniture (home furnishings)", "size": "813,772,618" },
+                                    { "name": "Gardening (outdoor activities)", "size": "464,328,049" },
+                                    { "name": "Home Appliances (consumer electronics)", "size": "651,216,744" },
+                                    { "name": "Home improvement (home & garden)", "size": "772,151,983" }
+                                ]
+                            },
+                            {
+                                "name": "Pets (animals)",
+                                "children": [
+                                    { "name": "Birds (animals)", "size": "238,404,064" },
+                                    { "name": "Cats (animals)", "size": "421,195,125" },
+                                    { "name": "Dogs (animals)", "size": "462,135,999" },
+                                    { "name": "Fish (animals)", "size": "398,834,022" },
+                                    { "name": "Horses (animals)", "size": "340,710,561" },
+                                    { "name": "Pet food (pet supplies)", "size": "400,573,954" },
+                                    { "name": "Rabbits (animals)", "size": "167,525,099" },
+                                    { "name": "Reptiles (animals)", "size": "197,680,508" }
+                                ]
+                            },
+                            {
+                                "name": "Politics and social issues (politics)",
+                                "children": [
+                                    { "name": "Charity and causes (social causes)", "size": "259,780,592" },
+                                    { "name": "Community issues (law & government)", "size": "293,556,037" },
+                                    { "name": "Law (law & legal services)", "size": "441,855,180" },
+                                    { "name": "Politics (politics)", "size": "545,157,579" },
+                                    { "name": "Volunteering (social causes)", "size": "265,952,312" }
+                                ]
+                            },
+                            {
+                                "name": "Travel (travel & tourism)",
+                                "children": [
+                                    { "name": "Adventure travel (travel & tourism)", "size": "661,461,571" },
+                                    { "name": "Air travel (transportation)", "size": "380,370,829" },
+                                    { "name": "Beaches (places)", "size": "479,858,860" },
+                                    { "name": "Car rentals (transportation)", "size": "387,302,105" },
+                                    { "name": "Cruises (travel & tourism business)", "size": "375,023,142" },
+                                    { "name": "Ecotourism (travel & tourism)", "size": "359,426,114" },
+                                    { "name": "Hotels (lodging)", "size": "780,763,583" },
+                                    { "name": "Lakes (body of water)", "size": "218,841,965" },
+                                    { "name": "Mountains (places)", "size": "311,550,918" },
+                                    { "name": "Nature (science)", "size": "612,756,622" },
+                                    { "name": "Theme parks (leisure)", "size": "380,249,706" },
+                                    { "name": "Tourism (industry)", "size": "834,224,029" },
+                                    { "name": "Vacations (social concept)", "size": "658,564,026" }
+                                ]
+                            },
+                            {
+                                "name": "Vehicles (transportation)",
+                                "children": [
+                                    { "name": "Automobiles (vehicles)", "size": "683,728,186" },
+                                    { "name": "Boats (watercraft)", "size": "286,223,878" },
+                                    { "name": "Electric vehicle (vehicle)", "size": "427,338,636" },
+                                    { "name": "Hybrids (vehicle)", "size": "250,986,261" },
+                                    { "name": "Minivans (vehicle)", "size": "169,069,356" },
+                                    { "name": "Motorcycles (vehicles)", "size": "508,792,565" },
+                                    { "name": "RVs (vehicle)", "size": "225,450,653" },
+                                    { "name": "SUVs (vehicles)", "size": "448,720,932" },
+                                    { "name": "Scooters (vehicle)", "size": "350,403,891" },
+                                    { "name": "Trucks (vehicles)", "size": "595,716,822" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Shopping and fashion",
+                        "children": [
+                             {
+                                "name": "Beauty (social concept)",
+                                "children": [
+                                    { "name": "Beauty salons (cosmetics)", "size": "740,628,514" },
+                                    { "name": "Cosmetics (personal care)", "size": "989,374,695" },
+                                    { "name": "Fragrances (cosmetics)", "size": "555,430,503" },
+                                    { "name": "Hair products (hair care)", "size": "666,122,783" },
+                                    { "name": "Spas (personal care)", "size": "597,088,705" },
+                                    { "name": "Tattoos (body art)", "size": "422,289,867" }
+                                ]
+                            },
+                            {
+                                "name": "Clothing (apparel)",
+                                "children": [
+                                    { "name": "Children's clothing (apparel)", "size": "538,073,519" },
+                                    { "name": "Men's clothing (apparel)", "size": "16,852,297" },
+                                    { "name": "Shoes (footwear)", "size": "734,755,297" },
+                                    { "name": "Women's clothing (apparel)", "size": "144,189,680" }
+                                ]
+                            },
+                            {
+                                "name": "Fashion accessories (accessories)",
+                                "children": [
+                                    { "name": "Dresses (apparel)", "size": "666,226,945" },
+                                    { "name": "Handbags (accessories)", "size": "502,911,053" },
+                                    { "name": "Jewelry (apparel)", "size": "842,368,661" },
+                                    { "name": "Sunglasses (eyewear)", "size": "385,099,698" }
+                                ]
+                            },
+                            {
+                                "name": "Shopping (retail)",
+                                "children": [
+                                    { "name": "Boutiques (retailers)", "size": "582,082,559" },
+                                    { "name": "Coupons (coupons & discounts)", "size": "582,120,422" },
+                                    { "name": "Discount stores (retail)", "size": "570,040,904" },
+                                    { "name": "Luxury goods (retail)", "size": "967,285,381" },
+                                    { "name": "Online shopping (retail)", "size": "1,459,544,856" },
+                                    { "name": "Shopping malls (retail)", "size": "650,830,420" }
+                                ]
+                            },
+                            { "name": "Toys (toys)", "size": "585,434,257" }
+                        ]
+                    },
+                    {
+                        "name": "Sports and outdoors",
+                        "children": [
+                            {
+                                "name": "Outdoor recreation (outdoors activities)",
+                                "children": [
+                                    { "name": "Boating (outdoors activities)", "size": "224,674,491" },
+                                    { "name": "Camping (outdoors activities)", "size": "446,016,813" },
+                                    { "name": "Fishing (outdoors activities)", "size": "448,917,422" },
+                                    { "name": "Horseback riding (horse sport)", "size": "341,075,432" },
+                                    { "name": "Hunting (sport)", "size": "294,344,573" },
+                                    { "name": "Mountain biking (cycling)", "size": "274,010,148" },
+                                    { "name": "Surfing (water sport)", "size": "286,956,061" }
+                                ]
+                            },
+                            {
+                                "name": "Sports (sports)",
+                                "children": [
+                                    { "name": "American football (sport)", "size": "297,937,910" },
+                                    { "name": "Association football (Soccer)", "size": "670,681,318" },
+                                    { "name": "Auto racing (motor sports)", "size": "586,279,638" },
+                                    { "name": "Baseball (sport)", "size": "395,653,377" },
+                                    { "name": "Basketball (sport)", "size": "429,269,795" },
+                                    { "name": "College football (college sports)", "size": "253,906,763" },
+                                    { "name": "Golf (sport)", "size": "439,151,227" },
+                                    { "name": "Marathons (running event)", "size": "310,866,011" },
+                                    { "name": "Skiing (skiing & snowboarding)", "size": "497,100,319" },
+                                    { "name": "Snowboarding (skiing & snowboarding)", "size": "387,227,684" },
+                                    { "name": "Swimming (water sport)", "size": "327,378,239" },
+                                    { "name": "Tennis (sport)", "size": "371,064,711" },
+                                    { "name": "Triathlons (athletics)", "size": "316,099,103" },
+                                    { "name": "Volleyball (sport)", "size": "401,590,621" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Technology",
+                        "children": [
+                            {
+                                "name": "Computers (computers & electronics)",
+                                "children": [
+                                    { "name": "Computer memory (computer hardware)", "size": "166,744,198" },
+                                    { "name": "Computer monitors (computer hardware)", "size": "170,443,724" },
+                                    { "name": "Computer processors (computer hardware)", "size": "209,581,629" },
+                                    { "name": "Computer servers (computing)", "size": "192,755,793" },
+                                    { "name": "Desktop computers (consumer electronics)", "size": "305,057,645" },
+                                    { "name": "Free software (software)", "size": "115,838,258" },
+                                    { "name": "Hard drives (computer hardware)", "size": "136,811,767" },
+                                    { "name": "Network storage (computers & electronics)", "size": "114,907,179" },
+                                    { "name": "Software (computers & electronics)", "size": "722,479,008" },
+                                    { "name": "Tablet computers (computers & electronics)", "size": "640,913,883" }
+                                ]
+                            },
+                            {
+                                "name": "Consumer electronics (computers & electronics)",
+                                "children": [
+                                    { "name": "Audio equipment (electronics)", "size": "417,099,600" },
+                                    { "name": "Camcorders (consumer electronics)", "size": "150,278,679" },
+                                    { "name": "Cameras (photography)", "size": "438,762,748" },
+                                    { "name": "E-book readers (consumer electronics)", "size": "343,334,117" },
+                                    { "name": "GPS devices (consumer electronics)", "size": "153,206,391" },
+                                    { "name": "Mobile phones (smart phone)", "size": "961,720,001" },
+                                    { "name": "Portable media players (audio equipment)", "size": "152,720,413" },
+                                    { "name": "Projectors (consumer electronics)", "size": "209,907,779" },
+                                    { "name": "Smartphones (consumer electronics)", "size": "866,144,585" },
+                                    { "name": "Televisions (consumer electronics)", "size": "536,348,142" }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Behaviors",
+                "children": [
+                    {
+                        "name": "Anniversary",
+                        "children": [
+                            { "name": "Anniversary (within 61-90 days)", "size": "6,932,674" }
+                        ]
+                    },
+                    {
+                        "name": "Mobile Device User",
+                        "children": [
+                            {
+                                "name": "All Mobile Devices by Operating System",
+                                "children": [
+                                    {
+                                        "name": "Facebook access (mobile)",
+                                        "children": [
+                                            { "name": "Recently Detected Devices", "size": "706,082,484" },
+                                            { "name": "Recently Detected Iphone 14 Devices", "size": "15,520,718" }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Consumer Classification",
+                        "children": [
+                            {
+                                "name": "Argentina",
+                                "children": [
+                                    { "name": "People who prefer high-value goods in Argentina", "size": "971,205" },
+                                    { "name": "People who prefer mid and high-value goods in Argentina", "size": "3,493,152" }
+                                ]
+                            },
+                            {
+                                "name": "Brazil",
+                                "children": [
+                                    { "name": "People in Brazil who prefer mid and high-value goods", "size": "28,291,094" },
+                                    { "name": "People who prefer high-value goods in Brazil", "size": "11,779,751" }
+                                ]
+                            },
+                            {
+                                "name": "Chile",
+                                "children": [
+                                    { "name": "People who prefer high-value goods in Chile", "size": "745,544" },
+                                    { "name": "People who prefer mid and high-value goods in Chile", "size": "2,347,724" }
+                                ]
+                            },
+                            {
+                                "name": "India",
+                                "children": [
+                                    { "name": "People who prefer mid and high-value goods in India", "size": "112,650,344" },
+                                    { "name": "People who prefer high-value goods in India", "size": "76,924,791" }
+                                ]
+                            },
+                            {
+                                "name": "Indonesia",
+                                "children": [
+                                    { "name": "People in Indonesia who prefer mid and high-value goods", "size": "39,725,267" },
+                                    { "name": "People who prefer high-value goods in Indonesia", "size": "16,400,246" }
+                                ]
+                            },
+                            {
+                                "name": "Kingdom of Saudi Arabia",
+                                "children": [
+                                    { "name": "People who prefer high-value goods in Kingdom of Saudi Arabia", "size": "1,096,643" },
+                                    { "name": "People who prefer mid and high-value goods in Kingdom of Saudi Arabia", "size": "2,482,597" }
+                                ]
+                            },
+                            {
+                                "name": "Malaysia",
+                                "children": [
+                                    { "name": "People who prefer high-value goods in Malaysia", "size": "2,460,803" },
+                                    { "name": "People who prefer mid and high-value goods in Malaysia", "size": "6,400,512" }
+                                ]
+                            },
+                            {
+                                "name": "Mexico",
+                                "children": [
+                                    { "name": "People who prefer high-value goods in Mexico", "size": "5,089,613" },
+                                    { "name": "People who prefer mid and high-value goods in Mexico", "size": "16,441,821" }
+                                ]
+                            },
+                            {
+                                "name": "Pakistan",
+                                "children": [
+                                    { "name": "People who prefer high-value goods in Pakistan", "size": "1,421,465" },
+                                    { "name": "People who prefer mid and high-value goods in Pakistan", "size": "7,283,676" }
+                                ]
+                            },
+                            {
+                                "name": "Philippines",
+                                "children": [
+                                    { "name": "People who prefer high-value goods in Philippines", "size": "6,147,659" },
+                                    { "name": "People who prefer mid and high-value goods in Philippines", "size": "26,159,495" }
+                                ]
+                            },
+                            {
+                                "name": "South Africa",
+                                "children": [
+                                    { "name": "People who prefer high-value goods in South Africa", "size": "2,464,163" },
+                                    { "name": "People who prefer mid and high-value goods in South Africa", "size": "3,844,776" }
+                                ]
+                            },
+                            {
+                                "name": "Turkey",
+                                "children": [
+                                    { "name": "People who prefer high-value goods in Turkey", "size": "1,748,892" },
+                                    { "name": "People who prefer mid and high-value goods in Turkey", "size": "7,362,231" }
+                                ]
+                            },
+                            {
+                                "name": "UAE",
+                                "children": [
+                                    { "name": "People who prefer high-value goods in UAE", "size": "59,350" },
+                                    { "name": "People who prefer mid and high-value goods in UAE", "size": "331,192" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Digital Activities",
+                        "children": [
+                            { "name": "New Active Business (< 12 months)", "size": "33,420,980" },
+                            { "name": "New Active Business (< 24 months)", "size": "48,297,472" },
+                            { "name": "New Active Business (< 6 months)", "size": "24,532,702" },
+                            { "name": "Shops admins", "size": "630,337" }
+                        ]
+                    },
+                    {
+                        "name": "Digital activities",
+                        "children": [
+                            {
+                                "name": "Operating System Used",
+                                "children": [
+                                    { "name": "Facebook access (OS): Windows 10", "size": "94,695" }
+                                ]
+                            },
+                            { "name": "All creators", "size": "566,374" },
+                            {
+                                "name": "Canvas Gaming",
+                                "children": [
+                                    { "name": "Played Canvas games (last 14 days)", "size": "2,263,711" },
+                                    { "name": "Played Canvas games (last 3 days)", "size": "1,690,076" },
+                                    { "name": "Played Canvas games (last 7 days)", "size": "1,972,068" },
+                                    { "name": "Played Canvas games (yesterday)", "size": "1,375,775" }
+                                ]
+                            },
+                            { "name": "Console gamers", "size": "67,767,818" },
+                            { "name": "Facebook Lite app users", "size": "292,289,817" },
+                            { "name": "Facebook Payments users (30 days)", "size": "252,382" },
+                            { "name": "Facebook Payments users (90 days)", "size": "599,900" },
+                            { "name": "Facebook access: older devices and OS", "size": "451,468,474" },
+                            {
+                                "name": "Facebook page admins",
+                                "children": [
+                                    { "name": "Business page admins", "size": "61,089,302" },
+                                    { "name": "Community & Club page admins", "size": "16,516,077" },
+                                    { "name": "Facebook Page admins", "size": "1,004,859,192" },
+                                    { "name": "Food & Restaurant page admins", "size": "3,412,814" },
+                                    { "name": "Health & Beauty page admins", "size": "29,652,127" },
+                                    { "name": "New Page Admins", "size": "531,926,909" },
+                                    { "name": "Retail page admins", "size": "17,763,137" },
+                                    { "name": "Sports page admins", "size": "9,304,792" },
+                                    { "name": "Travel & Tourism page admins", "size": "31,676,581" }
+                                ]
+                            },
+                            { "name": "Food and drink creators", "size": "476,163" },
+                            { "name": "Health and wellness creators", "size": "135,920" },
+                            { "name": "Instagram Business Profile Admins", "size": "89,156,971" },
+                            {
+                                "name": "Internet Browser Used",
+                                "children": [
+                                    { "name": "Facebook access (browser): Chrome", "size": "193,031,914" },
+                                    { "name": "Facebook access (browser): Firefox", "size": "9,155,813" },
+                                    { "name": "Facebook access (browser): Internet Explorer", "size": "13,600" },
+                                    { "name": "Facebook access (browser): Microsoft Edge", "size": "25,862,965" },
+                                    { "name": "Facebook access (browser): Opera", "size": "2,547,090" },
+                                    { "name": "Facebook access (browser): Safari", "size": "32,954,257" }
+                                ]
+                            },
+                            { "name": "Internet personality creators", "size": "2,375,740" },
+                            {
+                                "name": "Operating System Used",
+                                "children": [
+                                    { "name": "Facebook access (OS): Mac OS X", "size": "479,249" },
+                                    { "name": "Facebook access (OS): Mac Sierra", "size": "888,801" },
+                                    { "name": "Facebook access (OS): Windows 7", "size": "1,661" },
+                                    { "name": "Facebook access (OS): Windows 8", "size": "11,269" },
+                                    { "name": "Facebook access (OS): Windows Vista", "size": "Below 1000" },
+                                    { "name": "Facebook access (OS): Windows XP", "size": "Below 1000" }
+                                ]
+                            },
+                            { "name": "People who have visited Facebook Gaming", "size": "8,094,781" },
+                            { "name": "Small business owners", "size": "62,108,892" },
+                            { "name": "Technology early adopters", "size": "77,326,690" },
+                            { "name": "Travel and outdoors creators", "size": "333,818" }
+                        ]
+                    },
+                    {
+                        "name": "Digital activitiesTeam",
+                        "children": [
+                            { "name": "Music creators", "size": "671,012" }
+                        ]
+                    },
+                    {
+                        "name": "Expats",
+                        "children": [
+                            { "name": "Lived in Brazil (Formerly Expats - Brazil)", "size": "6,288,120" },
+                            { "name": "Family of those who live abroad", "size": "34,606,506" },
+                            { "name": "Friends of those who live abroad", "size": "2,473,097,056" },
+                            { "name": "Lived in Algeria (Formerly Expats - Algeria)", "size": "1,347,659" },
+                            { "name": "Lived in Argentina (Formerly Expats - Argentina)", "size": "1,798,788" },
+                            { "name": "Lived in Australia (Formerly Expats - Australia)", "size": "1,818,729" },
+                            { "name": "Lived in Austria (Formerly Expats - Austria)", "size": "163,426" },
+                            { "name": "Lived in Bangladesh (Formerly Expats - Bangladesh)", "size": "9,608,759" },
+                            { "name": "Lived in Belgium (Formerly Expats - Belgium)", "size": "407,488" },
+                            { "name": "Lived in Cameroon (Formerly Expats - Cameroon)", "size": "642,993" },
+                            { "name": "Lived in Canada (Formerly Expats - Canada)", "size": "1,515,679" },
+                            { "name": "Lived in Chile (Formerly Expats - Chile)", "size": "741,329" },
+                            { "name": "Lived in China (Formerly Expats - China)", "size": "2,600,801" },
+                            { "name": "Lived in Colombia (Formerly Expats - Colombia)", "size": "3,978,275" },
+                            { "name": "Lived in Congo DRC (Formerly Expats - Congo DRC)", "size": "2,953,437" },
+                            { "name": "Lived in Cuba (Formerly Expats - Cuba)", "size": "2,344,188" },
+                            { "name": "Lived in Cyprus (Formerly Expats - Cyprus)", "size": "109,517" },
+                            { "name": "Lived in Czech Republic (Formerly Expats - Czech Republic)", "size": "239,170" },
+                            { "name": "Lived in Denmark (Formerly Expats - Denmark)", "size": "151,275" },
+                            { "name": "Lived in Dominican Republic (Formerly Expats - Dominican Republic)", "size": "1,942,894" },
+                            { "name": "Lived in El Salvador (Formerly Expats - El Salvador)", "size": "1,973,750" },
+                            { "name": "Lived in Estonia (Formerly Expats - Estonia)", "size": "87,348" },
+                            { "name": "Lived in Ethiopia (Formerly Expats - Ethiopia)", "size": "1,662,281" },
+                            { "name": "Lived in Finland (Formerly Expats - Finland)", "size": "132,622" },
+                            { "name": "Lived in France (Formerly Expats - France)", "size": "3,095,405" },
+                            { "name": "Lived in Germany (Formerly Expats - Germany)", "size": "2,213,115" },
+                            { "name": "Lived in Ghana (Formerly Expats - Ghana)", "size": "1,031,941" },
+                            { "name": "Lived in Greece (Formerly Expats - Greece)", "size": "7,216" },
+                            { "name": "Lived in Guatemala (Formerly Expats - Guatemala)", "size": "3,289,663" },
+                            { "name": "Lived in Haiti (Formerly Expats - Haiti)", "size": "2,130,080" },
+                            { "name": "Lived in Honduras (Formerly Expats - Honduras)", "size": "2,391,035" },
+                            { "name": "Lived in Hong Kong (Formerly Expats - Hong Kong)", "size": "915,333" },
+                            { "name": "Lived in Hungary (Formerly Expats - Hungary)", "size": "355,261" },
+                            { "name": "Lived in India (Formerly Expats - India)", "size": "17,979,633" },
+                            { "name": "Lived in Indonesia (Formerly Expats - Indonesia)", "size": "8,656,895" },
+                            { "name": "Lived in Ireland (Formerly Expats - Ireland)", "size": "313,021" },
+                            { "name": "Lived in Israel (Formerly Expats - Israel)", "size": "692,085" },
+                            { "name": "Lived in Italy (Formerly Expats - Italy)", "size": "1,988,458" },
+                            { "name": "Lived in Ivory Coast (Formerly Expats - Ivory Coast)", "size": "805,324" },
+                            { "name": "Lived in Jamaica (Formerly Expats - Jamaica)", "size": "886,909" },
+                            { "name": "Lived in Japan (Formerly Expats - Japan)", "size": "2,261,260" },
+                            { "name": "Lived in Jordan (Formerly Expats - Jordan)", "size": "974,656" },
+                            { "name": "Lived in Kenya (Formerly Expats - Kenya)", "size": "2,535,017" },
+                            { "name": "Lived in Kuwait (Formerly Expats - Kuwait)", "size": "205,876" },
+                            { "name": "Lived in Latvia (Formerly Expats - Latvia)", "size": "152,975" },
+                            { "name": "Lived in Lebanon (Formerly Expats - Lebanon)", "size": "905,072" },
+                            { "name": "Lived in Lithuania (Formerly Expats - Lithuania)", "size": "229,421" },
+                            { "name": "Lived in Luxembourg (Formerly Expats - Luxembourg)", "size": "31,922" },
+                            { "name": "Lived in Malaysia (Formerly Expats - Malaysia)", "size": "2,647,075" },
+                            { "name": "Lived in Malta (Formerly Expats - Malta)", "size": "43,930" },
+                            { "name": "Lived in Mexico (Formerly Expats - Mexico)", "size": "16,521,932" },
+                            { "name": "Lived in Monaco (Formerly Expats - Monaco)", "size": "31,000" },
+                            { "name": "Lived in Morocco (Formerly Expats - Morocco)", "size": "2,284,372" },
+                            { "name": "Lived in Nepal (Formerly Expats - Nepal)", "size": "5,985,546" },
+                            { "name": "Lived in Netherlands (Formerly Expats - Netherlands)", "size": "530,570" },
+                            { "name": "Lived in New Zealand (Formerly Expats - New Zealand)", "size": "1,344,096" },
+                            { "name": "Lived in Nicaragua (Formerly Expats - Nicaragua)", "size": "1,267,727" },
+                            { "name": "Lived in Nigeria (Formerly Expats - Nigeria)", "size": "3,502,580" },
+                            { "name": "Lived in Norway (Formerly Expats - Norway)", "size": "227,481" },
+                            { "name": "Lived in Peru (Formerly Expats - Peru)", "size": "2,314,348" },
+                            { "name": "Lived in Philippines (Formerly Expats - Philippines)", "size": "13,822,600" },
+                            { "name": "Lived in Poland (Formerly Expats - Poland)", "size": "1,310,183" },
+                            { "name": "Lived in Portugal (Formerly Expats - Portugal)", "size": "1,086,361" },
+                            { "name": "Lived in Puerto Rico (Formerly Expats - Puerto Rico)", "size": "1,537,738" },
+                            { "name": "Lived in Qatar (Formerly Expats - Qatar)", "size": "168,447" },
+                            { "name": "Lived in Romania (Formerly Expats - Romania)", "size": "1,669,803" },
+                            { "name": "Lived in Russia (Formerly Expats - Russia)", "size": "1,404,160" },
+                            { "name": "Lived in Rwanda (Formerly Expats - Rwanda)", "size": "184,776" },
+                            { "name": "Lived in Saudi Arabia (Formerly Expats - Saudi Arabia)", "size": "1,676,929" },
+                            { "name": "Lived in Senegal (Formerly Expats - Senegal)", "size": "590,230" },
+                            { "name": "Lived in Serbia (Formerly Expats - Serbia)", "size": "606,585" },
+                            { "name": "Lived in Sierra Leone (Formerly Expats - Sierra Leone)", "size": "342,009" },
+                            { "name": "Lived in Singapore (Formerly Expats - Singapore)", "size": "119,947" },
+                            { "name": "Lived in Slovakia (Formerly Expats - Slovakia)", "size": "238,420" },
+                            { "name": "Lived in Slovenia (Formerly Expats - Slovenia)", "size": "64,991" },
+                            { "name": "Lived in South Africa (Formerly Expats - South Africa)", "size": "1,918,723" },
+                            { "name": "Lived in South Korea (Formerly Expats - South Korea)", "size": "6,205,659" },
+                            { "name": "Lived in Spain (Formerly Expats - Spain)", "size": "2,238,967" },
+                            { "name": "Lived in Sri Lanka (Formerly Expats - Sri Lanka)", "size": "1,341,667" },
+                            { "name": "Lived in Sweden (Formerly Expats - Sweden)", "size": "318,522" },
+                            { "name": "Lived in Switzerland (Formerly Expats - Switzerland)", "size": "357,245" },
+                            { "name": "Lived in Tanzania (Formerly Expats - Tanzania)", "size": "791,499" },
+                            { "name": "Lived in Thailand (Formerly Expats - Thailand)", "size": "3,317,542" },
+                            { "name": "Lived in UAE (Formerly Expats - UAE)", "size": "2,679,514" },
+                            { "name": "Lived in UK (Formerly Expats - UK)", "size": "7,802,611" },
+                            { "name": "Lived in Uganda (Formerly Expats - Uganda)", "size": "790,121" },
+                            { "name": "Lived in United States (Formerly Expats - United States)", "size": "25,724,317" },
+                            { "name": "Lived in Venezuela (Formerly Expats - Venezuela)", "size": "6,944,976" },
+                            { "name": "Lived in Vietnam (Formerly Expats - Vietnam)", "size": "6,417,677" },
+                            { "name": "Lived in Zambia (Formerly Expats - Zambia)", "size": "331,250" },
+                            { "name": "Lived in Zimbabwe (Formerly Expats - Zimbabwe)", "size": "1,166,528" },
+                            { "name": "Lives abroad", "size": "286,862,223" }
+                        ]
+                    },
+                    {
+                        "name": "Mobile Device User/Device Use Time",
+                        "children": [
+                            { "name": "Uses a mobile device (1-3 months)", "size": "106,767,227" },
+                            { "name": "Uses a mobile device (10-12 months)", "size": "104,725,955" },
+                            { "name": "Uses a mobile device (13-18 months)", "size": "175,516,723" },
+                            { "name": "Uses a mobile device (19-24 months)", "size": "143,166,756" },
+                            { "name": "Uses a mobile device (25 months+)", "size": "530,820,856" },
+                            { "name": "Uses a mobile device (4-6 months)", "size": "125,607,823" },
+                            { "name": "Uses a mobile device (7-9 months)", "size": "112,621,243" },
+                            { "name": "Uses a mobile device (less than 1 month)", "size": "70,811,966" }
+                        ]
+                    },
+                    {
+                        "name": "More Categories",
+                        "children": [
+                            { "name": "Interested in Upcoming Events", "size": "8,114,183" },
+                            { "name": "Marketing API developers (last 90 days)", "size": "8,894" }
+                        ]
+                    },
+                    {
+                        "name": "Purchase behavior",
+                        "children": [
+                            { "name": "Engaged Shoppers", "size": "853,353,207" }
+                        ]
+                    },
+                    {
+                        "name": "Soccer",
+                        "children": [
+                            { "name": "Friends of Soccer fans", "size": "2,357,788,784" },
+                            { "name": "Soccer fans (high content engagement)", "size": "15,889,126" },
+                            { "name": "Soccer fans (moderate content engagement)", "size": "131,869,800" }
+                        ]
+                    },
+                    {
+                        "name": "Travel",
+                        "children": [
+                            { "name": "Commuters", "size": "187,663,131" },
+                            { "name": "Frequent Travelers", "size": "2,697,536,614" },
+                            { "name": "Frequent international travelers", "size": "1,157,656,270" },
+                            { "name": "Returned from travels 1 week ago", "size": "199,968,308" },
+                            { "name": "Returned from travels 2 weeks ago", "size": "304,847,251" }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        // --- DOM ELEMENTS ---
+        const dataContainer = document.getElementById('data-container');
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+        const chatMessages = document.getElementById('chat-messages');
+
+        // --- DATA EXPLORER LOGIC ---
+
+        /**
+         * Recursively builds the HTML for the targeting data.
+         * @param {Array} items - The array of data items to render.
+         * @param {number} level - The current depth level for indentation.
+         * @returns {string} - The generated HTML string.
+         */
+        function buildHtml(items, level = 0) {
+            let html = '';
+            const paddingLeft = level * 16; // 16px indentation per level
+
+            items.forEach(item => {
+                const hasChildren = item.children && item.children.length > 0;
+                const uniqueId = `item-${Math.random().toString(36).substr(2, 9)}`;
+
+                html += `<div class="border-l border-slate-700" style="padding-left: ${paddingLeft}px;">`;
+
+                // Main item container
+                html += `<div id="${uniqueId}" class="category-item flex items-center justify-between p-2 rounded-md" ${hasChildren ? `onclick="toggle(this)"` : ''}>`;
+                
+                // Name and arrow icon
+                html += `<div class="flex items-center">`;
+                if (hasChildren) {
+                     html += `<svg class="arrow w-4 h-4 mr-2 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>`;
+                } else {
+                    // Placeholder for alignment if no children
+                    html += `<div class="w-6 mr-2"></div>`;
+                }
+                html += `<span class="font-medium text-slate-200">${item.name}</span>`;
+                html += `</div>`;
+
+                // Size or Placeholder
+                if (item.size) {
+                    html += `<span class="text-sm text-slate-400 bg-slate-700/50 px-2 py-1 rounded-md">Size: ${item.size}</span>`;
+                } else if (item.placeholder) {
+                    html += `<span class="text-sm text-slate-500 italic">${item.placeholder}</span>`;
+                }
+                html += `</div>`;
+
+                // Children container
+                if (hasChildren) {
+                    html += `<div class="children-container">`;
+                    html += buildHtml(item.children, level + 1);
+                    html += `</div>`;
+                }
+
+                html += `</div>`;
+            });
+
+            return html;
+        }
+
+        /**
+         * Toggles the visibility of a category's children with smooth animation.
+         * @param {HTMLElement} element - The clicked category item element.
+         */
+        function toggle(element) {
+            const childrenContainer = element.nextElementSibling;
+            const arrow = element.querySelector('.arrow');
+            if (childrenContainer) {
+                childrenContainer.classList.toggle('open');
+                arrow.classList.toggle('open');
+            }
+        }
+
+        // --- AI CHATBOT LOGIC ---
+
+        /**
+         * Appends a message to the chat window.
+         * @param {string} message - The text content of the message.
+         * @param {string} sender - 'user' or 'ai'.
+         */
+        function appendMessage(message, sender) {
+            const messageWrapper = document.createElement('div');
+            messageWrapper.classList.add('flex', 'mb-4', 'fade-in');
+
+            const messageBubble = document.createElement('div');
+            messageBubble.classList.add('rounded-lg', 'py-2', 'px-4', 'max-w-xs', 'lg:max-w-md');
+            messageBubble.innerHTML = message; // Use innerHTML to render links
+
+            if (sender === 'user') {
+                messageWrapper.classList.add('justify-end');
+                messageBubble.classList.add('bg-teal-500', 'text-white');
+            } else {
+                messageWrapper.classList.add('justify-start');
+                messageBubble.classList.add('bg-slate-700', 'text-slate-200');
+            }
+
+            messageWrapper.appendChild(messageBubble);
+            chatMessages.appendChild(messageWrapper);
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to bottom
+        }
+        
+        /**
+         * Shows or hides the typing indicator.
+         * @param {boolean} show - Whether to show the indicator.
+         */
+        function showTypingIndicator(show) {
+            let indicator = document.getElementById('typing-indicator');
+            if (show) {
+                if (!indicator) {
+                    indicator = document.createElement('div');
+                    indicator.id = 'typing-indicator';
+                    indicator.classList.add('flex', 'justify-start', 'mb-4');
+                    indicator.innerHTML = `
+                        <div class="bg-slate-700 rounded-lg py-2 px-4 typing-indicator">
+                            <span class="inline-block w-2 h-2 bg-slate-400 rounded-full"></span>
+                            <span class="inline-block w-2 h-2 bg-slate-400 rounded-full"></span>
+                            <span class="inline-block w-2 h-2 bg-slate-400 rounded-full"></span>
+                        </div>
+                    `;
+                    chatMessages.appendChild(indicator);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            } else {
+                if (indicator) {
+                    indicator.remove();
+                }
+            }
+        }
+        
+        /**
+         * Searches the data for a keyword and returns paths to the findings.
+         * @param {string} keyword - The search term.
+         * @param {Array} data - The data array to search.
+         * @param {string} path - The current path in the data structure.
+         * @returns {Array} - An array of paths to matching items.
+         */
+        function searchData(keyword, data = targetingData, path = '') {
+            let results = [];
+            const lowerCaseKeyword = keyword.toLowerCase();
+
+            data.forEach(item => {
+                const currentPath = path ? `${path} > ${item.name}` : item.name;
+                if (item.name.toLowerCase().includes(lowerCaseKeyword)) {
+                    results.push(currentPath);
+                }
+                if (item.children) {
+                    results = results.concat(searchData(keyword, item.children, currentPath));
+                }
+            });
+            return results;
+        }
+
+
+        /**
+         * Generates a response from the AI based on user input.
+         * @param {string} userInput - The user's message.
+         */
+        function getAiResponse(userInput) {
+            const lowerInput = userInput.toLowerCase();
+            
+            if (lowerInput.includes('hello') || lowerInput.includes('hi')) {
+                return "Hello! I'm the Targeting Assistant. How can I help you explore the data today? You can ask me to find things like 'cars', 'education', or 'gaming'.";
+            }
+
+            if (lowerInput.includes('how many categories')) {
+                return `There are ${targetingData.length} top-level categories: Demographics, Interests, and Behaviors.`;
+            }
+            
+            const searchResults = searchData(lowerInput);
+            if(searchResults.length > 0) {
+                let response = `I found a few things related to "${userInput}":<br><ul class="list-disc list-inside mt-2">`;
+                // Limit to first 5 results to avoid a huge message
+                searchResults.slice(0, 5).forEach(path => {
+                    response += `<li>${path}</li>`;
+                });
+                response += `</ul>You can find them in the data explorer on the left.`;
+                return response;
+            }
+
+            return "I'm not sure how to answer that. Try asking me to find a specific term, like 'finance' or 'sports'.";
+        }
+
+
+        // --- EVENT LISTENERS ---
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const userInput = chatInput.value.trim();
+            if (userInput) {
+                appendMessage(userInput, 'user');
+                chatInput.value = '';
+                
+                showTypingIndicator(true);
+
+                setTimeout(() => {
+                    const aiResponse = getAiResponse(userInput);
+                    showTypingIndicator(false);
+                    appendMessage(aiResponse, 'ai');
+                }, 1500); // Simulate AI thinking time
+            }
+        });
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Render the data explorer
+            dataContainer.innerHTML = buildHtml(targetingData);
+            
+            // Initial AI message
+            setTimeout(() => {
+                 appendMessage("Hello! Ask me a question to get started, like 'Find data about travel'.", 'ai');
+            }, 500);
+        });
+
+    </script>
+
+</body>
+</html>
