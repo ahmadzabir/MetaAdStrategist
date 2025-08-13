@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import HierarchicalTreeExplorer from "@/components/hierarchical-tree-explorer";
+import SelectionSummary from "@/components/selection-summary";
 import type { TargetingCategory, HierarchicalTargetingCategory, TargetingRecommendation } from "@shared/schema";
 
 export default function Home() {
@@ -108,7 +109,7 @@ export default function Home() {
             </div>
             <div className="hidden sm:flex items-center gap-2 text-xs text-gray-500 bg-gray-100 dark:bg-slate-700 px-3 py-2 rounded-full">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              558+ Authentic Categories
+              150+ Authentic Categories
             </div>
           </div>
         </div>
@@ -401,32 +402,47 @@ Examples:
                     </div>
                   ) : (
                     // List view (all categories flat)
-                    <div className="space-y-2">
-                      <h3 className="text-sm font-medium text-gray-600 mb-3">
-                        All Categories ({flatCategories.length})
-                      </h3>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                          All Categories
+                        </h3>
+                        <span className="text-xs text-gray-500 bg-gray-100 dark:bg-slate-700 px-2 py-1 rounded-full">
+                          {flatCategories.length} total
+                        </span>
+                      </div>
                       {flatCategories.map((category) => (
                         <div
                           key={category.id}
-                          className={`p-3 rounded-lg border cursor-pointer transition-all hover:shadow-md ${
+                          className={`group p-4 rounded-xl border cursor-pointer transition-all duration-200 hover:shadow-lg ${
                             selectedCategories.includes(category.id)
-                              ? 'border-blue-500 bg-blue-50 dark:bg-blue-950'
-                              : 'border-gray-200 hover:border-gray-300'
+                              ? 'border-emerald-300 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/30 dark:to-green-900/30 shadow-md'
+                              : 'border-gray-200 dark:border-slate-600 hover:border-emerald-300 dark:hover:border-emerald-600 bg-white/50 dark:bg-slate-800/50'
                           }`}
                           onClick={() => handleCategorySelect(category.id, !selectedCategories.includes(category.id))}
                           data-testid={`category-${category.id}`}
                         >
                           <div className="flex items-center justify-between">
-                            <div className="flex-1">
-                              <h4 className="font-medium text-sm">{category.name}</h4>
-                              <p className="text-xs text-gray-600 mt-1">
-                                Level {category.level} • {category.categoryType}
-                              </p>
+                            <div className="flex items-center gap-3">
+                              <input
+                                type="checkbox"
+                                checked={selectedCategories.includes(category.id)}
+                                onChange={() => {}}
+                                className="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-emerald-500"
+                              />
+                              <div className="flex-1">
+                                <h4 className="font-medium text-sm text-gray-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors">
+                                  {category.name}
+                                </h4>
+                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                  Level {category.level} • {category.categoryType}
+                                </p>
+                              </div>
                             </div>
                             
                             <div className="flex items-center gap-2">
                               {category.size && category.size !== "Unknown" && (
-                                <span className="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
+                                <span className="text-xs text-gray-600 bg-gray-100 dark:bg-slate-700 dark:text-gray-300 px-3 py-1 rounded-full">
                                   {category.size}
                                 </span>
                               )}
@@ -441,6 +457,34 @@ Examples:
             </Card>
           </div>
         </div>
+
+        {/* Selection Summary Panel */}
+        {selectedCategories.length > 0 && (
+          <div className="mt-8">
+            <Card className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border-blue-200 dark:border-blue-800 shadow-xl">
+              <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-t-lg">
+                <CardTitle className="flex items-center gap-3">
+                  <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg">
+                    <Target className="h-5 w-5 text-white" />
+                  </div>
+                  <div>
+                    <div className="text-lg font-bold text-gray-900 dark:text-white">Your Ad Targeting Summary</div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 font-normal">
+                      {selectedCategories.length} categories selected for your campaign
+                    </div>
+                  </div>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <SelectionSummary 
+                  selectedCategories={selectedCategories}
+                  allCategories={[...hierarchicalCategories, ...flatCategories]}
+                  onClearSelection={() => setSelectedCategories([])}
+                />
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
     </div>
   );
