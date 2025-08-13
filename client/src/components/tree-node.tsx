@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { ChevronRight, ChevronDown, Check } from "lucide-react";
+import { ChevronRight, ChevronDown, Target, Users, Folder } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import type { HierarchicalTargetingCategory } from "@shared/schema";
 
@@ -9,22 +10,21 @@ interface TreeNodeProps {
   item: HierarchicalTargetingCategory;
   selectedCategories: string[];
   onCategorySelect: (categoryId: string, selected: boolean) => void;
-  level?: number;
+  level: number;
 }
 
 export default function TreeNode({ 
-  item, 
+  item: category, 
   selectedCategories, 
   onCategorySelect, 
-  level = 1 
+  level 
 }: TreeNodeProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(level === 1); // Auto-expand top level categories
+  const hasChildren = category.children && category.children.length > 0;
+  const isSelected = selectedCategories.includes(category.id);
   
-  const hasChildren = item.children && item.children.length > 0;
-  const isSelected = selectedCategories.includes(item.id);
-  const isLeaf = !hasChildren;
-
-  const parseSize = (sizeStr: string): string => {
+  // Parse size for display
+  const parseSize = (sizeStr: string | null): string => {
     if (!sizeStr || sizeStr === "Unknown" || sizeStr === "") return "";
     if (sizeStr.includes("Size:")) {
       return sizeStr.replace("Size:", "").trim();
@@ -32,124 +32,130 @@ export default function TreeNode({
     return sizeStr;
   };
 
-  const displaySize = parseSize(item.size || "");
+  const displaySize = parseSize(category.size);
+  const indent = (level - 1) * 20; // Indent based on level
 
-  const handleToggleExpand = () => {
+  const handleToggleExpanded = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (hasChildren) {
       setIsExpanded(!isExpanded);
     }
   };
 
-  const handleSelect = () => {
-    if (isLeaf) {
-      onCategorySelect(item.id, !isSelected);
+  const handleSelect = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onCategorySelect(category.id, !isSelected);
+  };
+
+  const getCategoryIcon = () => {
+    if (level === 1) {
+      return <Target className="h-4 w-4 text-blue-600" />;
+    } else if (hasChildren) {
+      return <Folder className="h-3 w-3 text-amber-600" />;
+    } else {
+      return (
+        <Users className={cn(
+          "h-3 w-3",
+          level === 2 ? "text-green-600" :
+          level === 3 ? "text-orange-600" :
+          level === 4 ? "text-purple-600" : "text-gray-600"
+        )} />
+      );
     }
   };
 
-  const getIndentStyle = () => ({
-    paddingLeft: `${(level - 1) * 20}px`
-  });
-
   return (
-    <div>
-      {/* Current Node */}
+    <div className="select-none">
+      {/* Node Row */}
       <div 
         className={cn(
-          "flex items-center gap-2 py-2 px-3 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer transition-colors",
-          isSelected && "bg-blue-50 dark:bg-blue-900/20",
-          level === 1 && "font-medium",
-          level === 2 && "text-sm",
-          level >= 3 && "text-sm"
+          "group flex items-center gap-2 px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md cursor-pointer transition-all duration-200",
+          isSelected && "bg-blue-50 dark:bg-blue-900/20 border-l-2 border-blue-500",
+          level > 1 && "ml-4"
         )}
-        style={getIndentStyle()}
-        onClick={hasChildren ? handleToggleExpand : handleSelect}
-        data-testid={`tree-node-${item.id}`}
+        style={{ paddingLeft: `${12 + indent}px` }}
+        onClick={handleSelect}
+        data-testid={`tree-node-${category.id}`}
       >
-        {/* Expand/Collapse Icon or Checkbox */}
-        <div className="flex h-5 w-5 items-center justify-center shrink-0">
+        {/* Expand/Collapse Button */}
+        <div className="flex-shrink-0">
           {hasChildren ? (
-            // Parent node - show expand/collapse arrow
             <Button
               variant="ghost"
               size="sm"
-              className="h-5 w-5 p-0 hover:bg-gray-200 dark:hover:bg-gray-700"
-              onClick={handleToggleExpand}
-              data-testid={`expand-button-${item.id}`}
+              className="h-6 w-6 p-0 hover:bg-gray-200 dark:hover:bg-gray-700"
+              onClick={handleToggleExpanded}
+              data-testid={`expand-button-${category.id}`}
+              title={isExpanded ? "Collapse" : "Expand"}
             >
               {isExpanded ? (
-                <ChevronDown className="h-4 w-4 text-gray-600" />
+                <ChevronDown className="h-4 w-4 text-gray-600 transition-transform duration-200" />
               ) : (
-                <ChevronRight className="h-4 w-4 text-gray-600" />
+                <ChevronRight className="h-4 w-4 text-gray-600 transition-transform duration-200" />
               )}
             </Button>
           ) : (
-            // Leaf node - show checkbox
-            <div 
-              className={cn(
-                "h-4 w-4 border-2 rounded flex items-center justify-center cursor-pointer",
-                isSelected 
-                  ? "bg-blue-600 border-blue-600" 
-                  : "border-gray-300 hover:border-gray-400"
-              )}
-              onClick={handleSelect}
-              data-testid={`checkbox-${item.id}`}
-            >
-              {isSelected && <Check className="h-3 w-3 text-white" />}
-            </div>
+            <div className="w-6 h-6" />
           )}
         </div>
-
-        {/* Category Name and Info */}
+        
+        {/* Selection Checkbox */}
+        <Checkbox
+          checked={isSelected}
+          onCheckedChange={(checked) => onCategorySelect(category.id, !!checked)}
+          className="h-4 w-4"
+          onClick={(e) => e.stopPropagation()}
+          data-testid={`checkbox-${category.id}`}
+        />
+        
+        {/* Category Icon */}
+        <div className="flex-shrink-0">
+          {getCategoryIcon()}
+        </div>
+        
+        {/* Category Info */}
         <div className="flex-1 min-w-0 flex items-center gap-2">
-          <span 
-            className={cn(
-              "truncate",
-              level === 1 && "text-base font-semibold text-blue-900 dark:text-blue-100",
-              level === 2 && "text-sm font-medium text-green-900 dark:text-green-100", 
-              level === 3 && "text-sm text-purple-900 dark:text-purple-100",
-              level >= 4 && "text-sm text-gray-900 dark:text-gray-100",
-              isSelected && "text-blue-700 dark:text-blue-300"
-            )}
-          >
-            {item.name}
+          <span className={cn(
+            "font-medium truncate",
+            level === 1 ? "text-base font-semibold" : "text-sm",
+            isSelected && "text-blue-700 dark:text-blue-300"
+          )}>
+            {category.name}
           </span>
-
-          {/* Level Badge */}
-          <Badge 
-            variant="outline" 
-            className={cn(
-              "text-xs shrink-0",
-              level === 1 && "border-blue-200 text-blue-700",
-              level === 2 && "border-green-200 text-green-700",
-              level === 3 && "border-purple-200 text-purple-700",
-              level >= 4 && "border-gray-200 text-gray-700"
-            )}
-          >
-            L{item.level}
-          </Badge>
-
-          {/* Size Badge */}
+          
           {displaySize && (
-            <Badge variant="secondary" className="text-xs shrink-0">
+            <Badge variant="secondary" className="text-xs px-2 py-0 h-5">
               {displaySize}
             </Badge>
           )}
-
-          {/* Children Count for Parent Nodes */}
+          
+          <Badge 
+            variant="outline" 
+            className={cn(
+              "text-xs px-2 py-0 h-5",
+              level === 1 ? "bg-blue-100 text-blue-800" :
+              level === 2 ? "bg-green-100 text-green-800" :
+              level === 3 ? "bg-orange-100 text-orange-800" :
+              level === 4 ? "bg-purple-100 text-purple-800" : "bg-gray-100 text-gray-800"
+            )}
+          >
+            L{category.level}
+          </Badge>
+          
           {hasChildren && (
-            <Badge variant="outline" className="text-xs shrink-0">
-              {item.children?.length || 0} items
+            <Badge variant="ghost" className="text-xs text-gray-500">
+              {category.children!.length} items
             </Badge>
           )}
         </div>
       </div>
-
-      {/* Children - Only show when expanded */}
+      
+      {/* Children */}
       {hasChildren && isExpanded && (
-        <div>
-          {item.children!.map((child) => (
+        <div className="space-y-1 mt-1">
+          {category.children!.map((child, index) => (
             <TreeNode
-              key={child.id}
+              key={`${child.id}-${index}-${level}`}
               item={child}
               selectedCategories={selectedCategories}
               onCategorySelect={onCategorySelect}
