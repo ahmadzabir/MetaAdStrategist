@@ -71,11 +71,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const hierarchicalCategories = await storage.getHierarchicalTargetingCategories();
         res.json(hierarchicalCategories);
       } else {
-        // Fallback for non-Firebase storage
-        const categories = await storage.getAllTargetingCategories();
-        res.json(categories);
+        // Use buildHierarchy method for HardcodedStorage
+        const hierarchicalCategories = (storage as any).buildHierarchy();
+        res.json(hierarchicalCategories);
       }
     } catch (error) {
+      console.error("Error in hierarchical route:", error);
       res.status(500).json({ message: "Failed to fetch hierarchical targeting categories" });
     }
   });
