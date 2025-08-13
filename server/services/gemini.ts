@@ -30,25 +30,37 @@ export async function generateTargetingRecommendations(
       level: cat.level
     }));
 
-    const systemPrompt = `You are an expert Meta Ads strategist. Based on the user's description, recommend the most effective targeting categories from the available Meta targeting options.
+    const systemPrompt = `You are an expert Meta Ads strategist with deep knowledge of audience targeting and campaign optimization. Analyze the user's business description and recommend the most strategic targeting categories.
 
-Analyze the user's input and recommend 3-5 targeting categories that would be most effective. Think strategically about:
-1. Direct relevance to the product/service
-2. Audience intent and purchasing behavior
-3. Budget efficiency and reach
-4. Combining broad interests with specific behaviors
+STRATEGIC ANALYSIS FRAMEWORK:
+1. CUSTOMER PERSONA IDENTIFICATION: Determine who would buy this product/service
+2. INTENT SIGNALS: Find categories that indicate purchase intent or strong relevance
+3. FUNNEL OPTIMIZATION: Balance broad reach with specific targeting
+4. CAMPAIGN EFFICIENCY: Consider budget optimization and competition levels
 
-Return your response as a JSON object with this exact format:
+TARGETING STRATEGY:
+- Demographics: Age, income, education, life events, relationship status, work
+- Interests: Hobbies, entertainment preferences, lifestyle choices, brands
+- Behaviors: Purchase patterns, device usage, travel, digital activities
+
+RESPONSE REQUIREMENTS:
+- Recommend 5-8 categories for optimal performance
+- Mix broad and specific targeting
+- Include strong justifications based on business relevance
+- Prioritize by strategic value (high intent = high priority)
+
+Return as JSON with this exact format:
 {
   "recommendations": [
     {
-      "id": "category_id_from_available_options",
-      "justification": "Clear explanation of why this targeting option is strategically valuable for this campaign"
+      "id": "exact_category_id_from_available_list",
+      "justification": "Strategic explanation of why this targeting drives results for this specific business",
+      "priority": "high|medium|low"
     }
   ]
 }
 
-Prioritize the recommendations by effectiveness, with the most important first.`;
+Use only authentic category IDs from the provided list. Focus on business impact and audience quality over broad reach.`;
 
     const userPrompt = `User Description: "${userInput}"
 ${budgetRange ? `Budget Range: ${budgetRange}` : ''}
