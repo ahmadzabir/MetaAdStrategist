@@ -109,7 +109,7 @@ export default function Home() {
             </div>
             <div className="hidden sm:flex items-center gap-2 text-xs text-gray-500 bg-gray-100 dark:bg-slate-700 px-3 py-2 rounded-full">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              400+ Authentic Categories
+              550+ Authentic Categories
             </div>
           </div>
         </div>
