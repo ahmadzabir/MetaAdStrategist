@@ -16,8 +16,9 @@ export default function FirebaseUploader() {
   const { toast } = useToast();
 
   const uploadMutation = useMutation({
-    mutationFn: async (categories: any[]) => {
-      const response = await apiRequest("POST", "/api/targeting-categories/bulk-upload", { categories });
+    mutationFn: async (data: any) => {
+      // Use the new Meta data processing endpoint
+      const response = await apiRequest("POST", "/api/targeting-categories/upload-meta-data", data);
       return response.json() as Promise<UploadResponse>;
     },
     onSuccess: (data) => {
@@ -39,8 +40,7 @@ export default function FirebaseUploader() {
   const handleUpload = () => {
     try {
       const parsedData = JSON.parse(jsonData);
-      const categories = Array.isArray(parsedData) ? parsedData : [parsedData];
-      uploadMutation.mutate(categories);
+      uploadMutation.mutate(parsedData);
     } catch (error) {
       toast({
         title: "Invalid JSON",
@@ -53,20 +53,21 @@ export default function FirebaseUploader() {
   const loadSampleData = () => {
     const sampleJson = JSON.stringify([
       {
-        "id": "interests-technology",
-        "name": "Technology",
-        "parent_id": "interests",
+        "id": "demographics-education",
+        "name": "Education",
+        "size": "",
         "level": 1,
-        "size": "125M",
-        "category_type": "interests"
-      },
-      {
-        "id": "interests-technology-artificial_intelligence",
-        "name": "Artificial Intelligence",
-        "parent_id": "interests-technology",
-        "level": 2,
-        "size": "8.5M",
-        "category_type": "interests"
+        "parent_id": "demographics",
+        "children": [
+          {
+            "id": "demographics-education-education_level-college_grad",
+            "name": "College grad",
+            "size": "Size: 529,431,971",
+            "level": 2,
+            "parent_id": "demographics-education-education_level",
+            "children": []
+          }
+        ]
       }
     ], null, 2);
     setJsonData(sampleJson);
