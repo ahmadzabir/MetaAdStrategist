@@ -253,9 +253,9 @@ export default function Home() {
           renderContent()
         ) : (
           <div className="py-8">
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8">
               {/* AI Recommendations */}
-              <div className="lg:col-span-2">
+              <div className="lg:col-span-5 xl:col-span-4">
                 <AIRecommendations
                   recommendations={aiRecommendations}
                   onStartChat={handleStartChat}
@@ -265,69 +265,71 @@ export default function Home() {
               </div>
 
               {/* Targeting Explorer */}
-              <div className="lg:col-span-3">
+              <div className="lg:col-span-7 xl:col-span-8">
                 <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-emerald-200 dark:border-emerald-800 shadow-xl h-fit">
-                  <CardHeader className="space-y-4 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/30 dark:to-green-900/30 rounded-t-lg">
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="flex items-center gap-3">
-                        <div className="p-2 bg-gradient-to-br from-emerald-500 to-green-600 rounded-lg">
-                          <Target className="h-5 w-5 text-white" />
+                  <CardHeader className="space-y-4 sm:space-y-6 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/30 dark:to-green-900/30 rounded-t-lg p-4 sm:p-6">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0">
+                      <CardTitle className="flex items-center gap-3 sm:gap-4">
+                        <div className="p-2 sm:p-3 bg-gradient-to-br from-emerald-500 to-green-600 rounded-lg flex-shrink-0">
+                          <Target className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                         </div>
-                        <div>
-                          <div className="text-lg font-bold text-gray-900 dark:text-white">Targeting Explorer</div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400 font-normal">
+                        <div className="min-w-0">
+                          <div className="text-base sm:text-lg font-bold text-gray-900 dark:text-white">Targeting Explorer</div>
+                          <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-normal mt-1">
                             Browse 650+ authentic Meta targeting categories
                           </div>
                         </div>
                       </CardTitle>
                       
                       {/* View mode toggle */}
-                      <div className="flex items-center gap-1 bg-white/60 dark:bg-slate-700/60 backdrop-blur-sm rounded-xl p-1 border border-gray-200 dark:border-slate-600">
+                      <div className="flex items-center gap-1 bg-white/60 dark:bg-slate-700/60 backdrop-blur-sm rounded-xl p-1 border border-gray-200 dark:border-slate-600 w-full sm:w-auto">
                         <Button
                           variant={viewMode === "tree" ? "default" : "ghost"}
                           size="sm"
                           onClick={() => setViewMode("tree")}
-                          className={`h-9 px-4 rounded-lg transition-all ${
+                          className={`h-8 sm:h-9 px-3 sm:px-4 rounded-lg transition-all flex-1 sm:flex-none text-xs sm:text-sm ${
                             viewMode === "tree" 
                               ? "bg-emerald-500 hover:bg-emerald-600 text-white shadow-md" 
                               : "hover:bg-gray-100 dark:hover:bg-slate-600"
                           }`}
                           data-testid="tree-view-button"
                         >
-                          <TreePine className="h-4 w-4 mr-2" />
-                          Tree View
+                          <TreePine className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                          <span className="hidden sm:inline">Tree View</span>
+                          <span className="sm:hidden">Tree</span>
                         </Button>
                         <Button
                           variant={viewMode === "list" ? "default" : "ghost"}
                           size="sm"
                           onClick={() => setViewMode("list")}
-                          className={`h-9 px-4 rounded-lg transition-all ${
+                          className={`h-8 sm:h-9 px-3 sm:px-4 rounded-lg transition-all flex-1 sm:flex-none text-xs sm:text-sm ${
                             viewMode === "list" 
                               ? "bg-emerald-500 hover:bg-emerald-600 text-white shadow-md" 
                               : "hover:bg-gray-100 dark:hover:bg-slate-600"
                           }`}
                           data-testid="list-view-button"
                         >
-                          <List className="h-4 w-4 mr-2" />
-                          List View
+                          <List className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                          <span className="hidden sm:inline">List View</span>
+                          <span className="sm:hidden">List</span>
                         </Button>
                       </div>
                     </div>
                     
                     {/* Search */}
                     <div className="relative">
-                      <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                      <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
                       <Input
                         placeholder="Search targeting categories, interests, demographics..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-12 h-12 border-gray-300 dark:border-gray-600 focus:border-emerald-500 focus:ring-emerald-500/20 rounded-xl bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm"
+                        className="pl-10 sm:pl-12 h-10 sm:h-12 border-gray-300 dark:border-gray-600 focus:border-emerald-500 focus:ring-emerald-500/20 rounded-xl bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm text-sm sm:text-base"
                         data-testid="search-targeting"
                       />
                       {searchQuery && (
                         <button
                           onClick={() => setSearchQuery("")}
-                          className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                          className="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 text-lg sm:text-xl"
                         >
                           ×
                         </button>
