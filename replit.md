@@ -2,7 +2,15 @@
 
 ## Overview
 
-IntelliTarget is a clean, focused AI-powered Meta ads strategist designed for end-user deployment. The application features a streamlined dashboard with AI Strategy Generation prominently positioned above a hierarchical Targeting Explorer. Users describe their product or audience in natural language, and the AI recommends 5-8 optimal targeting categories with strategic justifications. The targeting explorer displays Meta's 150 authentic categories in a modern tree structure with 5 hierarchical levels, allowing users to explore and manually select targeting options across demographics, interests, and behaviors. Features professional glassmorphism design with emerald/blue gradients and comprehensive selection summary with audience size calculations.
+IntelliTarget is a clean, focused AI-powered Meta ads strategist designed for end-user deployment. The application features a streamlined dashboard with AI Strategy Generation prominently positioned above a hierarchical Targeting Explorer. Users describe their product or audience in natural language, and the AI recommends 5-8 optimal targeting categories with strategic justifications. The targeting explorer displays Meta's 636 authentic categories (94.5% of complete dataset) in a modern tree structure with 5 hierarchical levels, allowing users to explore and manually select targeting options across demographics, interests, and behaviors. Features professional glassmorphism design with emerald/blue gradients and comprehensive selection summary with audience size calculations.
+
+## Recent Changes (January 2025)
+
+- **Database Restoration Complete**: Successfully restored 636/673 authentic Meta targeting categories from HTML source
+- **Firebase Integration**: All targeting data stored in Firebase Firestore database (not hardcoded)
+- **Hierarchical Structure**: Proper 5-level hierarchy established (L1:3, L2:26, L3:234, L4:359, L5:14)
+- **Data Management**: Created manual data management documentation for future updates
+- **Extraction Scripts**: Preserved all data extraction and restoration scripts for future use
 
 ## User Preferences
 
