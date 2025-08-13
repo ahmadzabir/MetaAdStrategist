@@ -32,7 +32,10 @@ export default function SelectionSummary({
       return search(allCategories);
     };
 
-    return selectedCategories.map(id => findCategory(id)).filter(Boolean) as TargetingCategory[];
+    return selectedCategories
+      .map(id => findCategory(id))
+      .filter(Boolean)
+      .filter((cat, index, array) => array.findIndex(c => c!.id === cat!.id) === index) as TargetingCategory[];
   }, [selectedCategories, allCategories]);
 
   const categoryStats = useMemo(() => {
@@ -173,7 +176,12 @@ export default function SelectionSummary({
               {selectedCategoryDetails
                 .filter(cat => cat.categoryType === 'demographics')
                 .map((cat, index) => (
-                  <Badge key={`demographics-${cat.id}-${index}`} variant="secondary" className="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-200 border-emerald-300 dark:border-emerald-700">
+                  <Badge 
+                    key={`demographics-${cat.id}-${index}`} 
+                    variant="secondary" 
+                    className="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-200 border-emerald-300 dark:border-emerald-700 animate-in fade-in slide-in-from-left-2 duration-300 hover:scale-105 transition-transform cursor-pointer"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
                     {cat.name}
                     {cat.size && cat.size !== "Unknown" && cat.size !== "Not available" && (
                       <span className="ml-1 text-xs opacity-70">({formatNumber(parseInt(cat.size.replace(/,/g, '')))})</span>
@@ -194,7 +202,12 @@ export default function SelectionSummary({
               {selectedCategoryDetails
                 .filter(cat => cat.categoryType === 'interests')
                 .map((cat, index) => (
-                  <Badge key={`interests-${cat.id}-${index}`} variant="secondary" className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 border-blue-300 dark:border-blue-700">
+                  <Badge 
+                    key={`interests-${cat.id}-${index}`} 
+                    variant="secondary" 
+                    className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 border-blue-300 dark:border-blue-700 animate-in fade-in slide-in-from-left-2 duration-300 hover:scale-105 transition-transform cursor-pointer"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
                     {cat.name}
                     {cat.size && cat.size !== "Unknown" && cat.size !== "Not available" && (
                       <span className="ml-1 text-xs opacity-70">({formatNumber(parseInt(cat.size.replace(/,/g, '')))})</span>
@@ -215,7 +228,12 @@ export default function SelectionSummary({
               {selectedCategoryDetails
                 .filter(cat => cat.categoryType === 'behaviors')
                 .map((cat, index) => (
-                  <Badge key={`behaviors-${cat.id}-${index}`} variant="secondary" className="bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-200 border-purple-300 dark:border-purple-700">
+                  <Badge 
+                    key={`behaviors-${cat.id}-${index}`} 
+                    variant="secondary" 
+                    className="bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-200 border-purple-300 dark:border-purple-700 animate-in fade-in slide-in-from-left-2 duration-300 hover:scale-105 transition-transform cursor-pointer"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
                     {cat.name}
                     {cat.size && cat.size !== "Unknown" && cat.size !== "Not available" && (
                       <span className="ml-1 text-xs opacity-70">({formatNumber(parseInt(cat.size.replace(/,/g, '')))})</span>
