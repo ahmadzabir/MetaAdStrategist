@@ -5,8 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { StructuredQuestionnaire } from "@/components/structured-questionnaire";
-import { AIRecommendations } from "@/components/ai-recommendations";
+import { EnhancedAIRecommendations } from "@/components/enhanced-ai-recommendations";
 import { AIChat } from "@/components/ai-chat";
+import { AIChatDrawer } from "@/components/ai-chat-drawer";
+import { CampaignReadiness } from "@/components/campaign-readiness";
 import SimpleTree from "@/components/simple-tree";
 import SelectionSummary from "@/components/selection-summary";
 import { useToast } from "@/hooks/use-toast";
@@ -43,13 +45,76 @@ export default function Home() {
       createdAt: null,
       categoryType: "Demographics",
       level: 3,
-      parentId: "demographics_age"
+      parentId: "demographics_age",
+      confidenceScore: 92,
+      whyPoints: [
+        "Highest CTR in your industry + 32% cheaper CPM than 35-44 last quarter",
+        "82% of conversions come from this age group in similar campaigns"
+      ],
+      nextSteps: [
+        "Pair with 'Engaged Shoppers'",
+        "Add 'Luxury Fashion' for better conversion fit"
+      ],
+      cpmEstimate: "$2.50-$4.20",
+      ctrEstimate: "2.8-4.1%",
+      type: "primary"
+    },
+    {
+      id: "interests_engaged_shoppers",
+      name: "Engaged Shoppers",
+      justification: "High-intent audience with proven purchase behavior.",
+      priority: "medium" as const,
+      breadcrumbs: ["Interests", "Shopping", "Engaged Shoppers"],
+      estimatedReach: "80M-120M",
+      size: "80M-120M",
+      createdAt: null,
+      categoryType: "Interests",
+      level: 3,
+      parentId: "interests_shopping",
+      confidenceScore: 85,
+      whyPoints: [
+        "3x higher conversion rate than broad audiences",
+        "Lower competition during off-peak seasons"
+      ],
+      nextSteps: [
+        "Combine with 'Age 25-34'",
+        "Test against 'Fashion Enthusiasts'"
+      ],
+      cpmEstimate: "$3.10-$5.80",
+      ctrEstimate: "3.2-5.4%",
+      type: "secondary"
+    },
+    {
+      id: "behaviors_frequent_travelers",
+      name: "Frequent Travelers",
+      justification: "Unexpected but high-value segment for your campaigns.",
+      priority: "low" as const,
+      breadcrumbs: ["Behaviors", "Travel", "Frequent Travelers"],
+      estimatedReach: "25M-40M",
+      size: "25M-40M",
+      createdAt: null,
+      categoryType: "Behaviors",
+      level: 3,
+      parentId: "behaviors_travel",
+      confidenceScore: 73,
+      whyPoints: [
+        "Higher disposable income + impulse buying behavior",
+        "Early adopters who influence social circles"
+      ],
+      nextSteps: [
+        "Test small budget first",
+        "Monitor for quality over quantity"
+      ],
+      cpmEstimate: "$4.50-$7.20",
+      ctrEstimate: "1.8-3.2%",
+      type: "wildcard"
     }
   ]);
   const [appMode, setAppMode] = useState<AppMode>("recommendations");
   const [questionnaireData, setQuestionnaireData] = useState<QuestionnaireData | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState<"tree" | "list">("tree");
+  const [isChatDrawerOpen, setIsChatDrawerOpen] = useState(false);
   const { toast } = useToast();
 
   // Get hierarchical categories for tree view
@@ -135,7 +200,7 @@ export default function Home() {
   };
 
   const handleStartChat = () => {
-    setAppMode("chat");
+    setIsChatDrawerOpen(true);
   };
 
   const handleBackToRecommendations = () => {
@@ -253,13 +318,19 @@ export default function Home() {
         ) : (
           <div className="py-8">
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-              {/* AI Recommendations */}
-              <div className="lg:col-span-2">
-                <AIRecommendations
+              {/* Enhanced AI Recommendations */}
+              <div className="lg:col-span-2 space-y-6">
+                <EnhancedAIRecommendations
                   recommendations={aiRecommendations}
                   onStartChat={handleStartChat}
                   onSelectCategory={handleSelectCategory}
                   selectedCategories={selectedCategories}
+                />
+                
+                {/* Campaign Readiness */}
+                <CampaignReadiness
+                  selectedCategories={selectedCategories}
+                  recommendations={aiRecommendations}
                 />
               </div>
 
@@ -494,6 +565,14 @@ export default function Home() {
             </div>
           </div>
         )}
+        
+        {/* AI Chat Drawer */}
+        <AIChatDrawer
+          isOpen={isChatDrawerOpen}
+          onClose={() => setIsChatDrawerOpen(false)}
+          selectedCategories={selectedCategories}
+          recommendations={aiRecommendations}
+        />
       </div>
     </div>
   );
