@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Progress } from "@/components/ui/progress";
 import { 
   Brain, 
   MessageCircle, 
@@ -11,7 +12,13 @@ import {
   Users, 
   TrendingUp, 
   CheckCircle,
-  Plus
+  Plus,
+  Zap,
+  DollarSign,
+  BarChart3,
+  Eye,
+  Sparkles,
+  ArrowRight
 } from "lucide-react";
 
 interface RecommendationItem {
@@ -22,6 +29,12 @@ interface RecommendationItem {
   breadcrumbs?: string[];
   estimatedReach?: string;
   size?: string;
+  confidenceScore?: number;
+  whyPoints?: string[];
+  nextSteps?: string[];
+  cpmEstimate?: string;
+  ctrEstimate?: string;
+  type?: "primary" | "secondary" | "wildcard";
 }
 
 interface AIRecommendationsProps {
@@ -30,6 +43,15 @@ interface AIRecommendationsProps {
   onSelectCategory: (categoryId: string) => void;
   selectedCategories: string[];
 }
+
+const getTypeLabel = (type: string) => {
+  switch (type) {
+    case "primary": return { label: "Primary ICP", color: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200" };
+    case "secondary": return { label: "Secondary ICP", color: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200" };
+    case "wildcard": return { label: "Wildcard ICP", color: "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-200" };
+    default: return { label: "Standard ICP", color: "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-200" };
+  }
+};
 
 export function AIRecommendations({ 
   recommendations, 
@@ -49,6 +71,10 @@ export function AIRecommendations({
       }
       return newSet;
     });
+  };
+
+  const handleQuickApply = (categoryId: string) => {
+    onSelectCategory(categoryId);
   };
 
   const getPriorityColor = (priority: string) => {
