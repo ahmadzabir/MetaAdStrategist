@@ -7,7 +7,7 @@ async function uploadMetaData() {
     console.log('Reading Meta targeting data...');
     
     // Read the attached file
-    const filePath = '../attached_assets/Pasted--id-demographics-name-Demographics-size-level-1--1755043633611_1755043633613.txt';
+    const filePath = '../attached_assets/Pasted--id-demographics-name-Demographics-size-level-1--1755044367173_1755044367175.txt';
     const rawData = fs.readFileSync(filePath, 'utf8');
     
     console.log('Parsing JSON data...');

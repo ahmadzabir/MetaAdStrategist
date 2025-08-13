@@ -64,6 +64,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get hierarchical targeting categories for tree display
+  app.get("/api/targeting-categories/hierarchical", async (req, res) => {
+    try {
+      if (storage instanceof FirebaseStorage) {
+        const hierarchicalCategories = await storage.getHierarchicalTargetingCategories();
+        res.json(hierarchicalCategories);
+      } else {
+        // Fallback for non-Firebase storage
+        const categories = await storage.getAllTargetingCategories();
+        res.json(categories);
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch hierarchical targeting categories" });
+    }
+  });
+
   // Get specific targeting category
   app.get("/api/targeting-categories/:id", async (req, res) => {
     try {

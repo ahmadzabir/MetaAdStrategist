@@ -61,6 +61,11 @@ export type Recommendation = typeof recommendations.$inferSelect;
 
 export type GenerateRecommendationRequest = z.infer<typeof generateRecommendationSchema>;
 
+// Extended type for hierarchical display with children
+export type HierarchicalTargetingCategory = TargetingCategory & {
+  children?: HierarchicalTargetingCategory[];
+};
+
 // Recommendation structure from AI
 export interface TargetingRecommendation {
   id: string;

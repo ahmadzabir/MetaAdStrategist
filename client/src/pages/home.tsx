@@ -9,10 +9,19 @@ export default function Home() {
   const [recommendations, setRecommendations] = useState<TargetingRecommendation[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisTime, setAnalysisTime] = useState<Date | null>(null);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const handleRecommendationsGenerated = (newRecommendations: TargetingRecommendation[]) => {
     setRecommendations(newRecommendations);
     setAnalysisTime(new Date());
+  };
+
+  const handleCategorySelect = (categoryId: string, selected: boolean) => {
+    setSelectedCategories(prev => 
+      selected 
+        ? [...prev, categoryId]
+        : prev.filter(id => id !== categoryId)
+    );
   };
 
   return (
@@ -49,7 +58,10 @@ export default function Home() {
 
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <TargetingExplorer />
+            <TargetingExplorer 
+              selectedCategories={selectedCategories}
+              onCategorySelect={handleCategorySelect}
+            />
           </div>
         </div>
 

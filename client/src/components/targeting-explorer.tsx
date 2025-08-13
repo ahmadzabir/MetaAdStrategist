@@ -1,206 +1,192 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { api } from "@/lib/api";
+import { Search, Target, TreePine, List } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
-import type { TargetingCategory } from "@shared/schema";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import TargetingTree from "./targeting-tree";
+import type { TargetingCategory, HierarchicalTargetingCategory } from "@shared/schema";
 
-interface TreeNode extends TargetingCategory {
-  children: TreeNode[];
-  isExpanded: boolean;
+interface TargetingExplorerProps {
+  selectedCategories: string[];
+  onCategorySelect: (categoryId: string, selected: boolean) => void;
 }
 
-export default function TargetingExplorer() {
+export default function TargetingExplorer({ selectedCategories, onCategorySelect }: TargetingExplorerProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set(["interests"]));
+  const [viewMode, setViewMode] = useState<"tree" | "list">("tree");
 
-  const { data: categories = [], isLoading } = useQuery({
-    queryKey: ["/api/targeting-categories"],
-    queryFn: () => api.getTargetingCategories(),
+  // Get hierarchical categories for tree view
+  const { data: hierarchicalCategories = [], isLoading: isLoadingHierarchical } = useQuery<HierarchicalTargetingCategory[]>({
+    queryKey: ['/api/targeting-categories/hierarchical'],
+    enabled: viewMode === "tree",
   });
 
-  const { data: searchResults = [] } = useQuery({
-    queryKey: ["/api/targeting-categories", { search: searchQuery }],
-    queryFn: () => api.getTargetingCategories({ search: searchQuery }),
-    enabled: searchQuery.length > 2,
+  // Get flat categories for search/list view
+  const { data: flatCategories = [], isLoading: isLoadingFlat } = useQuery<TargetingCategory[]>({
+    queryKey: ['/api/targeting-categories'],
+    enabled: searchQuery.length > 0 || viewMode === "list",
   });
 
-  const categoryTree = useMemo(() => {
-    const categoriesToUse = searchQuery.length > 2 ? searchResults : categories;
-    const nodeMap = new Map<string, TreeNode>();
-    
-    // Create nodes
-    categoriesToUse.forEach(category => {
-      nodeMap.set(category.id, {
-        ...category,
-        children: [],
-        isExpanded: expandedNodes.has(category.id),
-      });
-    });
+  // Filter categories based on search
+  const filteredCategories = flatCategories?.filter(category =>
+    category.name.toLowerCase().includes(searchQuery.toLowerCase())
+  ) || [];
 
-    // Build tree structure
-    const rootNodes: TreeNode[] = [];
-    categoriesToUse.forEach(category => {
-      const node = nodeMap.get(category.id)!;
-      if (!category.parentId) {
-        rootNodes.push(node);
-      } else {
-        const parent = nodeMap.get(category.parentId);
-        if (parent) {
-          parent.children.push(node);
-        }
-      }
-    });
-
-    return rootNodes;
-  }, [categories, searchResults, searchQuery, expandedNodes]);
-
-  const toggleNode = (nodeId: string) => {
-    setExpandedNodes(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(nodeId)) {
-        newSet.delete(nodeId);
-      } else {
-        newSet.add(nodeId);
-      }
-      return newSet;
-    });
-  };
-
-  const getCategoryIcon = (categoryType: string) => {
-    switch (categoryType) {
-      case "interests":
-        return "fas fa-heart text-accent";
-      case "behaviors":
-        return "fas fa-chart-line text-secondary";
-      case "demographics":
-        return "fas fa-users text-neutral";
-      default:
-        return "far fa-circle text-text-secondary";
-    }
-  };
-
-  const getSubcategoryIcon = (name: string, level: number) => {
-    if (level === 1) {
-      if (name.toLowerCase().includes("fitness")) return "fas fa-dumbbell text-primary";
-      if (name.toLowerCase().includes("shopping")) return "fas fa-shopping-bag text-accent";
-      return "fas fa-chevron-right text-text-secondary";
-    }
-    return "far fa-circle text-text-secondary";
-  };
-
-  const renderNode = (node: TreeNode, level: number = 0) => {
-    const hasChildren = node.children.length > 0;
-    const isExpanded = node.isExpanded;
-    const marginLeft = `${level * 1.5}rem`;
-
-    return (
-      <div key={node.id} className="space-y-1">
-        <div 
-          className={`flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
-            node.name === "Yoga" ? "bg-primary/5 border-l-2 border-primary" : ""
-          }`}
-          style={{ marginLeft }}
-          onClick={() => hasChildren && toggleNode(node.id)}
-          data-testid={`item-category-${node.id}`}
-        >
-          <div className="flex items-center space-x-2">
-            {hasChildren && (
-              <i 
-                className={`fas fa-chevron-right text-xs text-text-secondary transition-transform ${
-                  isExpanded ? "rotate-90" : ""
-                }`}
-              ></i>
-            )}
-            {level === 0 ? (
-              <i className={getCategoryIcon(node.categoryType)}></i>
-            ) : (
-              <i className={`${getSubcategoryIcon(node.name, level)} text-xs`}></i>
-            )}
-            <span 
-              className={`text-sm ${level === 0 ? "font-medium" : ""} ${
-                node.name === "Yoga" ? "text-primary font-medium" : ""
-              }`}
-              data-testid={`text-category-name-${node.id}`}
-            >
-              {node.name}
-            </span>
-          </div>
-          <span 
-            className={`text-xs ${node.name === "Yoga" ? "text-primary" : "text-text-secondary"}`}
-            data-testid={`text-category-size-${node.id}`}
-          >
-            {node.size}
-          </span>
-        </div>
-        
-        {isExpanded && hasChildren && (
-          <div>
-            {node.children.map(child => renderNode(child, level + 1))}
-          </div>
-        )}
-      </div>
-    );
-  };
+  const isLoading = viewMode === "tree" ? isLoadingHierarchical : isLoadingFlat;
 
   return (
-    <div className="bg-white rounded-xl shadow-card p-6 sticky top-8">
-      <div className="flex items-center space-x-3 mb-4">
-        <div className="w-10 h-10 bg-neutral/10 rounded-lg flex items-center justify-center">
-          <i className="fas fa-search text-neutral"></i>
+    <Card className="h-full">
+      <CardHeader className="space-y-4">
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Target className="h-5 w-5" />
+            Targeting Explorer
+          </CardTitle>
+          
+          {/* View mode toggle */}
+          <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
+            <Button
+              variant={viewMode === "tree" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setViewMode("tree")}
+              className="h-8 px-3"
+              data-testid="tree-view-button"
+            >
+              <TreePine className="h-3 w-3 mr-1" />
+              Tree
+            </Button>
+            <Button
+              variant={viewMode === "list" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setViewMode("list")}
+              className="h-8 px-3"
+              data-testid="list-view-button"
+            >
+              <List className="h-3 w-3 mr-1" />
+              List
+            </Button>
+          </div>
         </div>
-        <div>
-          <h3 className="text-lg font-semibold text-text-primary">Targeting Explorer</h3>
-          <p className="text-text-secondary text-sm">Browse all available categories</p>
-        </div>
-      </div>
-
-      <div className="space-y-4">
+        
+        {/* Search */}
         <div className="relative">
+          <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
           <Input
-            type="text"
-            placeholder="Search targeting options..."
+            placeholder="Search targeting categories..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
-            data-testid="input-search-categories"
+            data-testid="search-targeting"
           />
-          <i className="fas fa-search absolute left-3 top-3 text-text-secondary"></i>
         </div>
 
-        <div className="space-y-2 max-h-96 overflow-y-auto">
+        {/* Selected categories count */}
+        {selectedCategories.length > 0 && (
+          <div className="text-sm text-blue-600 bg-blue-50 dark:bg-blue-900/20 px-3 py-2 rounded-lg">
+            {selectedCategories.length} categories selected
+          </div>
+        )}
+      </CardHeader>
+
+      <CardContent className="p-0">
+        <ScrollArea className="h-[500px] p-6">
           {isLoading ? (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+            </div>
+          ) : searchQuery ? (
+            // Search results view
             <div className="space-y-2">
-              {[1, 2, 3, 4, 5].map((index) => (
-                <div key={index} className="flex items-center justify-between p-2">
-                  <div className="flex items-center space-x-2">
-                    <Skeleton className="h-4 w-4" />
-                    <Skeleton className="h-4 w-32" />
+              <h3 className="text-sm font-medium text-gray-600 mb-3">
+                Search Results ({filteredCategories.length})
+              </h3>
+              {filteredCategories.map((category) => (
+                <div
+                  key={category.id}
+                  className={`p-3 rounded-lg border cursor-pointer transition-all hover:shadow-md ${
+                    selectedCategories.includes(category.id)
+                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-950'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                  onClick={() => onCategorySelect(category.id, !selectedCategories.includes(category.id))}
+                  data-testid={`category-${category.id}`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <h4 className="font-medium text-sm">{category.name}</h4>
+                      <p className="text-xs text-gray-600 mt-1">
+                        Level {category.level} • {category.categoryType}
+                      </p>
+                    </div>
+                    
+                    <div className="flex items-center gap-2">
+                      {category.size && category.size !== "Unknown" && (
+                        <span className="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
+                          {category.size}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <Skeleton className="h-4 w-12" />
+                </div>
+              ))}
+              
+              {filteredCategories.length === 0 && (
+                <div className="text-center py-8 text-gray-500" data-testid="no-search-results">
+                  <Target className="h-12 w-12 mx-auto mb-2 opacity-50" />
+                  <p>No categories found for "{searchQuery}"</p>
+                  <p className="text-sm mt-1">Try adjusting your search terms</p>
+                </div>
+              )}
+            </div>
+          ) : viewMode === "tree" ? (
+            // Tree view
+            <TargetingTree
+              categories={hierarchicalCategories}
+              selectedCategories={selectedCategories}
+              onCategorySelect={onCategorySelect}
+            />
+          ) : (
+            // List view (all categories flat)
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-gray-600 mb-3">
+                All Categories ({flatCategories.length})
+              </h3>
+              {flatCategories.map((category) => (
+                <div
+                  key={category.id}
+                  className={`p-3 rounded-lg border cursor-pointer transition-all hover:shadow-md ${
+                    selectedCategories.includes(category.id)
+                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-950'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                  onClick={() => onCategorySelect(category.id, !selectedCategories.includes(category.id))}
+                  data-testid={`category-${category.id}`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <h4 className="font-medium text-sm">{category.name}</h4>
+                      <p className="text-xs text-gray-600 mt-1">
+                        Level {category.level} • {category.categoryType}
+                      </p>
+                    </div>
+                    
+                    <div className="flex items-center gap-2">
+                      {category.size && category.size !== "Unknown" && (
+                        <span className="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
+                          {category.size}
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
-          ) : (
-            <div className="space-y-1" data-testid="tree-categories">
-              {categoryTree.map(node => renderNode(node))}
-            </div>
           )}
-        </div>
-
-        <div className="pt-4 border-t border-gray-200">
-          <div className="text-xs text-text-secondary space-y-1">
-            <div className="flex justify-between">
-              <span>Total Categories:</span>
-              <span data-testid="text-total-categories">{categories.length}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Last Updated:</span>
-              <span>2 hours ago</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+        </ScrollArea>
+      </CardContent>
+    </Card>
   );
 }
