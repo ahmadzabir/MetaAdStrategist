@@ -71,7 +71,7 @@ Available Targeting Categories:
 ${JSON.stringify(categoryContext, null, 2)}`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-pro",
+      model: "gemini-2.5-flash",
       config: {
         systemInstruction: systemPrompt,
         responseMimeType: "application/json",
@@ -84,7 +84,8 @@ ${JSON.stringify(categoryContext, null, 2)}`;
                 type: "object",
                 properties: {
                   id: { type: "string" },
-                  justification: { type: "string" }
+                  justification: { type: "string" },
+                  priority: { type: "string" }
                 },
                 required: ["id", "justification"]
               }
