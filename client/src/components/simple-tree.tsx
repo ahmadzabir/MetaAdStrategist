@@ -127,7 +127,7 @@ function TreeItem({
       {/* Children */}
       {hasChildren && expanded && (
         <div className="animate-in slide-in-from-top-2 duration-300 ease-out">
-          <div className="border-l-2 border-gray-200 dark:border-gray-700 ml-2 pl-2">
+          <div className="border-l-2 border-gray-200 dark:border-gray-700 ml-1 sm:ml-2 pl-2 sm:pl-3 mt-1 sm:mt-2 space-y-1 sm:space-y-2">
             {category.children!.map((child) => (
               <TreeItem
                 key={child.id}
@@ -148,8 +148,8 @@ export default function SimpleTree({ categories, selectedCategories, onCategoryS
   console.log(`SimpleTree received ${categories.length} categories`);
   
   return (
-    <div className="border border-gray-200 dark:border-gray-700 rounded-xl p-4 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-sm">
-      <div className="space-y-2">
+    <div className="border border-gray-200 dark:border-gray-700 rounded-xl p-3 sm:p-4 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-sm">
+      <div className="space-y-1 sm:space-y-2">
         {categories.map((category) => (
           <div key={category.id} className="animate-in fade-in duration-300">
             <TreeItem

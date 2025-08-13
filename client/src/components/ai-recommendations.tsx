@@ -103,27 +103,28 @@ export function AIRecommendations({
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto space-y-6">
+    <div className="w-full space-y-4 sm:space-y-6">
       {/* Header */}
-      <Card className="bg-gradient-to-r from-blue-50 via-purple-50 to-emerald-50 dark:from-blue-900/20 dark:via-purple-900/20 dark:to-emerald-900/20 border-blue-200 dark:border-blue-800">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl shadow-lg">
-                <Brain className="h-6 w-6 text-white" />
+      <Card className="bg-gradient-to-r from-blue-50 via-purple-50 to-emerald-50 dark:from-blue-900/20 dark:via-purple-900/20 dark:to-emerald-900/20 border-blue-200 dark:border-blue-800 shadow-lg">
+        <CardHeader className="p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl shadow-lg flex-shrink-0">
+                <Brain className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
               </div>
-              <div>
-                <CardTitle className="text-xl font-bold text-gray-900 dark:text-white">
+              <div className="min-w-0 flex-1">
+                <CardTitle className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
                   AI Targeting Recommendations
                 </CardTitle>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
                   {recommendations.length} strategic targeting categories identified
                 </p>
               </div>
             </div>
             <Button
               onClick={onStartChat}
-              className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white"
+              className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white shadow-md w-full sm:w-auto"
+              size="sm"
               data-testid="button-start-chat"
             >
               <MessageCircle className="h-4 w-4 mr-2" />
