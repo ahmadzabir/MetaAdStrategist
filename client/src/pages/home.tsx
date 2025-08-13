@@ -12,7 +12,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import HierarchicalTreeExplorer from "@/components/hierarchical-tree-explorer";
 import SelectionSummary from "@/components/selection-summary";
-import DebugTree from "@/components/debug-tree";
+import SimpleTree from "@/components/simple-tree";
 import type { TargetingCategory, HierarchicalTargetingCategory, TargetingRecommendation } from "@shared/schema";
 
 export default function Home() {
@@ -395,7 +395,7 @@ Examples:
                           {hierarchicalCategories.length} sections
                         </span>
                       </div>
-                      <HierarchicalTreeExplorer
+                      <SimpleTree
                         categories={hierarchicalCategories}
                         selectedCategories={selectedCategories}
                         onCategorySelect={handleCategorySelect}
