@@ -1,0 +1,3538 @@
+[
+  {
+    "id": "demographics",
+    "name": "Demographics",
+    "size": "",
+    "level": 1,
+    "parent_id": null,
+    "children": [
+      {
+        "id": "demographics-education",
+        "name": "Education",
+        "size": "",
+        "level": 2,
+        "parent_id": "demographics",
+        "children": [
+          {
+            "id": "demographics-education-education_level",
+            "name": "Education Level",
+            "size": "",
+            "level": 3,
+            "parent_id": "demographics-education",
+            "children": [
+              {
+                "id": "demographics-education-education_level-associate_degree",
+                "name": "Associate degree",
+                "size": "Size: Not available",
+                "level": 4,
+                "parent_id": "demographics-education-education_level",
+                "children": []
+              },
+              {
+                "id": "demographics-education-education_level-college_grad",
+                "name": "College grad",
+                "size": "Size: 529,431,971",
+                "level": 4,
+                "parent_id": "demographics-education-education_level",
+                "children": []
+              },
+              {
+                "id": "demographics-education-education_level-doctorate_degree",
+                "name": "Doctorate degree",
+                "size": "Size: 1,045,931",
+                "level": 4,
+                "parent_id": "demographics-education-education_level",
+                "children": []
+              },
+              {
+                "id": "demographics-education-education_level-high_school_grad",
+                "name": "High school grad",
+                "size": "Size: 253,902,534",
+                "level": 4,
+                "parent_id": "demographics-education-education_level",
+                "children": []
+              },
+              {
+                "id": "demographics-education-education_level-in_college",
+                "name": "In college",
+                "size": "Size: 23,074,687",
+                "level": 4,
+                "parent_id": "demographics-education-education_level",
+                "children": []
+              },
+              {
+                "id": "demographics-education-education_level-in_grad_school",
+                "name": "In grad school",
+                "size": "Size: 1,871,005",
+                "level": 4,
+                "parent_id": "demographics-education-education_level",
+                "children": []
+              },
+              {
+                "id": "demographics-education-education_level-in_high_school",
+                "name": "In high school",
+                "size": "Size: 6,257,127",
+                "level": 4,
+                "parent_id": "demographics-education-education_level",
+                "children": []
+              },
+              {
+                "id": "demographics-education-education_level-masters_degree",
+                "name": "Master's degree",
+                "size": "Size: 41,474,891",
+                "level": 4,
+                "parent_id": "demographics-education-education_level",
+                "children": []
+              },
+              {
+                "id": "demographics-education-education_level-professional_degree",
+                "name": "Professional degree",
+                "size": "Size: 1,454,980",
+                "level": 4,
+                "parent_id": "demographics-education-education_level",
+                "children": []
+              },
+              {
+                "id": "demographics-education-education_level-some_college",
+                "name": "Some college",
+                "size": "Size: 92,354,489",
+                "level": 4,
+                "parent_id": "demographics-education-education_level",
+                "children": []
+              },
+              {
+                "id": "demographics-education-education_level-some_grad_school",
+                "name": "Some grad school",
+                "size": "Size: 5,527,068",
+                "level": 4,
+                "parent_id": "demographics-education-education_level",
+                "children": []
+              },
+              {
+                "id": "demographics-education-education_level-some_high_school",
+                "name": "Some high school",
+                "size": "Size: 62,648,035",
+                "level": 4,
+                "parent_id": "demographics-education-education_level",
+                "children": []
+              },
+              {
+                "id": "demographics-education-education_level-unspecified",
+                "name": "Unspecified",
+                "size": "Size: Below 1000",
+                "level": 4,
+                "parent_id": "demographics-education-education_level",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "demographics-education-fields_of_study",
+            "name": "Fields of study",
+            "size": "",
+            "level": 3,
+            "parent_id": "demographics-education",
+            "children": []
+          },
+          {
+            "id": "demographics-education-schools",
+            "name": "Schools",
+            "size": "",
+            "level": 3,
+            "parent_id": "demographics-education",
+            "children": []
+          },
+          {
+            "id": "demographics-education-undergrad_years",
+            "name": "Undergrad years",
+            "size": "",
+            "level": 3,
+            "parent_id": "demographics-education",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "demographics-financial",
+        "name": "Financial",
+        "size": "",
+        "level": 2,
+        "parent_id": "demographics",
+        "children": [
+          {
+            "id": "demographics-financial-income",
+            "name": "Income",
+            "size": "",
+            "level": 3,
+            "parent_id": "demographics-financial",
+            "children": [
+              {
+                "id": "demographics-financial-income-household_income_top_10_of_zip_codes_us",
+                "name": "Household income: top 10% of ZIP codes (US)",
+                "size": "Size: 31,274,659",
+                "level": 4,
+                "parent_id": "demographics-financial-income",
+                "children": []
+              },
+              {
+                "id": "demographics-financial-income-household_income_top_10_25_of_zip_codes_us",
+                "name": "Household income: top 10%-25% of ZIP codes (US)",
+                "size": "Size: 39,026,156",
+                "level": 4,
+                "parent_id": "demographics-financial-income",
+                "children": []
+              },
+              {
+                "id": "demographics-financial-income-household_income_top_25_50_of_zip_codes_us",
+                "name": "Household income: top 25%-50% of ZIP codes (US)",
+                "size": "Size: 45,842,633",
+                "level": 4,
+                "parent_id": "demographics-financial-income",
+                "children": []
+              },
+              {
+                "id": "demographics-financial-income-household_income_top_5_of_zip_codes_us",
+                "name": "Household income: top 5% of ZIP codes (US)",
+                "size": "Size: 15,119,596",
+                "level": 4,
+                "parent_id": "demographics-financial-income",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "demographics-life_events",
+        "name": "Life Events",
+        "size": "",
+        "level": 2,
+        "parent_id": "demographics",
+        "children": [
+          {
+            "id": "demographics-life_events-anniversary",
+            "name": "Anniversary",
+            "size": "",
+            "level": 3,
+            "parent_id": "demographics-life_events",
+            "children": [
+              {
+                "id": "demographics-life_events-anniversary-anniversary_within_30_days",
+                "name": "Anniversary within 30 days",
+                "size": "Size: 5,492,136",
+                "level": 4,
+                "parent_id": "demographics-life_events-anniversary",
+                "children": []
+              },
+              {
+                "id": "demographics-life_events-anniversary-anniversary_within_31_60_days",
+                "name": "Anniversary within 31-60 Days",
+                "size": "Size: 7,243,698",
+                "level": 4,
+                "parent_id": "demographics-life_events-anniversary",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "demographics-life_events-away_from_family",
+            "name": "Away from family",
+            "size": "Size: 131,716,848",
+            "level": 3,
+            "parent_id": "demographics-life_events",
+            "children": []
+          },
+          {
+            "id": "demographics-life_events-away_from_hometown",
+            "name": "Away from hometown",
+            "size": "Size: 131,770,093",
+            "level": 3,
+            "parent_id": "demographics-life_events",
+            "children": []
+          },
+          {
+            "id": "demographics-life_events-birthday",
+            "name": "Birthday",
+            "size": "",
+            "level": 3,
+            "parent_id": "demographics-life_events",
+            "children": [
+              {
+                "id": "demographics-life_events-birthday-birthday_month",
+                "name": "Birthday Month",
+                "size": "",
+                "level": 4,
+                "parent_id": "demographics-life_events-birthday",
+                "children": [
+                  {
+                    "id": "demographics-life_events-birthday-birthday_month-birthday_in_january",
+                    "name": "Birthday in January",
+                    "size": "Size: 230,111,493",
+                    "level": 5,
+                    "parent_id": "demographics-life_events-birthday-birthday_month",
+                    "children": []
+                  },
+                  {
+                    "id": "demographics-life_events-birthday-birthday_month-birthday_in_february",
+                    "name": "Birthday in February",
+                    "size": "Size: 155,411,780",
+                    "level": 5,
+                    "parent_id": "demographics-life_events-birthday-birthday_month",
+                    "children": []
+                  },
+                  {
+                    "id": "demographics-life_events-birthday-birthday_month-birthday_in_march",
+                    "name": "Birthday in March",
+                    "size": "Size: 163,457,308",
+                    "level": 5,
+                    "parent_id": "demographics-life_events-birthday-birthday_month",
+                    "children": []
+                  },
+                  {
+                    "id": "demographics-life_events-birthday-birthday_month-birthday_in_april",
+                    "name": "Birthday in April",
+                    "size": "Size: 158,305,094",
+                    "level": 5,
+                    "parent_id": "demographics-life_events-birthday-birthday_month",
+                    "children": []
+                  },
+                  {
+                    "id": "demographics-life_events-birthday-birthday_month-birthday_in_may",
+                    "name": "Birthday in May",
+                    "size": "Size: 172,205,908",
+                    "level": 5,
+                    "parent_id": "demographics-life_events-birthday-birthday_month",
+                    "children": []
+                  },
+                  {
+                    "id": "demographics-life_events-birthday-birthday_month-birthday_in_june",
+                    "name": "Birthday in June",
+                    "size": "Size: 168,127,108",
+                    "level": 5,
+                    "parent_id": "demographics-life_events-birthday-birthday_month",
+                    "children": []
+                  },
+                  {
+                    "id": "demographics-life_events-birthday-birthday_month-birthday_in_july",
+                    "name": "Birthday in July",
+                    "size": "Size: 176,567,176",
+                    "level": 5,
+                    "parent_id": "demographics-life_events-birthday-birthday_month",
+                    "children": []
+                  },
+                  {
+                    "id": "demographics-life_events-birthday-birthday_month-birthday_in_august",
+                    "name": "Birthday in August",
+                    "size": "Size: 164,237,098",
+                    "level": 5,
+                    "parent_id": "demographics-life_events-birthday-birthday_month",
+                    "children": []
+                  },
+                  {
+                    "id": "demographics-life_events-birthday-birthday_month-birthday_in_september",
+                    "name": "Birthday in September",
+                    "size": "Size: 149,028,851",
+                    "level": 5,
+                    "parent_id": "demographics-life_events-birthday-birthday_month",
+                    "children": []
+                  },
+                  {
+                    "id": "demographics-life_events-birthday-birthday_month-birthday_in_october",
+                    "name": "Birthday in October",
+                    "size": "Size: 156,258,456",
+                    "level": 5,
+                    "parent_id": "demographics-life_events-birthday-birthday_month",
+                    "children": []
+                  },
+                  {
+                    "id": "demographics-life_events-birthday-birthday_month-birthday_in_november",
+                    "name": "Birthday in November",
+                    "size": "Size: 143,348,363",
+                    "level": 5,
+                    "parent_id": "demographics-life_events-birthday-birthday_month",
+                    "children": []
+                  },
+                  {
+                    "id": "demographics-life_events-birthday-birthday_month-birthday_in_december",
+                    "name": "Birthday in December",
+                    "size": "Size: 175,587,641",
+                    "level": 5,
+                    "parent_id": "demographics-life_events-birthday-birthday_month",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "demographics-life_events-birthday-upcoming_birthday",
+                "name": "Upcoming birthday",
+                "size": "Size: 80,112,488",
+                "level": 4,
+                "parent_id": "demographics-life_events-birthday",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "demographics-life_events-friends_of",
+            "name": "Friends of",
+            "size": "",
+            "level": 3,
+            "parent_id": "demographics-life_events",
+            "children": [
+              {
+                "id": "demographics-life_events-friends_of-friends_of_men_with_a_birthday_in_0_7_days",
+                "name": "Friends of Men with a Birthday in 0-7 days",
+                "size": "Size: 2,139,319,946",
+                "level": 4,
+                "parent_id": "demographics-life_events-friends_of",
+                "children": []
+              },
+              {
+                "id": "demographics-life_events-friends_of-friends_of_men_with_a_birthday_in_7_30_days",
+                "name": "Friends of Men with a Birthday in 7-30 days",
+                "size": "Size: 2,458,452,947",
+                "level": 4,
+                "parent_id": "demographics-life_events-friends_of",
+                "children": []
+              },
+              {
+                "id": "demographics-life_events-friends_of-friends_of_recently_moved",
+                "name": "Friends of Recently Moved",
+                "size": "Size: 1,362,959,948",
+                "level": 4,
+                "parent_id": "demographics-life_events-friends_of",
+                "children": []
+              },
+              {
+                "id": "demographics-life_events-friends_of-friends_of_women_with_a_birthday_in_0_7_days",
+                "name": "Friends of Women with a Birthday in 0-7 days",
+                "size": "Size: 1,991,658,107",
+                "level": 4,
+                "parent_id": "demographics-life_events-friends_of",
+                "children": []
+              },
+              {
+                "id": "demographics-life_events-friends_of-friends_of_women_with_a_birthday_in_7_30_days",
+                "name": "Friends of Women with a Birthday in 7-30 days",
+                "size": "Size: 2,345,550,072",
+                "level": 4,
+                "parent_id": "demographics-life_events-friends_of",
+                "children": []
+              },
+              {
+                "id": "demographics-life_events-friends_of-friends_of_people_with_birthdays_in_a_month",
+                "name": "Friends of people with birthdays in a month",
+                "size": "Size: 2,636,996,837",
+                "level": 4,
+                "parent_id": "demographics-life_events-friends_of",
+                "children": []
+              },
+              {
+                "id": "demographics-life_events-friends_of-friends_of_people_with_birthdays_in_a_week",
+                "name": "Friends of people with birthdays in a week",
+                "size": "Size: 2,419,331,204",
+                "level": 4,
+                "parent_id": "demographics-life_events-friends_of",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "demographics-life_events-long_distance_relationship",
+            "name": "Long-distance relationship",
+            "size": "Size: 9,348,523",
+            "level": 3,
+            "parent_id": "demographics-life_events",
+            "children": []
+          },
+          {
+            "id": "demographics-life_events-new_job",
+            "name": "New job",
+            "size": "Size: 83,527",
+            "level": 3,
+            "parent_id": "demographics-life_events",
+            "children": []
+          },
+          {
+            "id": "demographics-life_events-new_relationship",
+            "name": "New relationship",
+            "size": "Size: 1,573,537",
+            "level": 3,
+            "parent_id": "demographics-life_events",
+            "children": []
+          },
+          {
+            "id": "demographics-life_events-newly_engaged_1_year",
+            "name": "Newly engaged (1 year)",
+            "size": "Size: 4,705,551",
+            "level": 3,
+            "parent_id": "demographics-life_events",
+            "children": []
+          },
+          {
+            "id": "demographics-life_events-newly_engaged_3_months",
+            "name": "Newly engaged (3 months)",
+            "size": "Size: 1,517,420",
+            "level": 3,
+            "parent_id": "demographics-life_events",
+            "children": []
+          },
+          {
+            "id": "demographics-life_events-newly_engaged_6_months",
+            "name": "Newly-engaged (6 months)",
+            "size": "Size: 2,687,710",
+            "level": 3,
+            "parent_id": "demographics-life_events",
+            "children": []
+          },
+          {
+            "id": "demographics-life_events-newlywed_1_year",
+            "name": "Newlywed (1 year)",
+            "size": "Size: 16,518,204",
+            "level": 3,
+            "parent_id": "demographics-life_events",
+            "children": []
+          },
+          {
+            "id": "demographics-life_events-newlywed_3_months",
+            "name": "Newlywed (3 months)",
+            "size": "Size: 4,855,232",
+            "level": 3,
+            "parent_id": "demographics-life_events",
+            "children": []
+          },
+          {
+            "id": "demographics-life_events-newlywed_6_months",
+            "name": "Newlywed (6 months)",
+            "size": "Size: 8,866,840",
+            "level": 3,
+            "parent_id": "demographics-life_events",
+            "children": []
+          },
+          {
+            "id": "demographics-life_events-recently_moved",
+            "name": "Recently moved",
+            "size": "Size: 680,611",
+            "level": 3,
+            "parent_id": "demographics-life_events",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "demographics-parents",
+        "name": "Parents",
+        "size": "",
+        "level": 2,
+        "parent_id": "demographics",
+        "children": [
+          {
+            "id": "demographics-parents-all_parents",
+            "name": "All parents",
+            "size": "",
+            "level": 3,
+            "parent_id": "demographics-parents",
+            "children": [
+              {
+                "id": "demographics-parents-all_parents-parents_all",
+                "name": "Parents (All)",
+                "size": "Size: 347,063,516",
+                "level": 4,
+                "parent_id": "demographics-parents-all_parents",
+                "children": []
+              },
+              {
+                "id": "demographics-parents-all_parents-parents_up_to_12_months",
+                "name": "Parents (up to 12 months)",
+                "size": "Size: 6,316,041",
+                "level": 4,
+                "parent_id": "demographics-parents-all_parents",
+                "children": []
+              },
+              {
+                "id": "demographics-parents-all_parents-parents_with_adult_children_18_26_years",
+                "name": "Parents with adult children (18-26 years)",
+                "size": "Size: 78,826,966",
+                "level": 4,
+                "parent_id": "demographics-parents-all_parents",
+                "children": []
+              },
+              {
+                "id": "demographics-parents-all_parents-parents_with_early_school_age_children_06_08_years",
+                "name": "Parents with early school-age children (06-08 years)",
+                "size": "Size: 11,390,485",
+                "level": 4,
+                "parent_id": "demographics-parents-all_parents",
+                "children": []
+              },
+              {
+                "id": "demographics-parents-all_parents-parents_with_preschoolers_03_05_years",
+                "name": "Parents with preschoolers (03-05 years)",
+                "size": "Size: 6,639,075",
+                "level": 4,
+                "parent_id": "demographics-parents-all_parents",
+                "children": []
+              },
+              {
+                "id": "demographics-parents-all_parents-parents_with_preteens_09_12_years",
+                "name": "Parents with preteens (09-12 years)",
+                "size": "Size: 13,799,315",
+                "level": 4,
+                "parent_id": "demographics-parents-all_parents",
+                "children": []
+              },
+              {
+                "id": "demographics-parents-all_parents-parents_with_teenagers_13_17_years",
+                "name": "Parents with teenagers (13-17 years)",
+                "size": "Size: 31,741,566",
+                "level": 4,
+                "parent_id": "demographics-parents-all_parents",
+                "children": []
+              },
+              {
+                "id": "demographics-parents-all_parents-parents_with_toddlers_01_02_years",
+                "name": "Parents with toddlers (01-02 years)",
+                "size": "Size: 3,981,682",
+                "level": 4,
+                "parent_id": "demographics-parents-all_parents",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "demographics-relationship",
+        "name": "Relationship",
+        "size": "",
+        "level": 2,
+        "parent_id": "demographics",
+        "children": [
+          {
+            "id": "demographics-relationship-relationship_status",
+            "name": "Relationship status",
+            "size": "",
+            "level": 3,
+            "parent_id": "demographics-relationship",
+            "children": [
+              {
+                "id": "demographics-relationship-relationship_status-engaged",
+                "name": "Engaged",
+                "size": "Size: 26,743,202",
+                "level": 4,
+                "parent_id": "demographics-relationship-relationship_status",
+                "children": []
+              },
+              {
+                "id": "demographics-relationship-relationship_status-in_a_relationship",
+                "name": "In a relationship",
+                "size": "Size: 146,037,816",
+                "level": 4,
+                "parent_id": "demographics-relationship-relationship_status",
+                "children": []
+              },
+              {
+                "id": "demographics-relationship-relationship_status-married",
+                "name": "Married",
+                "size": "Size: 281,018,135",
+                "level": 4,
+                "parent_id": "demographics-relationship-relationship_status",
+                "children": []
+              },
+              {
+                "id": "demographics-relationship-relationship_status-single",
+                "name": "Single",
+                "size": "Size: 298,698,616",
+                "level": 4,
+                "parent_id": "demographics-relationship-relationship_status",
+                "children": []
+              },
+              {
+                "id": "demographics-relationship-relationship_status-unspecified",
+                "name": "Unspecified",
+                "size": "Size: 1,488,182,511",
+                "level": 4,
+                "parent_id": "demographics-relationship-relationship_status",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "demographics-work",
+        "name": "Work",
+        "size": "",
+        "level": 2,
+        "parent_id": "demographics",
+        "children": [
+          {
+            "id": "demographics-work-employers",
+            "name": "Employers",
+            "size": "",
+            "level": 3,
+            "parent_id": "demographics-work",
+            "children": []
+          },
+          {
+            "id": "demographics-work-industries",
+            "name": "Industries",
+            "size": "",
+            "level": 3,
+            "parent_id": "demographics-work",
+            "children": [
+              {
+                "id": "demographics-work-industries-large_business_to_business_enterprise_employees_500_employees",
+                "name": "Large business-to-business enterprise employees (500+ employees)",
+                "size": "Size: 254,756,104",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-administrative_services",
+                "name": "Administrative Services",
+                "size": "Size: 21,544,096",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-architecture_and_engineering",
+                "name": "Architecture and Engineering",
+                "size": "Size: 7,392,654",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-arts_entertainment_sports_and_media",
+                "name": "Arts, Entertainment, Sports and Media",
+                "size": "Size: 12,387,337",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-business_decision_makers",
+                "name": "Business Decision Makers",
+                "size": "Size: 46,596",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-business_and_finance",
+                "name": "Business and Finance",
+                "size": "Size: 9,017,198",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-business_decision_maker_titles_and_interests",
+                "name": "Business decision maker titles and interests",
+                "size": "Size: 46,596",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-cleaning_and_maintenance_services",
+                "name": "Cleaning and Maintenance Services",
+                "size": "Size: 3,087,073",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-community_and_social_services",
+                "name": "Community and Social Services",
+                "size": "Size: 9,747,670",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-companies_founded_before_2000",
+                "name": "Companies founded before 2000",
+                "size": "Size: 982,345",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-companies_founded_between_2000_and_2009",
+                "name": "Companies founded between 2000 and 2009",
+                "size": "Size: 1,025,383",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-companies_founded_between_2010_and_now",
+                "name": "Companies founded between 2010 and now",
+                "size": "Size: 1,635,400",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-company_revenue_1m_to_10m",
+                "name": "Company revenue: $1M to $10M",
+                "size": "Size: 1,717,159",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-company_revenue_less_than_1m",
+                "name": "Company revenue: less than $1M",
+                "size": "Size: 2,609,565",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-company_revenue_more_than_10m",
+                "name": "Company revenue: more than $10M",
+                "size": "Size: 1,350,005",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-company_size_1_10_employees",
+                "name": "Company size: 1-10 employees",
+                "size": "Size: 2,593,602",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-company_size_101_500_employees",
+                "name": "Company size: 101-500 employees",
+                "size": "Size: 907,844",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-company_size_11_100_employees",
+                "name": "Company size: 11-100 employees",
+                "size": "Size: 1,660,398",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-company_size_more_than_500_employees",
+                "name": "Company size: more than 500 employees",
+                "size": "Size: 958,802",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-computation_and_mathematics",
+                "name": "Computation and Mathematics",
+                "size": "Size: 5,711,659",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-construction_and_extraction",
+                "name": "Construction and Extraction",
+                "size": "Size: 4,799,739",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-education_and_libraries",
+                "name": "Education and Libraries",
+                "size": "Size: 12,621,026",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-farming_fishing_and_forestry",
+                "name": "Farming, Fishing and Forestry",
+                "size": "Size: 4,717,522",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-food_and_restaurants",
+                "name": "Food and Restaurants",
+                "size": "Size: 5,253,187",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-government_employees_global",
+                "name": "Government Employees (Global)",
+                "size": "Size: 1,020,445",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-healthcare_and_medical_services",
+                "name": "Healthcare and Medical Services",
+                "size": "Size: 12,046,853",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-it_decision_makers",
+                "name": "IT Decision Makers",
+                "size": "Size: 16,715",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-it_and_technical_services",
+                "name": "IT and Technical Services",
+                "size": "Size: 7,823,906",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-installation_and_repair_services",
+                "name": "Installation and Repair Services",
+                "size": "Size: 7,602,859",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-legal_services",
+                "name": "Legal Services",
+                "size": "Size: 1,168,766",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-life_physical_and_social_sciences",
+                "name": "Life, Physical and Social Sciences",
+                "size": "Size: 4,310,534",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-management",
+                "name": "Management",
+                "size": "Size: 21,480,879",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-medium_business_to_business_enterprise_employees_200_500_employees",
+                "name": "Medium business-to-business enterprise employees (200 - 500 employees)",
+                "size": "Size: 46,082,750",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-military_global",
+                "name": "Military (Global)",
+                "size": "Size: 796,798",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-production",
+                "name": "Production",
+                "size": "Size: 13,255,552",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-protective_services",
+                "name": "Protective Services",
+                "size": "Size: 2,634,512",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-sales",
+                "name": "Sales",
+                "size": "Size: 16,969,178",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-small_business_to_business_enterprise_employees_10_200_employees",
+                "name": "Small business-to-business enterprise employees (10-200 employees)",
+                "size": "Size: 122,668,512",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-transportation_and_moving",
+                "name": "Transportation and Moving",
+                "size": "Size: 7,332,642",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              },
+              {
+                "id": "demographics-work-industries-veterans_us",
+                "name": "Veterans (US)",
+                "size": "Size: 1,196,907",
+                "level": 4,
+                "parent_id": "demographics-work-industries",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "demographics-work-job_titles",
+            "name": "Job Titles",
+            "size": "",
+            "level": 3,
+            "parent_id": "demographics-work",
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "interests",
+    "name": "Interests",
+    "size": "",
+    "level": 1,
+    "parent_id": null,
+    "children": [
+      {
+        "id": "interests-business_and_industry",
+        "name": "Business and industry",
+        "size": "",
+        "level": 2,
+        "parent_id": "interests",
+        "children": [
+          {
+            "id": "interests-business_and_industry-advertising_marketing",
+            "name": "Advertising (marketing)",
+            "size": "Size: 825,015,499",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": []
+          },
+          {
+            "id": "interests-business_and_industry-agriculture_industry",
+            "name": "Agriculture (industry)",
+            "size": "Size: 557,431,852",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": []
+          },
+          {
+            "id": "interests-business_and_industry-architecture_architecture",
+            "name": "Architecture (architecture)",
+            "size": "Size: 612,375,653",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": []
+          },
+          {
+            "id": "interests-business_and_industry-aviation_air_travel",
+            "name": "Aviation (air travel)",
+            "size": "Size: 337,914,903",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": []
+          },
+          {
+            "id": "interests-business_and_industry-banking_finance",
+            "name": "Banking (finance)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": [
+              {
+                "id": "interests-business_and_industry-banking_finance-investment_banking_banking",
+                "name": "Investment banking (banking)",
+                "size": "Size: 308,824,957",
+                "level": 4,
+                "parent_id": "interests-business_and_industry-banking_finance",
+                "children": []
+              },
+              {
+                "id": "interests-business_and_industry-banking_finance-online_banking_banking",
+                "name": "Online banking (banking)",
+                "size": "Size: 330,938,780",
+                "level": 4,
+                "parent_id": "interests-business_and_industry-banking_finance",
+                "children": []
+              },
+              {
+                "id": "interests-business_and_industry-banking_finance-retail_banking_banking",
+                "name": "Retail banking (banking)",
+                "size": "Size: 191,394,767",
+                "level": 4,
+                "parent_id": "interests-business_and_industry-banking_finance",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-business_and_industry-business_business_finance",
+            "name": "Business (business & finance)",
+            "size": "Size: 1,093,030,857",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": []
+          },
+          {
+            "id": "interests-business_and_industry-construction_industry",
+            "name": "Construction (industry)",
+            "size": "Size: 697,305,938",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": []
+          },
+          {
+            "id": "interests-business_and_industry-design_design",
+            "name": "Design (design)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": [
+              {
+                "id": "interests-business_and_industry-design_design-fashion_design_design",
+                "name": "Fashion design (design)",
+                "size": "Size: 560,182,793",
+                "level": 4,
+                "parent_id": "interests-business_and_industry-design_design",
+                "children": []
+              },
+              {
+                "id": "interests-business_and_industry-design_design-graphic_design_visual_art",
+                "name": "Graphic design (visual art)",
+                "size": "Size: 362,634,164",
+                "level": 4,
+                "parent_id": "interests-business_and_industry-design_design",
+                "children": []
+              },
+              {
+                "id": "interests-business_and_industry-design_design-interior_design_design",
+                "name": "Interior design (design)",
+                "size": "Size: 829,817,005",
+                "level": 4,
+                "parent_id": "interests-business_and_industry-design_design",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-business_and_industry-economics_economics",
+            "name": "Economics (economics)",
+            "size": "Size: 431,591,372",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": []
+          },
+          {
+            "id": "interests-business_and_industry-engineering_science",
+            "name": "Engineering (science)",
+            "size": "Size: 655,401,416",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": []
+          },
+          {
+            "id": "interests-business_and_industry-entrepreneurship_business_finance",
+            "name": "Entrepreneurship (business & finance)",
+            "size": "Size: 840,307,863",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": []
+          },
+          {
+            "id": "interests-business_and_industry-higher_education_education",
+            "name": "Higher education (education)",
+            "size": "Size: 590,998,523",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": []
+          },
+          {
+            "id": "interests-business_and_industry-management_business_finance",
+            "name": "Management (business & finance)",
+            "size": "Size: 473,489,399",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": []
+          },
+          {
+            "id": "interests-business_and_industry-marketing_business_finance",
+            "name": "Marketing (business & finance)",
+            "size": "Size: 743,863,085",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": []
+          },
+          {
+            "id": "interests-business_and_industry-online_computing",
+            "name": "Online (computing)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": [
+              {
+                "id": "interests-business_and_industry-online_computing-digital_marketing_marketing",
+                "name": "Digital marketing (marketing)",
+                "size": "Size: 413,682,791",
+                "level": 4,
+                "parent_id": "interests-business_and_industry-online_computing",
+                "children": []
+              },
+              {
+                "id": "interests-business_and_industry-online_computing-email_marketing_marketing",
+                "name": "Email marketing (marketing)",
+                "size": "Size: 314,234,971",
+                "level": 4,
+                "parent_id": "interests-business_and_industry-online_computing",
+                "children": []
+              },
+              {
+                "id": "interests-business_and_industry-online_computing-online_advertising_marketing",
+                "name": "Online advertising (marketing)",
+                "size": "Size: 719,811,592",
+                "level": 4,
+                "parent_id": "interests-business_and_industry-online_computing",
+                "children": []
+              },
+              {
+                "id": "interests-business_and_industry-online_computing-search_engine_optimization_software",
+                "name": "Search engine optimization (software)",
+                "size": "Size: 193,594,244",
+                "level": 4,
+                "parent_id": "interests-business_and_industry-online_computing",
+                "children": []
+              },
+              {
+                "id": "interests-business_and_industry-online_computing-social_media_online_media",
+                "name": "Social media (online media)",
+                "size": "Size: 1,007,367,647",
+                "level": 4,
+                "parent_id": "interests-business_and_industry-online_computing",
+                "children": []
+              },
+              {
+                "id": "interests-business_and_industry-online_computing-social_media_marketing_marketing",
+                "name": "Social media marketing (marketing)",
+                "size": "Size: 333,076,318",
+                "level": 4,
+                "parent_id": "interests-business_and_industry-online_computing",
+                "children": []
+              },
+              {
+                "id": "interests-business_and_industry-online_computing-web_design_websites",
+                "name": "Web design (websites)",
+                "size": "Size: 211,792,897",
+                "level": 4,
+                "parent_id": "interests-business_and_industry-online_computing",
+                "children": []
+              },
+              {
+                "id": "interests-business_and_industry-online_computing-web_development_websites",
+                "name": "Web development (websites)",
+                "size": "Size: 230,175,865",
+                "level": 4,
+                "parent_id": "interests-business_and_industry-online_computing",
+                "children": []
+              },
+              {
+                "id": "interests-business_and_industry-online_computing-web_hosting_computing",
+                "name": "Web hosting (computing)",
+                "size": "Size: 207,884,096",
+                "level": 4,
+                "parent_id": "interests-business_and_industry-online_computing",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-business_and_industry-personal_finance_banking",
+            "name": "Personal finance (banking)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": [
+              {
+                "id": "interests-business_and_industry-personal_finance_banking-credit_cards_credit_lending",
+                "name": "Credit cards (credit & lending)",
+                "size": "Size: 464,498,275",
+                "level": 4,
+                "parent_id": "interests-business_and_industry-personal_finance_banking",
+                "children": []
+              },
+              {
+                "id": "interests-business_and_industry-personal_finance_banking-insurance_business_finance",
+                "name": "Insurance (business & finance)",
+                "size": "Size: 362,310,222",
+                "level": 4,
+                "parent_id": "interests-business_and_industry-personal_finance_banking",
+                "children": []
+              },
+              {
+                "id": "interests-business_and_industry-personal_finance_banking-investment_business_finance",
+                "name": "Investment (business & finance)",
+                "size": "Size: 675,685,119",
+                "level": 4,
+                "parent_id": "interests-business_and_industry-personal_finance_banking",
+                "children": []
+              },
+              {
+                "id": "interests-business_and_industry-personal_finance_banking-mortgage_loans_banking",
+                "name": "Mortgage loans (banking)",
+                "size": "Size: 312,965,263",
+                "level": 4,
+                "parent_id": "interests-business_and_industry-personal_finance_banking",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-business_and_industry-real_estate_industry",
+            "name": "Real estate (industry)",
+            "size": "Size: 681,925,213",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": []
+          },
+          {
+            "id": "interests-business_and_industry-retail_industry",
+            "name": "Retail (industry)",
+            "size": "Size: 821,392,816",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": []
+          },
+          {
+            "id": "interests-business_and_industry-sales_business_finance",
+            "name": "Sales (business & finance)",
+            "size": "Size: 633,928,324",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": []
+          },
+          {
+            "id": "interests-business_and_industry-science_science",
+            "name": "Science (science)",
+            "size": "Size: 683,283,398",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": []
+          },
+          {
+            "id": "interests-business_and_industry-small_business_business_finance",
+            "name": "Small business (business & finance)",
+            "size": "Size: 638,739,573",
+            "level": 3,
+            "parent_id": "interests-business_and_industry",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "interests-entertainment",
+        "name": "Entertainment",
+        "size": "",
+        "level": 2,
+        "parent_id": "interests",
+        "children": [
+          {
+            "id": "interests-entertainment-games_leisure",
+            "name": "Games (leisure)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-entertainment",
+            "children": [
+              {
+                "id": "interests-entertainment-games_leisure-action_games_video_games",
+                "name": "Action games (video games)",
+                "size": "Size: 379,404,892",
+                "level": 4,
+                "parent_id": "interests-entertainment-games_leisure",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-games_leisure-board_games_games",
+                "name": "Board games (games)",
+                "size": "Size: 350,941,338",
+                "level": 4,
+                "parent_id": "interests-entertainment-games_leisure",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-games_leisure-browser_games_video_games",
+                "name": "Browser games (video games)",
+                "size": "Size: 165,366,239",
+                "level": 4,
+                "parent_id": "interests-entertainment-games_leisure",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-games_leisure-card_games_games",
+                "name": "Card games (games)",
+                "size": "Size: 497,965,503",
+                "level": 4,
+                "parent_id": "interests-entertainment-games_leisure",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-games_leisure-casino_games_gambling",
+                "name": "Casino games (gambling)",
+                "size": "Size: 297,330,948",
+                "level": 4,
+                "parent_id": "interests-entertainment-games_leisure",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-games_leisure-first_person_shooter_games_video_games",
+                "name": "First-person shooter games (video games)",
+                "size": "Size: 239,527,689",
+                "level": 4,
+                "parent_id": "interests-entertainment-games_leisure",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-games_leisure-gambling_gambling",
+                "name": "Gambling (gambling)",
+                "size": "Size: 345,528,336",
+                "level": 4,
+                "parent_id": "interests-entertainment-games_leisure",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-games_leisure-massively_multiplayer_online_games_video_games",
+                "name": "Massively multiplayer online games (video games)",
+                "size": "Size: 383,429,518",
+                "level": 4,
+                "parent_id": "interests-entertainment-games_leisure",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-games_leisure-massively_multiplayer_online_role_playing_games_video_games",
+                "name": "Massively multiplayer online role-playing games (video games)",
+                "size": "Size: 272,927,784",
+                "level": 4,
+                "parent_id": "interests-entertainment-games_leisure",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-games_leisure-online_games_video_games",
+                "name": "Online games (video games)",
+                "size": "Size: 450,221,680",
+                "level": 4,
+                "parent_id": "interests-entertainment-games_leisure",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-games_leisure-online_poker_gambling",
+                "name": "Online poker (gambling)",
+                "size": "Size: 377,919,154",
+                "level": 4,
+                "parent_id": "interests-entertainment-games_leisure",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-games_leisure-puzzle_video_games_video_games",
+                "name": "Puzzle video games (video games)",
+                "size": "Size: 386,904,636",
+                "level": 4,
+                "parent_id": "interests-entertainment-games_leisure",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-games_leisure-racing_games_video_game",
+                "name": "Racing games (video game)",
+                "size": "Size: 260,557,394",
+                "level": 4,
+                "parent_id": "interests-entertainment-games_leisure",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-games_leisure-role_playing_games_video_games",
+                "name": "Role-playing games (video games)",
+                "size": "Size: 409,424,902",
+                "level": 4,
+                "parent_id": "interests-entertainment-games_leisure",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-games_leisure-simulation_games_video_games",
+                "name": "Simulation games (video games)",
+                "size": "Size: 308,100,456",
+                "level": 4,
+                "parent_id": "interests-entertainment-games_leisure",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-games_leisure-sports_games_video_games",
+                "name": "Sports games (video games)",
+                "size": "Size: 330,485,415",
+                "level": 4,
+                "parent_id": "interests-entertainment-games_leisure",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-games_leisure-strategy_games_games",
+                "name": "Strategy games (games)",
+                "size": "Size: 301,887,880",
+                "level": 4,
+                "parent_id": "interests-entertainment-games_leisure",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-games_leisure-video_games_gaming",
+                "name": "Video games (gaming)",
+                "size": "Size: 923,680,518",
+                "level": 4,
+                "parent_id": "interests-entertainment-games_leisure",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-games_leisure-word_games_games",
+                "name": "Word games (games)",
+                "size": "Size: 187,176,152",
+                "level": 4,
+                "parent_id": "interests-entertainment-games_leisure",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-entertainment-live_events_entertainment",
+            "name": "Live events (entertainment)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-entertainment",
+            "children": [
+              {
+                "id": "interests-entertainment-live_events_entertainment-ballet_dance",
+                "name": "Ballet (dance)",
+                "size": "Size: 386,458,829",
+                "level": 4,
+                "parent_id": "interests-entertainment-live_events_entertainment",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-live_events_entertainment-bars_bars_clubs_nightlife",
+                "name": "Bars (bars, clubs & nightlife)",
+                "size": "Size: 494,315,102",
+                "level": 4,
+                "parent_id": "interests-entertainment-live_events_entertainment",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-live_events_entertainment-concerts_music_event",
+                "name": "Concerts (music event)",
+                "size": "Size: 613,332,916",
+                "level": 4,
+                "parent_id": "interests-entertainment-live_events_entertainment",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-live_events_entertainment-dancehalls_music",
+                "name": "Dancehalls (music)",
+                "size": "Size: 443,601,644",
+                "level": 4,
+                "parent_id": "interests-entertainment-live_events_entertainment",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-live_events_entertainment-music_festivals_events",
+                "name": "Music festivals (events)",
+                "size": "Size: 743,835,278",
+                "level": 4,
+                "parent_id": "interests-entertainment-live_events_entertainment",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-live_events_entertainment-nightclubs_bars_clubs_nightlife",
+                "name": "Nightclubs (bars, clubs & nightlife)",
+                "size": "Size: 390,438,656",
+                "level": 4,
+                "parent_id": "interests-entertainment-live_events_entertainment",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-live_events_entertainment-parties_event",
+                "name": "Parties (event)",
+                "size": "Size: 702,710,784",
+                "level": 4,
+                "parent_id": "interests-entertainment-live_events_entertainment",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-live_events_entertainment-plays_performing_arts",
+                "name": "Plays (performing arts)",
+                "size": "Size: 471,317,801",
+                "level": 4,
+                "parent_id": "interests-entertainment-live_events_entertainment",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-live_events_entertainment-theatre_performing_arts",
+                "name": "Theatre (performing arts)",
+                "size": "Size: 417,045,446",
+                "level": 4,
+                "parent_id": "interests-entertainment-live_events_entertainment",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-entertainment-movies_entertainment_media",
+            "name": "Movies (entertainment & media)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-entertainment",
+            "children": [
+              {
+                "id": "interests-entertainment-movies_entertainment_media-action_movies_movies",
+                "name": "Action movies (movies)",
+                "size": "Size: 578,880,666",
+                "level": 4,
+                "parent_id": "interests-entertainment-movies_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-movies_entertainment_media-animated_movies_movies",
+                "name": "Animated movies (movies)",
+                "size": "Size: 521,458,938",
+                "level": 4,
+                "parent_id": "interests-entertainment-movies_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-movies_entertainment_media-anime_movies_movies",
+                "name": "Anime movies (movies)",
+                "size": "Size: 640,121,949",
+                "level": 4,
+                "parent_id": "interests-entertainment-movies_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-movies_entertainment_media-bollywood_movies_movies",
+                "name": "Bollywood movies (movies)",
+                "size": "Size: 600,062,630",
+                "level": 4,
+                "parent_id": "interests-entertainment-movies_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-movies_entertainment_media-comedy_movies_movies",
+                "name": "Comedy movies (movies)",
+                "size": "Size: 722,722,274",
+                "level": 4,
+                "parent_id": "interests-entertainment-movies_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-movies_entertainment_media-documentary_movies_movies",
+                "name": "Documentary movies (movies)",
+                "size": "Size: 452,082,380",
+                "level": 4,
+                "parent_id": "interests-entertainment-movies_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-movies_entertainment_media-drama_movies_movies",
+                "name": "Drama movies (movies)",
+                "size": "Size: 771,405,227",
+                "level": 4,
+                "parent_id": "interests-entertainment-movies_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-movies_entertainment_media-horror_movies_movies",
+                "name": "Horror movies (movies)",
+                "size": "Size: 700,373,992",
+                "level": 4,
+                "parent_id": "interests-entertainment-movies_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-movies_entertainment_media-musical_theatre_performing_arts",
+                "name": "Musical theatre (performing arts)",
+                "size": "Size: 522,591,168",
+                "level": 4,
+                "parent_id": "interests-entertainment-movies_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-movies_entertainment_media-science_fiction_movies_movies",
+                "name": "Science fiction movies (movies)",
+                "size": "Size: 438,102,302",
+                "level": 4,
+                "parent_id": "interests-entertainment-movies_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-movies_entertainment_media-thriller_movies_movies",
+                "name": "Thriller movies (movies)",
+                "size": "Size: 520,852,761",
+                "level": 4,
+                "parent_id": "interests-entertainment-movies_entertainment_media",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-entertainment-music_entertainment_media",
+            "name": "Music (entertainment & media)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-entertainment",
+            "children": [
+              {
+                "id": "interests-entertainment-music_entertainment_media-blues_music_music",
+                "name": "Blues music (music)",
+                "size": "Size: 382,766,143",
+                "level": 4,
+                "parent_id": "interests-entertainment-music_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-music_entertainment_media-classical_music_music",
+                "name": "Classical music (music)",
+                "size": "Size: 607,871,687",
+                "level": 4,
+                "parent_id": "interests-entertainment-music_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-music_entertainment_media-country_music_music",
+                "name": "Country music (music)",
+                "size": "Size: 325,412,774",
+                "level": 4,
+                "parent_id": "interests-entertainment-music_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-music_entertainment_media-dance_music_music",
+                "name": "Dance music (music)",
+                "size": "Size: 590,345,366",
+                "level": 4,
+                "parent_id": "interests-entertainment-music_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-music_entertainment_media-electronic_music_music",
+                "name": "Electronic music (music)",
+                "size": "Size: 402,330,543",
+                "level": 4,
+                "parent_id": "interests-entertainment-music_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-music_entertainment_media-heavy_metal_music_music",
+                "name": "Heavy metal music (music)",
+                "size": "Size: 529,629,586",
+                "level": 4,
+                "parent_id": "interests-entertainment-music_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-music_entertainment_media-hip_hop_music_music",
+                "name": "Hip hop music (music)",
+                "size": "Size: 621,880,542",
+                "level": 4,
+                "parent_id": "interests-entertainment-music_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-music_entertainment_media-jazz_music_music",
+                "name": "Jazz music (music)",
+                "size": "Size: 511,110,783",
+                "level": 4,
+                "parent_id": "interests-entertainment-music_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-music_entertainment_media-music_videos_entertainment_media",
+                "name": "Music videos (entertainment & media)",
+                "size": "Size: 464,472,096",
+                "level": 4,
+                "parent_id": "interests-entertainment-music_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-music_entertainment_media-pop_music_music",
+                "name": "Pop music (music)",
+                "size": "Size: 641,168,704",
+                "level": 4,
+                "parent_id": "interests-entertainment-music_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-music_entertainment_media-rhythm_and_blues_music_music",
+                "name": "Rhythm and blues music (music)",
+                "size": "Size: 474,939,554",
+                "level": 4,
+                "parent_id": "interests-entertainment-music_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-music_entertainment_media-rock_music_music",
+                "name": "Rock music (music)",
+                "size": "Size: 614,874,694",
+                "level": 4,
+                "parent_id": "interests-entertainment-music_entertainment_media",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-music_entertainment_media-soul_music_music",
+                "name": "Soul music (music)",
+                "size": "Size: 447,861,157",
+                "level": 4,
+                "parent_id": "interests-entertainment-music_entertainment_media",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-entertainment-reading_communication",
+            "name": "Reading (communication)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-entertainment",
+            "children": [
+              {
+                "id": "interests-entertainment-reading_communication-books_publications",
+                "name": "Books (publications)",
+                "size": "Size: 663,433,194",
+                "level": 4,
+                "parent_id": "interests-entertainment-reading_communication",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-reading_communication-comics_comics_cartoons",
+                "name": "Comics (comics & cartoons)",
+                "size": "Size: 567,268,258",
+                "level": 4,
+                "parent_id": "interests-entertainment-reading_communication",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-reading_communication-e_books_publications",
+                "name": "E-books (publications)",
+                "size": "Size: 614,523,162",
+                "level": 4,
+                "parent_id": "interests-entertainment-reading_communication",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-reading_communication-fiction_books_publications",
+                "name": "Fiction books (publications)",
+                "size": "Size: 625,852,629",
+                "level": 4,
+                "parent_id": "interests-entertainment-reading_communication",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-reading_communication-literature_publications",
+                "name": "Literature (publications)",
+                "size": "Size: 463,506,330",
+                "level": 4,
+                "parent_id": "interests-entertainment-reading_communication",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-reading_communication-magazines_publications",
+                "name": "Magazines (publications)",
+                "size": "Size: 521,714,379",
+                "level": 4,
+                "parent_id": "interests-entertainment-reading_communication",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-reading_communication-manga_anime_manga",
+                "name": "Manga (anime & manga)",
+                "size": "Size: 526,470,137",
+                "level": 4,
+                "parent_id": "interests-entertainment-reading_communication",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-reading_communication-mystery_fiction_entertainment_media",
+                "name": "Mystery fiction (entertainment & media)",
+                "size": "Size: 190,745,179",
+                "level": 4,
+                "parent_id": "interests-entertainment-reading_communication",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-reading_communication-newspapers_publications",
+                "name": "Newspapers (publications)",
+                "size": "Size: 647,361,126",
+                "level": 4,
+                "parent_id": "interests-entertainment-reading_communication",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-reading_communication-non_fiction_books_publications",
+                "name": "Non-fiction books (publications)",
+                "size": "Size: 287,299,482",
+                "level": 4,
+                "parent_id": "interests-entertainment-reading_communication",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-reading_communication-romance_novels_publications",
+                "name": "Romance novels (publications)",
+                "size": "Size: 318,478,394",
+                "level": 4,
+                "parent_id": "interests-entertainment-reading_communication",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-entertainment-tv_movies_television",
+            "name": "TV (movies & television)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-entertainment",
+            "children": [
+              {
+                "id": "interests-entertainment-tv_movies_television-tv_game_shows_television_show",
+                "name": "TV game shows (television show)",
+                "size": "Size: 327,118,097",
+                "level": 4,
+                "parent_id": "interests-entertainment-tv_movies_television",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-tv_movies_television-tv_reality_shows_movies_television",
+                "name": "TV reality shows (movies & television)",
+                "size": "Size: 749,241,703",
+                "level": 4,
+                "parent_id": "interests-entertainment-tv_movies_television",
+                "children": []
+              },
+              {
+                "id": "interests-entertainment-tv_movies_television-tv_talkshows_television_show",
+                "name": "TV talkshows (television show)",
+                "size": "Size: 344,194,170",
+                "level": 4,
+                "parent_id": "interests-entertainment-tv_movies_television",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "interests-family_and_relationships",
+        "name": "Family and relationships",
+        "size": "",
+        "level": 2,
+        "parent_id": "interests",
+        "children": [
+          {
+            "id": "interests-family_and_relationships-family_social_concept",
+            "name": "Family (social concept)",
+            "size": "Size: 885,165,196",
+            "level": 3,
+            "parent_id": "interests-family_and_relationships",
+            "children": []
+          },
+          {
+            "id": "interests-family_and_relationships-fatherhood_children_parenting",
+            "name": "Fatherhood (children & parenting)",
+            "size": "Size: 384,175,181",
+            "level": 3,
+            "parent_id": "interests-family_and_relationships",
+            "children": []
+          },
+          {
+            "id": "interests-family_and_relationships-friendship_relationships",
+            "name": "Friendship (relationships)",
+            "size": "Size: 337,688,177",
+            "level": 3,
+            "parent_id": "interests-family_and_relationships",
+            "children": []
+          },
+          {
+            "id": "interests-family_and_relationships-marriage_weddings",
+            "name": "Marriage (weddings)",
+            "size": "Size: 512,723,334",
+            "level": 3,
+            "parent_id": "interests-family_and_relationships",
+            "children": []
+          },
+          {
+            "id": "interests-family_and_relationships-motherhood_children_parenting",
+            "name": "Motherhood (children & parenting)",
+            "size": "Size: 668,298,819",
+            "level": 3,
+            "parent_id": "interests-family_and_relationships",
+            "children": []
+          },
+          {
+            "id": "interests-family_and_relationships-parenting_children_parenting",
+            "name": "Parenting (children & parenting)",
+            "size": "Size: 680,584,748",
+            "level": 3,
+            "parent_id": "interests-family_and_relationships",
+            "children": []
+          },
+          {
+            "id": "interests-family_and_relationships-weddings_weddings",
+            "name": "Weddings (weddings)",
+            "size": "Size: 684,713,438",
+            "level": 3,
+            "parent_id": "interests-family_and_relationships",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "interests-fitness_and_wellness",
+        "name": "Fitness and wellness",
+        "size": "",
+        "level": 2,
+        "parent_id": "interests",
+        "children": [
+          {
+            "id": "interests-fitness_and_wellness-bodybuilding_sport",
+            "name": "Bodybuilding (sport)",
+            "size": "Size: 417,546,693",
+            "level": 3,
+            "parent_id": "interests-fitness_and_wellness",
+            "children": []
+          },
+          {
+            "id": "interests-fitness_and_wellness-physical_exercise_fitness",
+            "name": "Physical exercise (fitness)",
+            "size": "Size: 820,580,574",
+            "level": 3,
+            "parent_id": "interests-fitness_and_wellness",
+            "children": []
+          },
+          {
+            "id": "interests-fitness_and_wellness-physical_fitness_fitness",
+            "name": "Physical fitness (fitness)",
+            "size": "Size: 970,573,840",
+            "level": 3,
+            "parent_id": "interests-fitness_and_wellness",
+            "children": []
+          },
+          {
+            "id": "interests-fitness_and_wellness-running_sport",
+            "name": "Running (sport)",
+            "size": "Size: 536,162,007",
+            "level": 3,
+            "parent_id": "interests-fitness_and_wellness",
+            "children": []
+          },
+          {
+            "id": "interests-fitness_and_wellness-weight_training_weightlifting",
+            "name": "Weight training (weightlifting)",
+            "size": "Size: 465,156,369",
+            "level": 3,
+            "parent_id": "interests-fitness_and_wellness",
+            "children": []
+          },
+          {
+            "id": "interests-fitness_and_wellness-yoga_fitness",
+            "name": "Yoga (fitness)",
+            "size": "Size: 521,668,244",
+            "level": 3,
+            "parent_id": "interests-fitness_and_wellness",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "interests-food_and_drink",
+        "name": "Food and drink",
+        "size": "",
+        "level": 2,
+        "parent_id": "interests",
+        "children": [
+          {
+            "id": "interests-food_and_drink-alcoholic_beverages_food_drink",
+            "name": "Alcoholic beverages (food & drink)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-food_and_drink",
+            "children": [
+              {
+                "id": "interests-food_and_drink-alcoholic_beverages_food_drink-beer_alcoholic_drinks",
+                "name": "Beer (alcoholic drinks)",
+                "size": "Size: 396,605,417",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-alcoholic_beverages_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-alcoholic_beverages_food_drink-distilled_beverage_liquor",
+                "name": "Distilled beverage (liquor)",
+                "size": "Size: 306,052,701",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-alcoholic_beverages_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-alcoholic_beverages_food_drink-wine_alcoholic_drinks",
+                "name": "Wine (alcoholic drinks)",
+                "size": "Size: 369,012,112",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-alcoholic_beverages_food_drink",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-food_and_drink-beverages_food_drink",
+            "name": "Beverages (food & drink)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-food_and_drink",
+            "children": [
+              {
+                "id": "interests-food_and_drink-beverages_food_drink-coffee_food_drink",
+                "name": "Coffee (food & drink)",
+                "size": "Size: 522,538,424",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-beverages_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-beverages_food_drink-energy_drinks_nonalcoholic_beverage",
+                "name": "Energy drinks (nonalcoholic beverage)",
+                "size": "Size: 241,108,377",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-beverages_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-beverages_food_drink-juice_nonalcoholic_beverage",
+                "name": "Juice (nonalcoholic beverage)",
+                "size": "Size: 338,157,298",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-beverages_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-beverages_food_drink-soft_drinks_nonalcoholic_beverage",
+                "name": "Soft drinks (nonalcoholic beverage)",
+                "size": "Size: 391,467,566",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-beverages_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-beverages_food_drink-tea_nonalcoholic_beverage",
+                "name": "Tea (nonalcoholic beverage)",
+                "size": "Size: 349,300,925",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-beverages_food_drink",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-food_and_drink-cooking_food_drink",
+            "name": "Cooking (food & drink)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-food_and_drink",
+            "children": [
+              {
+                "id": "interests-food_and_drink-cooking_food_drink-baking_cooking",
+                "name": "Baking (cooking)",
+                "size": "Size: 418,268,634",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-cooking_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-cooking_food_drink-recipes_food_drink",
+                "name": "Recipes (food & drink)",
+                "size": "Size: 857,748,854",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-cooking_food_drink",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-food_and_drink-cuisine_food_drink",
+            "name": "Cuisine (food & drink)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-food_and_drink",
+            "children": [
+              {
+                "id": "interests-food_and_drink-cuisine_food_drink-chinese_cuisine_food_drink",
+                "name": "Chinese cuisine (food & drink)",
+                "size": "Size: 385,002,175",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-cuisine_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-cuisine_food_drink-french_cuisine_food_drink",
+                "name": "French cuisine (food & drink)",
+                "size": "Size: 222,524,996",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-cuisine_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-cuisine_food_drink-german_cuisine_food_drink",
+                "name": "German cuisine (food & drink)",
+                "size": "Size: 158,243,214",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-cuisine_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-cuisine_food_drink-greek_cuisine_food_drink",
+                "name": "Greek cuisine (food & drink)",
+                "size": "Size: 155,302,999",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-cuisine_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-cuisine_food_drink-indian_cuisine_food_drink",
+                "name": "Indian cuisine (food & drink)",
+                "size": "Size: 284,762,131",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-cuisine_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-cuisine_food_drink-italian_cuisine_food_drink",
+                "name": "Italian cuisine (food & drink)",
+                "size": "Size: 465,916,284",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-cuisine_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-cuisine_food_drink-japanese_cuisine_food_drink",
+                "name": "Japanese cuisine (food & drink)",
+                "size": "Size: 414,744,389",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-cuisine_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-cuisine_food_drink-korean_cuisine_food_drink",
+                "name": "Korean cuisine (food & drink)",
+                "size": "Size: 384,534,145",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-cuisine_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-cuisine_food_drink-latin_american_cuisine_food_drink",
+                "name": "Latin American cuisine (food & drink)",
+                "size": "Size: 176,254,462",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-cuisine_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-cuisine_food_drink-mexican_cuisine_food_drink",
+                "name": "Mexican cuisine (food & drink)",
+                "size": "Size: 243,901,990",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-cuisine_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-cuisine_food_drink-middle_eastern_cuisine_food_drink",
+                "name": "Middle Eastern cuisine (food & drink)",
+                "size": "Size: 185,507,946",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-cuisine_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-cuisine_food_drink-spanish_cuisine_food_drink",
+                "name": "Spanish cuisine (food & drink)",
+                "size": "Size: 176,752,224",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-cuisine_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-cuisine_food_drink-thai_cuisine_food_drink",
+                "name": "Thai cuisine (food & drink)",
+                "size": "Size: 217,337,274",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-cuisine_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-cuisine_food_drink-vietnamese_cuisine_food_drink",
+                "name": "Vietnamese cuisine (food & drink)",
+                "size": "Size: 222,888,320",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-cuisine_food_drink",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-food_and_drink-food_food_drink",
+            "name": "Food (food & drink)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-food_and_drink",
+            "children": [
+              {
+                "id": "interests-food_and_drink-food_food_drink-barbecue_cooking",
+                "name": "Barbecue (cooking)",
+                "size": "Size: 379,457,325",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-food_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-food_food_drink-chocolate_food_drink",
+                "name": "Chocolate (food & drink)",
+                "size": "Size: 393,053,613",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-food_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-food_food_drink-desserts_food_drink",
+                "name": "Desserts (food & drink)",
+                "size": "Size: 480,351,659",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-food_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-food_food_drink-fast_food_food_drink",
+                "name": "Fast food (food & drink)",
+                "size": "Size: 531,990,334",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-food_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-food_food_drink-organic_food_food_drink",
+                "name": "Organic food (food & drink)",
+                "size": "Size: 476,221,696",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-food_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-food_food_drink-pizza_food_drink",
+                "name": "Pizza (food & drink)",
+                "size": "Size: 183,904,910",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-food_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-food_food_drink-seafood_food_drink",
+                "name": "Seafood (food & drink)",
+                "size": "Size: 145,015,366",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-food_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-food_food_drink-veganism_diets",
+                "name": "Veganism (diets)",
+                "size": "Size: 294,509,119",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-food_food_drink",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-food_food_drink-vegetarianism_diets",
+                "name": "Vegetarianism (diets)",
+                "size": "Size: 472,048,154",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-food_food_drink",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-food_and_drink-restaurants_dining",
+            "name": "Restaurants (dining)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-food_and_drink",
+            "children": [
+              {
+                "id": "interests-food_and_drink-restaurants_dining-coffeehouses_coffee",
+                "name": "Coffeehouses (coffee)",
+                "size": "Size: 423,458,842",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-restaurants_dining",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-restaurants_dining-diners_restaurant",
+                "name": "Diners (restaurant)",
+                "size": "Size: 316,543,073",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-restaurants_dining",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-restaurants_dining-fast_casual_restaurants_restaurant",
+                "name": "Fast casual restaurants (restaurant)",
+                "size": "Size: 360,774,507",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-restaurants_dining",
+                "children": []
+              },
+              {
+                "id": "interests-food_and_drink-restaurants_dining-fast_food_restaurants_dining",
+                "name": "Fast food restaurants (dining)",
+                "size": "Size: 415,031,313",
+                "level": 4,
+                "parent_id": "interests-food_and_drink-restaurants_dining",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "interests-hobbies_and_activities",
+        "name": "Hobbies and activities",
+        "size": "",
+        "level": 2,
+        "parent_id": "interests",
+        "children": [
+          {
+            "id": "interests-hobbies_and_activities-arts_and_music_art",
+            "name": "Arts and music (art)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-hobbies_and_activities",
+            "children": [
+              {
+                "id": "interests-hobbies_and_activities-arts_and_music_art-acting_performing_arts",
+                "name": "Acting (performing arts)",
+                "size": "Size: 573,400,352",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-arts_and_music_art",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-arts_and_music_art-crafts_hobbies",
+                "name": "Crafts (hobbies)",
+                "size": "Size: 675,141,540",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-arts_and_music_art",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-arts_and_music_art-dance_art",
+                "name": "Dance (art)",
+                "size": "Size: 550,160,077",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-arts_and_music_art",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-arts_and_music_art-drawing_visual_art",
+                "name": "Drawing (visual art)",
+                "size": "Size: 308,376,386",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-arts_and_music_art",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-arts_and_music_art-drums_instruments",
+                "name": "Drums (instruments)",
+                "size": "Size: 212,583,280",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-arts_and_music_art",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-arts_and_music_art-fine_art_visual_art",
+                "name": "Fine art (visual art)",
+                "size": "Size: 263,354,818",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-arts_and_music_art",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-arts_and_music_art-guitar_instruments",
+                "name": "Guitar (instruments)",
+                "size": "Size: 470,019,840",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-arts_and_music_art",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-arts_and_music_art-painting_visual_art",
+                "name": "Painting (visual art)",
+                "size": "Size: 353,489,852",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-arts_and_music_art",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-arts_and_music_art-performing_arts_performing_arts",
+                "name": "Performing arts (performing arts)",
+                "size": "Size: 475,283,240",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-arts_and_music_art",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-arts_and_music_art-photography_visual_art",
+                "name": "Photography (visual art)",
+                "size": "Size: 817,714,550",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-arts_and_music_art",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-arts_and_music_art-sculpture_art",
+                "name": "Sculpture (art)",
+                "size": "Size: 207,765,763",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-arts_and_music_art",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-arts_and_music_art-singing_music",
+                "name": "Singing (music)",
+                "size": "Size: 529,731,462",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-arts_and_music_art",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-arts_and_music_art-writing_communication",
+                "name": "Writing (communication)",
+                "size": "Size: 503,566,046",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-arts_and_music_art",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-hobbies_and_activities-current_events_politics",
+            "name": "Current events (politics)",
+            "size": "Size: 996,124,330",
+            "level": 3,
+            "parent_id": "interests-hobbies_and_activities",
+            "children": []
+          },
+          {
+            "id": "interests-hobbies_and_activities-home_and_garden",
+            "name": "Home and garden",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-hobbies_and_activities",
+            "children": [
+              {
+                "id": "interests-hobbies_and_activities-home_and_garden-do_it_yourself_diy",
+                "name": "Do it yourself (DIY)",
+                "size": "Size: 488,766,278",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-home_and_garden",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-home_and_garden-furniture_home_furnishings",
+                "name": "Furniture (home furnishings)",
+                "size": "Size: 813,772,618",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-home_and_garden",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-home_and_garden-gardening_outdoor_activities",
+                "name": "Gardening (outdoor activities)",
+                "size": "Size: 464,328,049",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-home_and_garden",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-home_and_garden-home_appliances_consumer_electronics",
+                "name": "Home Appliances (consumer electronics)",
+                "size": "Size: 651,216,744",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-home_and_garden",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-home_and_garden-home_improvement_home_garden",
+                "name": "Home improvement (home & garden)",
+                "size": "Size: 772,151,983",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-home_and_garden",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-hobbies_and_activities-pets_animals",
+            "name": "Pets (animals)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-hobbies_and_activities",
+            "children": [
+              {
+                "id": "interests-hobbies_and_activities-pets_animals-birds_animals",
+                "name": "Birds (animals)",
+                "size": "Size: 238,404,064",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-pets_animals",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-pets_animals-cats_animals",
+                "name": "Cats (animals)",
+                "size": "Size: 421,195,125",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-pets_animals",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-pets_animals-dogs_animals",
+                "name": "Dogs (animals)",
+                "size": "Size: 462,135,999",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-pets_animals",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-pets_animals-fish_animals",
+                "name": "Fish (animals)",
+                "size": "Size: 398,834,022",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-pets_animals",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-pets_animals-horses_animals",
+                "name": "Horses (animals)",
+                "size": "Size: 340,710,561",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-pets_animals",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-pets_animals-pet_food_pet_supplies",
+                "name": "Pet food (pet supplies)",
+                "size": "Size: 400,573,954",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-pets_animals",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-pets_animals-rabbits_animals",
+                "name": "Rabbits (animals)",
+                "size": "Size: 167,525,099",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-pets_animals",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-pets_animals-reptiles_animals",
+                "name": "Reptiles (animals)",
+                "size": "Size: 197,680,508",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-pets_animals",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-hobbies_and_activities-politics_and_social_issues_politics",
+            "name": "Politics and social issues (politics)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-hobbies_and_activities",
+            "children": [
+              {
+                "id": "interests-hobbies_and_activities-politics_and_social_issues_politics-charity_and_causes_social_causes",
+                "name": "Charity and causes (social causes)",
+                "size": "Size: 259,780,592",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-politics_and_social_issues_politics",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-politics_and_social_issues_politics-community_issues_law_government",
+                "name": "Community issues (law & government)",
+                "size": "Size: 293,556,037",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-politics_and_social_issues_politics",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-politics_and_social_issues_politics-law_law_legal_services",
+                "name": "Law (law & legal services)",
+                "size": "Size: 441,855,180",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-politics_and_social_issues_politics",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-politics_and_social_issues_politics-politics_politics",
+                "name": "Politics (politics)",
+                "size": "Size: 545,157,579",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-politics_and_social_issues_politics",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-politics_and_social_issues_politics-volunteering_social_causes",
+                "name": "Volunteering (social causes)",
+                "size": "Size: 265,952,312",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-politics_and_social_issues_politics",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-hobbies_and_activities-travel_travel_tourism",
+            "name": "Travel (travel & tourism)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-hobbies_and_activities",
+            "children": [
+              {
+                "id": "interests-hobbies_and_activities-travel_travel_tourism-adventure_travel_travel_tourism",
+                "name": "Adventure travel (travel & tourism)",
+                "size": "Size: 661,461,571",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-travel_travel_tourism",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-travel_travel_tourism-air_travel_transportation",
+                "name": "Air travel (transportation)",
+                "size": "Size: 380,370,829",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-travel_travel_tourism",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-travel_travel_tourism-beaches_places",
+                "name": "Beaches (places)",
+                "size": "Size: 479,858,860",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-travel_travel_tourism",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-travel_travel_tourism-car_rentals_transportation",
+                "name": "Car rentals (transportation)",
+                "size": "Size: 387,302,105",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-travel_travel_tourism",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-travel_travel_tourism-cruises_travel_tourism_business",
+                "name": "Cruises (travel & tourism business)",
+                "size": "Size: 375,023,142",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-travel_travel_tourism",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-travel_travel_tourism-ecotourism_travel_tourism",
+                "name": "Ecotourism (travel & tourism)",
+                "size": "Size: 359,426,114",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-travel_travel_tourism",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-travel_travel_tourism-hotels_lodging",
+                "name": "Hotels (lodging)",
+                "size": "Size: 780,763,583",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-travel_travel_tourism",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-travel_travel_tourism-lakes_body_of_water",
+                "name": "Lakes (body of water)",
+                "size": "Size: 218,841,965",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-travel_travel_tourism",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-travel_travel_tourism-mountains_places",
+                "name": "Mountains (places)",
+                "size": "Size: 311,550,918",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-travel_travel_tourism",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-travel_travel_tourism-nature_science",
+                "name": "Nature (science)",
+                "size": "Size: 612,756,622",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-travel_travel_tourism",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-travel_travel_tourism-theme_parks_leisure",
+                "name": "Theme parks (leisure)",
+                "size": "Size: 380,249,706",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-travel_travel_tourism",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-travel_travel_tourism-tourism_industry",
+                "name": "Tourism (industry)",
+                "size": "Size: 834,224,029",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-travel_travel_tourism",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-travel_travel_tourism-vacations_social_concept",
+                "name": "Vacations (social concept)",
+                "size": "Size: 658,564,026",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-travel_travel_tourism",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-hobbies_and_activities-vehicles_transportation",
+            "name": "Vehicles (transportation)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-hobbies_and_activities",
+            "children": [
+              {
+                "id": "interests-hobbies_and_activities-vehicles_transportation-automobiles_vehicles",
+                "name": "Automobiles (vehicles)",
+                "size": "Size: 683,728,186",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-vehicles_transportation",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-vehicles_transportation-boats_watercraft",
+                "name": "Boats (watercraft)",
+                "size": "Size: 286,223,878",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-vehicles_transportation",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-vehicles_transportation-electric_vehicle_vehicle",
+                "name": "Electric vehicle (vehicle)",
+                "size": "Size: 427,338,636",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-vehicles_transportation",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-vehicles_transportation-hybrids_vehicle",
+                "name": "Hybrids (vehicle)",
+                "size": "Size: 250,986,261",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-vehicles_transportation",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-vehicles_transportation-minivans_vehicle",
+                "name": "Minivans (vehicle)",
+                "size": "Size: 169,069,356",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-vehicles_transportation",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-vehicles_transportation-motorcycles_vehicles",
+                "name": "Motorcycles (vehicles)",
+                "size": "Size: 508,792,565",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-vehicles_transportation",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-vehicles_transportation-rvs_vehicle",
+                "name": "RVs (vehicle)",
+                "size": "Size: 225,450,653",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-vehicles_transportation",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-vehicles_transportation-suvs_vehicles",
+                "name": "SUVs (vehicles)",
+                "size": "Size: 448,720,932",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-vehicles_transportation",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-vehicles_transportation-scooters_vehicle",
+                "name": "Scooters (vehicle)",
+                "size": "Size: 350,403,891",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-vehicles_transportation",
+                "children": []
+              },
+              {
+                "id": "interests-hobbies_and_activities-vehicles_transportation-trucks_vehicles",
+                "name": "Trucks (vehicles)",
+                "size": "Size: 595,716,822",
+                "level": 4,
+                "parent_id": "interests-hobbies_and_activities-vehicles_transportation",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "interests-shopping_and_fashion",
+        "name": "Shopping and fashion",
+        "size": "",
+        "level": 2,
+        "parent_id": "interests",
+        "children": [
+          {
+            "id": "interests-shopping_and_fashion-beauty_social_concept",
+            "name": "Beauty (social concept)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-shopping_and_fashion",
+            "children": [
+              {
+                "id": "interests-shopping_and_fashion-beauty_social_concept-beauty_salons_cosmetics",
+                "name": "Beauty salons (cosmetics)",
+                "size": "Size: 740,628,514",
+                "level": 4,
+                "parent_id": "interests-shopping_and_fashion-beauty_social_concept",
+                "children": []
+              },
+              {
+                "id": "interests-shopping_and_fashion-beauty_social_concept-cosmetics_personal_care",
+                "name": "Cosmetics (personal care)",
+                "size": "Size: 989,374,695",
+                "level": 4,
+                "parent_id": "interests-shopping_and_fashion-beauty_social_concept",
+                "children": []
+              },
+              {
+                "id": "interests-shopping_and_fashion-beauty_social_concept-fragrances_cosmetics",
+                "name": "Fragrances (cosmetics)",
+                "size": "Size: 555,430,503",
+                "level": 4,
+                "parent_id": "interests-shopping_and_fashion-beauty_social_concept",
+                "children": []
+              },
+              {
+                "id": "interests-shopping_and_fashion-beauty_social_concept-hair_products_hair_care",
+                "name": "Hair products (hair care)",
+                "size": "Size: 666,122,783",
+                "level": 4,
+                "parent_id": "interests-shopping_and_fashion-beauty_social_concept",
+                "children": []
+              },
+              {
+                "id": "interests-shopping_and_fashion-beauty_social_concept-spas_personal_care",
+                "name": "Spas (personal care)",
+                "size": "Size: 597,088,705",
+                "level": 4,
+                "parent_id": "interests-shopping_and_fashion-beauty_social_concept",
+                "children": []
+              },
+              {
+                "id": "interests-shopping_and_fashion-beauty_social_concept-tattoos_body_art",
+                "name": "Tattoos (body art)",
+                "size": "Size: 422,289,867",
+                "level": 4,
+                "parent_id": "interests-shopping_and_fashion-beauty_social_concept",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-shopping_and_fashion-clothing_apparel",
+            "name": "Clothing (apparel)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-shopping_and_fashion",
+            "children": [
+              {
+                "id": "interests-shopping_and_fashion-clothing_apparel-childrens_clothing_apparel",
+                "name": "Children's clothing (apparel)",
+                "size": "Size: 538,073,519",
+                "level": 4,
+                "parent_id": "interests-shopping_and_fashion-clothing_apparel",
+                "children": []
+              },
+              {
+                "id": "interests-shopping_and_fashion-clothing_apparel-mens_clothing_apparel",
+                "name": "Men's clothing (apparel)",
+                "size": "Size: 16,852,297",
+                "level": 4,
+                "parent_id": "interests-shopping_and_fashion-clothing_apparel",
+                "children": []
+              },
+              {
+                "id": "interests-shopping_and_fashion-clothing_apparel-shoes_footwear",
+                "name": "Shoes (footwear)",
+                "size": "Size: 734,755,297",
+                "level": 4,
+                "parent_id": "interests-shopping_and_fashion-clothing_apparel",
+                "children": []
+              },
+              {
+                "id": "interests-shopping_and_fashion-clothing_apparel-womens_clothing_apparel",
+                "name": "Women's clothing (apparel)",
+                "size": "Size: 144,189,680",
+                "level": 4,
+                "parent_id": "interests-shopping_and_fashion-clothing_apparel",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-shopping_and_fashion-fashion_accessories_accessories",
+            "name": "Fashion accessories (accessories)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-shopping_and_fashion",
+            "children": [
+              {
+                "id": "interests-shopping_and_fashion-fashion_accessories_accessories-dresses_apparel",
+                "name": "Dresses (apparel)",
+                "size": "Size: 666,226,945",
+                "level": 4,
+                "parent_id": "interests-shopping_and_fashion-fashion_accessories_accessories",
+                "children": []
+              },
+              {
+                "id": "interests-shopping_and_fashion-fashion_accessories_accessories-handbags_accessories",
+                "name": "Handbags (accessories)",
+                "size": "Size: 502,911,053",
+                "level": 4,
+                "parent_id": "interests-shopping_and_fashion-fashion_accessories_accessories",
+                "children": []
+              },
+              {
+                "id": "interests-shopping_and_fashion-fashion_accessories_accessories-jewelry_apparel",
+                "name": "Jewelry (apparel)",
+                "size": "Size: 842,368,661",
+                "level": 4,
+                "parent_id": "interests-shopping_and_fashion-fashion_accessories_accessories",
+                "children": []
+              },
+              {
+                "id": "interests-shopping_and_fashion-fashion_accessories_accessories-sunglasses_eyewear",
+                "name": "Sunglasses (eyewear)",
+                "size": "Size: 385,099,698",
+                "level": 4,
+                "parent_id": "interests-shopping_and_fashion-fashion_accessories_accessories",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-shopping_and_fashion-shopping_retail",
+            "name": "Shopping (retail)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-shopping_and_fashion",
+            "children": [
+              {
+                "id": "interests-shopping_and_fashion-shopping_retail-boutiques_retailers",
+                "name": "Boutiques (retailers)",
+                "size": "Size: 582,082,559",
+                "level": 4,
+                "parent_id": "interests-shopping_and_fashion-shopping_retail",
+                "children": []
+              },
+              {
+                "id": "interests-shopping_and_fashion-shopping_retail-coupons_coupons_discounts",
+                "name": "Coupons (coupons & discounts)",
+                "size": "Size: 582,120,422",
+                "level": 4,
+                "parent_id": "interests-shopping_and_fashion-shopping_retail",
+                "children": []
+              },
+              {
+                "id": "interests-shopping_and_fashion-shopping_retail-discount_stores_retail",
+                "name": "Discount stores (retail)",
+                "size": "Size: 570,040,904",
+                "level": 4,
+                "parent_id": "interests-shopping_and_fashion-shopping_retail",
+                "children": []
+              },
+              {
+                "id": "interests-shopping_and_fashion-shopping_retail-luxury_goods_retail",
+                "name": "Luxury goods (retail)",
+                "size": "Size: 967,285,381",
+                "level": 4,
+                "parent_id": "interests-shopping_and_fashion-shopping_retail",
+                "children": []
+              },
+              {
+                "id": "interests-shopping_and_fashion-shopping_retail-online_shopping_retail",
+                "name": "Online shopping (retail)",
+                "size": "Size: 1,459,544,856",
+                "level": 4,
+                "parent_id": "interests-shopping_and_fashion-shopping_retail",
+                "children": []
+              },
+              {
+                "id": "interests-shopping_and_fashion-shopping_retail-shopping_malls_retail",
+                "name": "Shopping malls (retail)",
+                "size": "Size: 650,830,420",
+                "level": 4,
+                "parent_id": "interests-shopping_and_fashion-shopping_retail",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-shopping_and_fashion-toys_toys",
+            "name": "Toys (toys)",
+            "size": "Size: 585,434,257",
+            "level": 3,
+            "parent_id": "interests-shopping_and_fashion",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "interests-sports_and_outdoors",
+        "name": "Sports and outdoors",
+        "size": "",
+        "level": 2,
+        "parent_id": "interests",
+        "children": [
+          {
+            "id": "interests-sports_and_outdoors-outdoor_recreation_outdoors_activities",
+            "name": "Outdoor recreation (outdoors activities)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-sports_and_outdoors",
+            "children": [
+              {
+                "id": "interests-sports_and_outdoors-outdoor_recreation_outdoors_activities-boating_outdoors_activities",
+                "name": "Boating (outdoors activities)",
+                "size": "Size: 224,674,491",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-outdoor_recreation_outdoors_activities",
+                "children": []
+              },
+              {
+                "id": "interests-sports_and_outdoors-outdoor_recreation_outdoors_activities-camping_outdoors_activities",
+                "name": "Camping (outdoors activities)",
+                "size": "Size: 446,016,813",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-outdoor_recreation_outdoors_activities",
+                "children": []
+              },
+              {
+                "id": "interests-sports_and_outdoors-outdoor_recreation_outdoors_activities-fishing_outdoors_activities",
+                "name": "Fishing (outdoors activities)",
+                "size": "Size: 448,917,422",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-outdoor_recreation_outdoors_activities",
+                "children": []
+              },
+              {
+                "id": "interests-sports_and_outdoors-outdoor_recreation_outdoors_activities-horseback_riding_horse_sport",
+                "name": "Horseback riding (horse sport)",
+                "size": "Size: 341,075,432",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-outdoor_recreation_outdoors_activities",
+                "children": []
+              },
+              {
+                "id": "interests-sports_and_outdoors-outdoor_recreation_outdoors_activities-hunting_sport",
+                "name": "Hunting (sport)",
+                "size": "Size: 294,344,573",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-outdoor_recreation_outdoors_activities",
+                "children": []
+              },
+              {
+                "id": "interests-sports_and_outdoors-outdoor_recreation_outdoors_activities-mountain_biking_cycling",
+                "name": "Mountain biking (cycling)",
+                "size": "Size: 274,010,148",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-outdoor_recreation_outdoors_activities",
+                "children": []
+              },
+              {
+                "id": "interests-sports_and_outdoors-outdoor_recreation_outdoors_activities-surfing_water_sport",
+                "name": "Surfing (water sport)",
+                "size": "Size: 286,956,061",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-outdoor_recreation_outdoors_activities",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-sports_and_outdoors-sports_sports",
+            "name": "Sports (sports)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-sports_and_outdoors",
+            "children": [
+              {
+                "id": "interests-sports_and_outdoors-sports_sports-american_football_sport",
+                "name": "American football (sport)",
+                "size": "Size: 297,937,910",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-sports_sports",
+                "children": []
+              },
+              {
+                "id": "interests-sports_and_outdoors-sports_sports-association_football_soccer",
+                "name": "Association football (Soccer)",
+                "size": "Size: 670,681,318",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-sports_sports",
+                "children": []
+              },
+              {
+                "id": "interests-sports_and_outdoors-sports_sports-auto_racing_motor_sports",
+                "name": "Auto racing (motor sports)",
+                "size": "Size: 586,279,638",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-sports_sports",
+                "children": []
+              },
+              {
+                "id": "interests-sports_and_outdoors-sports_sports-baseball_sport",
+                "name": "Baseball (sport)",
+                "size": "Size: 395,653,377",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-sports_sports",
+                "children": []
+              },
+              {
+                "id": "interests-sports_and_outdoors-sports_sports-basketball_sport",
+                "name": "Basketball (sport)",
+                "size": "Size: 429,269,795",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-sports_sports",
+                "children": []
+              },
+              {
+                "id": "interests-sports_and_outdoors-sports_sports-college_football_college_sports",
+                "name": "College football (college sports)",
+                "size": "Size: 253,906,763",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-sports_sports",
+                "children": []
+              },
+              {
+                "id": "interests-sports_and_outdoors-sports_sports-golf_sport",
+                "name": "Golf (sport)",
+                "size": "Size: 439,151,227",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-sports_sports",
+                "children": []
+              },
+              {
+                "id": "interests-sports_and_outdoors-sports_sports-marathons_running_event",
+                "name": "Marathons (running event)",
+                "size": "Size: 310,866,011",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-sports_sports",
+                "children": []
+              },
+              {
+                "id": "interests-sports_and_outdoors-sports_sports-skiing_skiing_snowboarding",
+                "name": "Skiing (skiing & snowboarding)",
+                "size": "Size: 497,100,319",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-sports_sports",
+                "children": []
+              },
+              {
+                "id": "interests-sports_and_outdoors-sports_sports-snowboarding_skiing_snowboarding",
+                "name": "Snowboarding (skiing & snowboarding)",
+                "size": "Size: 387,227,684",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-sports_sports",
+                "children": []
+              },
+              {
+                "id": "interests-sports_and_outdoors-sports_sports-swimming_water_sport",
+                "name": "Swimming (water sport)",
+                "size": "Size: 327,378,239",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-sports_sports",
+                "children": []
+              },
+              {
+                "id": "interests-sports_and_outdoors-sports_sports-tennis_sport",
+                "name": "Tennis (sport)",
+                "size": "Size: 371,064,711",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-sports_sports",
+                "children": []
+              },
+              {
+                "id": "interests-sports_and_outdoors-sports_sports-triathlons_athletics",
+                "name": "Triathlons (athletics)",
+                "size": "Size: 316,099,103",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-sports_sports",
+                "children": []
+              },
+              {
+                "id": "interests-sports_and_outdoors-sports_sports-volleyball_sport",
+                "name": "Volleyball (sport)",
+                "size": "Size: 401,590,621",
+                "level": 4,
+                "parent_id": "interests-sports_and_outdoors-sports_sports",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "interests-technology",
+        "name": "Technology",
+        "size": "",
+        "level": 2,
+        "parent_id": "interests",
+        "children": [
+          {
+            "id": "interests-technology-computers_computers_electronics",
+            "name": "Computers (computers & electronics)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-technology",
+            "children": [
+              {
+                "id": "interests-technology-computers_computers_electronics-computer_memory_computer_hardware",
+                "name": "Computer memory (computer hardware)",
+                "size": "Size: 166,744,198",
+                "level": 4,
+                "parent_id": "interests-technology-computers_computers_electronics",
+                "children": []
+              },
+              {
+                "id": "interests-technology-computers_computers_electronics-computer_monitors_computer_hardware",
+                "name": "Computer monitors (computer hardware)",
+                "size": "Size: 170,443,724",
+                "level": 4,
+                "parent_id": "interests-technology-computers_computers_electronics",
+                "children": []
+              },
+              {
+                "id": "interests-technology-computers_computers_electronics-computer_processors_computer_hardware",
+                "name": "Computer processors (computer hardware)",
+                "size": "Size: 209,581,629",
+                "level": 4,
+                "parent_id": "interests-technology-computers_computers_electronics",
+                "children": []
+              },
+              {
+                "id": "interests-technology-computers_computers_electronics-computer_servers_computing",
+                "name": "Computer servers (computing)",
+                "size": "Size: 192,755,793",
+                "level": 4,
+                "parent_id": "interests-technology-computers_computers_electronics",
+                "children": []
+              },
+              {
+                "id": "interests-technology-computers_computers_electronics-desktop_computers_consumer_electronics",
+                "name": "Desktop computers (consumer electronics)",
+                "size": "Size: 305,057,645",
+                "level": 4,
+                "parent_id": "interests-technology-computers_computers_electronics",
+                "children": []
+              },
+              {
+                "id": "interests-technology-computers_computers_electronics-free_software_software",
+                "name": "Free software (software)",
+                "size": "Size: 115,838,258",
+                "level": 4,
+                "parent_id": "interests-technology-computers_computers_electronics",
+                "children": []
+              },
+              {
+                "id": "interests-technology-computers_computers_electronics-hard_drives_computer_hardware",
+                "name": "Hard drives (computer hardware)",
+                "size": "Size: 136,811,767",
+                "level": 4,
+                "parent_id": "interests-technology-computers_computers_electronics",
+                "children": []
+              },
+              {
+                "id": "interests-technology-computers_computers_electronics-network_storage_computers_electronics",
+                "name": "Network storage (computers & electronics)",
+                "size": "Size: 114,907,179",
+                "level": 4,
+                "parent_id": "interests-technology-computers_computers_electronics",
+                "children": []
+              },
+              {
+                "id": "interests-technology-computers_computers_electronics-software_computers_electronics",
+                "name": "Software (computers & electronics)",
+                "size": "Size: 722,479,008",
+                "level": 4,
+                "parent_id": "interests-technology-computers_computers_electronics",
+                "children": []
+              },
+              {
+                "id": "interests-technology-computers_computers_electronics-tablet_computers_computers_electronics",
+                "name": "Tablet computers (computers & electronics)",
+                "size": "Size: 640,913,883",
+                "level": 4,
+                "parent_id": "interests-technology-computers_computers_electronics",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "interests-technology-consumer_electronics_computers_electronics",
+            "name": "Consumer electronics (computers & electronics)",
+            "size": "",
+            "level": 3,
+            "parent_id": "interests-technology",
+            "children": [
+              {
+                "id": "interests-technology-consumer_electronics_computers_electronics-audio_equipment_electronics",
+                "name": "Audio equipment (electronics)",
+                "size": "Size: 417,099,600",
+                "level": 4,
+                "parent_id": "interests-technology-consumer_electronics_computers_electronics",
+                "children": []
+              },
+              {
+                "id": "interests-technology-consumer_electronics_computers_electronics-camcorders_consumer_electronics",
+                "name": "Camcorders (consumer electronics)",
+                "size": "Size: 150,278,679",
+                "level": 4,
+                "parent_id": "interests-technology-consumer_electronics_computers_electronics",
+                "children": []
+              },
+              {
+                "id": "interests-technology-consumer_electronics_computers_electronics-cameras_photography",
+                "name": "Cameras (photography)",
+                "size": "Size: 438,762,748",
+                "level": 4,
+                "parent_id": "interests-technology-consumer_electronics_computers_electronics",
+                "children": []
+              },
+              {
+                "id": "interests-technology-consumer_electronics_computers_electronics-e_book_readers_consumer_electronics",
+                "name": "E-book readers (consumer electronics)",
+                "size": "Size: 343,334,117",
+                "level": 4,
+                "parent_id": "interests-technology-consumer_electronics_computers_electronics",
+                "children": []
+              },
+              {
+                "id": "interests-technology-consumer_electronics_computers_electronics-gps_devices_consumer_electronics",
+                "name": "GPS devices (consumer electronics)",
+                "size": "Size: 153,206,391",
+                "level": 4,
+                "parent_id": "interests-technology-consumer_electronics_computers_electronics",
+                "children": []
+              },
+              {
+                "id": "interests-technology-consumer_electronics_computers_electronics-mobile_phones_smart_phone",
+                "name": "Mobile phones (smart phone)",
+                "size": "Size: 961,720,001",
+                "level": 4,
+                "parent_id": "interests-technology-consumer_electronics_computers_electronics",
+                "children": []
+              },
+              {
+                "id": "interests-technology-consumer_electronics_computers_electronics-portable_media_players_audio_equipment",
+                "name": "Portable media players (audio equipment)",
+                "size": "Size: 152,720,413",
+                "level": 4,
+                "parent_id": "interests-technology-consumer_electronics_computers_electronics",
+                "children": []
+              },
+              {
+                "id": "interests-technology-consumer_electronics_computers_electronics-projectors_consumer_electronics",
+                "name": "Projectors (consumer electronics)",
+                "size": "Size: 209,907,779",
+                "level": 4,
+                "parent_id": "interests-technology-consumer_electronics_computers_electronics",
+                "children": []
+              },
+              {
+                "id": "interests-technology-consumer_electronics_computers_electronics-smartphones_consumer_electronics",
+                "name": "Smartphones (consumer electronics)",
+                "size": "Size: 866,144,585",
+                "level": 4,
+                "parent_id": "interests-technology-consumer_electronics_computers_electronics",
+                "children": []
+              },
+              {
+                "id": "interests-technology-consumer_electronics_computers_electronics-televisions_consumer_electronics",
+                "name": "Televisions (consumer electronics)",
+                "size": "Size: 536,348,142",
+                "level": 4,
+                "parent_id": "interests-technology-consumer_electronics_computers_electronics",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "behaviors",
+    "name": "Behaviors",
+    "size": "",
+    "level": 1,
+    "parent_id": null,
+    "children": []
+  }
+]

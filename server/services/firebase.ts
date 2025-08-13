@@ -140,6 +140,38 @@ export class FirebaseStorage {
     }
   }
 
+  async getHierarchicalTargetingCategories(): Promise<TargetingCategory[]> {
+    try {
+      const allCategories = await this.getAllTargetingCategories();
+      
+      // Build a map for quick lookups
+      const categoryMap = new Map<string, TargetingCategory & { children?: TargetingCategory[] }>();
+      allCategories.forEach(cat => {
+        categoryMap.set(cat.id, { ...cat, children: [] });
+      });
+
+      // Build the hierarchy
+      const rootCategories: TargetingCategory[] = [];
+      
+      allCategories.forEach(category => {
+        const categoryWithChildren = categoryMap.get(category.id)!;
+        
+        if (category.parentId && categoryMap.has(category.parentId)) {
+          const parent = categoryMap.get(category.parentId)!;
+          if (!parent.children) parent.children = [];
+          parent.children.push(categoryWithChildren);
+        } else {
+          rootCategories.push(categoryWithChildren);
+        }
+      });
+
+      return rootCategories;
+    } catch (error) {
+      console.error('Error building hierarchical categories:', error);
+      throw new Error('Failed to build hierarchical categories');
+    }
+  }
+
   async createTargetingCategory(category: InsertTargetingCategory): Promise<TargetingCategory> {
     try {
       const docRef = await addDoc(collection(this.db, "targeting_categories"), {
