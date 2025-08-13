@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { ChevronRight, ChevronDown, Target, Users, Folder } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import type { HierarchicalTargetingCategory } from "@shared/schema";
 
@@ -19,7 +18,7 @@ export default function TreeNode({
   onCategorySelect, 
   level 
 }: TreeNodeProps) {
-  const [isExpanded, setIsExpanded] = useState(level === 1); // Auto-expand top level categories
+  const [isExpanded, setIsExpanded] = useState(false);
   const hasChildren = category.children && category.children.length > 0;
   const isSelected = selectedCategories.includes(category.id);
   
@@ -33,27 +32,21 @@ export default function TreeNode({
   };
 
   const displaySize = parseSize(category.size);
-  const indent = (level - 1) * 20; // Indent based on level
+  const indent = (level - 1) * 16;
 
-  const handleToggleExpanded = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleClick = () => {
+    console.log(`TreeNode clicked: ${category.name}, hasChildren: ${hasChildren}, current expanded: ${isExpanded}`);
+    
     if (hasChildren) {
-      setIsExpanded(!isExpanded);
-    }
-  };
-
-  const handleRowClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    // For parent nodes: expand/collapse on click
-    // For leaf nodes: select/deselect on click
-    if (hasChildren) {
+      // Parent nodes: expand/collapse
       setIsExpanded(!isExpanded);
     } else {
+      // Leaf nodes: select/deselect
       onCategorySelect(category.id, !isSelected);
     }
   };
 
-  const handleCheckboxChange = (e: React.MouseEvent) => {
+  const handleCheckboxClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onCategorySelect(category.id, !isSelected);
   };
@@ -76,71 +69,64 @@ export default function TreeNode({
   };
 
   return (
-    <div className="select-none">
-      {/* Node Row */}
+    <div>
+      {/* Current Node */}
       <div 
         className={cn(
-          "group flex items-center gap-2 px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md cursor-pointer transition-all duration-200",
-          isSelected && "bg-blue-50 dark:bg-blue-900/20 border-l-2 border-blue-500",
-          level > 1 && "ml-4"
+          "group flex items-center gap-2 px-2 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded cursor-pointer transition-all duration-150",
+          isSelected && "bg-blue-50 dark:bg-blue-900/20",
+          hasChildren && "font-medium"
         )}
-        style={{ paddingLeft: `${12 + indent}px` }}
-        onClick={handleRowClick}
+        style={{ marginLeft: `${indent}px` }}
+        onClick={handleClick}
         data-testid={`tree-node-${category.id}`}
       >
-        {/* Expand/Collapse Button */}
-        <div className="flex-shrink-0">
+        {/* Expand/Collapse Arrow */}
+        <div className="flex-shrink-0 w-4 h-4 flex items-center justify-center">
           {hasChildren ? (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-6 w-6 p-0 hover:bg-gray-200 dark:hover:bg-gray-700"
-              onClick={handleToggleExpanded}
-              data-testid={`expand-button-${category.id}`}
-              title={isExpanded ? "Collapse" : "Expand"}
-            >
+            <div className="w-4 h-4 flex items-center justify-center">
               {isExpanded ? (
-                <ChevronDown className="h-4 w-4 text-gray-600 transition-transform duration-200" />
+                <ChevronDown className="h-3 w-3 text-gray-700 dark:text-gray-300" />
               ) : (
-                <ChevronRight className="h-4 w-4 text-gray-600 transition-transform duration-200" />
+                <ChevronRight className="h-3 w-3 text-gray-700 dark:text-gray-300" />
               )}
-            </Button>
+            </div>
           ) : (
-            <div className="w-6 h-6" />
+            <div className="w-4 h-4" />
           )}
         </div>
         
-        {/* Selection Checkbox - Only show for leaf nodes */}
+        {/* Selection Checkbox - Only for leaf nodes */}
         {!hasChildren && (
           <Checkbox
             checked={isSelected}
             onCheckedChange={(checked) => onCategorySelect(category.id, !!checked)}
-            className="h-4 w-4"
-            onClick={handleCheckboxChange}
+            className="h-3.5 w-3.5"
+            onClick={handleCheckboxClick}
             data-testid={`checkbox-${category.id}`}
           />
         )}
-        
-        {/* Spacer for parent nodes */}
-        {hasChildren && <div className="w-4" />}
         
         {/* Category Icon */}
         <div className="flex-shrink-0">
           {getCategoryIcon()}
         </div>
         
-        {/* Category Info */}
+        {/* Category Name and Info */}
         <div className="flex-1 min-w-0 flex items-center gap-2">
           <span className={cn(
-            "font-medium truncate",
-            level === 1 ? "text-base font-semibold" : "text-sm",
-            isSelected && "text-blue-700 dark:text-blue-300"
+            "truncate text-sm",
+            level === 1 && "font-semibold text-gray-900 dark:text-white",
+            level === 2 && "font-medium text-gray-800 dark:text-gray-200", 
+            level >= 3 && "text-gray-700 dark:text-gray-300",
+            isSelected && "text-blue-600 dark:text-blue-400",
+            hasChildren && "select-none"
           )}>
             {category.name}
           </span>
           
           {displaySize && (
-            <Badge variant="secondary" className="text-xs px-2 py-0 h-5">
+            <Badge variant="secondary" className="text-xs h-4">
               {displaySize}
             </Badge>
           )}
@@ -148,27 +134,27 @@ export default function TreeNode({
           <Badge 
             variant="outline" 
             className={cn(
-              "text-xs px-2 py-0 h-5",
-              level === 1 ? "bg-blue-100 text-blue-800" :
-              level === 2 ? "bg-green-100 text-green-800" :
-              level === 3 ? "bg-orange-100 text-orange-800" :
-              level === 4 ? "bg-purple-100 text-purple-800" : "bg-gray-100 text-gray-800"
+              "text-xs h-4 px-1.5",
+              level === 1 ? "border-blue-300 text-blue-700" :
+              level === 2 ? "border-green-300 text-green-700" :
+              level === 3 ? "border-orange-300 text-orange-700" :
+              "border-gray-300 text-gray-600"
             )}
           >
-            L{category.level}
+            L{level}
           </Badge>
           
           {hasChildren && (
-            <Badge variant="secondary" className="text-xs text-gray-500">
-              {category.children!.length} items
-            </Badge>
+            <span className="text-xs text-gray-500 ml-1">
+              ({category.children!.length})
+            </span>
           )}
         </div>
       </div>
       
-      {/* Children */}
+      {/* Children - Only show when expanded */}
       {hasChildren && isExpanded && (
-        <div className="space-y-1 mt-1">
+        <div className="space-y-0.5">
           {category.children!.map((child, index) => (
             <TreeNode
               key={`${child.id}-${index}-${level}`}

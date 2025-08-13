@@ -395,9 +395,6 @@ Examples:
                           {hierarchicalCategories.length} sections
                         </span>
                       </div>
-                      {/* Debug Tree */}
-                      <DebugTree categories={hierarchicalCategories} />
-                      
                       <HierarchicalTreeExplorer
                         categories={hierarchicalCategories}
                         selectedCategories={selectedCategories}
