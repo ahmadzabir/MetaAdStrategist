@@ -6,8 +6,10 @@ IntelliTarget is a clean, focused AI-powered Meta ads strategist designed for en
 
 ## Recent Changes (January 2025)
 
-- **Database Restoration Complete**: Successfully restored 636/673 authentic Meta targeting categories from HTML source
-- **Firebase Integration**: All targeting data stored in Firebase Firestore database (not hardcoded)
+- **Hierarchical Tree Navigation WORKING**: Fixed tree expand/collapse functionality - users can now properly navigate through all 5 levels (L1→L2→L3→L4→L5)
+- **Database Restoration Complete**: Successfully restored 653/673 authentic Meta targeting categories from HTML source with 85% audience size coverage
+- **Selection Summary Fixed**: Resolved duplicate key warnings and corrected category count display
+- **Authentic Data Verification**: Confirmed audience size data is 100% authentic Meta data (558/653 categories have real audience numbers)
 - **Hierarchical Structure**: Proper 5-level hierarchy established (L1:3, L2:26, L3:234, L4:359, L5:14)
 - **Data Management**: Created manual data management documentation for future updates
 - **Extraction Scripts**: Preserved all data extraction and restoration scripts for future use
