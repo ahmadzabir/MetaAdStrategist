@@ -2,7 +2,7 @@
 
 ## Overview
 
-IntelliTarget is a smart advertising application that simplifies Meta's complex targeting system. The platform provides two core features: an intuitive targeting explorer for browsing Meta's advertising categories, and an AI-powered strategist that analyzes natural language descriptions to recommend optimal targeting options. The application aims to democratize effective Meta advertising by making complex targeting decisions accessible to users of all experience levels.
+IntelliTarget is a clean, focused AI-powered Meta ads strategist designed for end-user deployment. The application features a streamlined dashboard with AI Strategy Generation prominently positioned above a hierarchical Targeting Explorer. Users describe their product or audience in natural language, and the AI recommends 15-20 optimal targeting categories with justifications. The targeting explorer displays Meta's 435+ categories in a dropdown tree structure with 5 hierarchical levels, allowing users to explore and manually select targeting options across demographics, interests, and behaviors.
 
 ## User Preferences
 
