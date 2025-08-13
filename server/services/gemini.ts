@@ -11,8 +11,16 @@ import { storage } from "../storage";
 // This API key is from Gemini Developer API Key, not vertex AI API Key
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
 
+interface StructuredInput {
+  businessType: string;
+  productService: string;
+  targetAge: string;
+  budget: string;
+  goal: string;
+}
+
 export async function generateTargetingRecommendations(
-  userInput: string,
+  structuredInput: StructuredInput | string,
   budgetRange?: string,
   geographicFocus?: string,
   campaignGoal?: string
@@ -72,13 +80,30 @@ Always respond in structured JSON:
 
 Use only authentic category IDs from the provided list. Focus on business impact and audience quality over broad reach.`;
 
-    const userPrompt = `User Description: "${userInput}"
+    // Handle both structured and legacy input formats
+    let userPrompt: string;
+    
+    if (typeof structuredInput === 'string') {
+      // Legacy format
+      userPrompt = `User Description: "${structuredInput}"
 ${budgetRange ? `Budget Range: ${budgetRange}` : ''}
 ${geographicFocus ? `Geographic Focus: ${geographicFocus}` : ''}
-${campaignGoal ? `Campaign Goal: ${campaignGoal}` : ''}
+${campaignGoal ? `Campaign Goal: ${campaignGoal}` : ''}`;
+    } else {
+      // New structured format
+      userPrompt = `Business Type: ${structuredInput.businessType}
+Product/Service: ${structuredInput.productService}
+Target Age: ${structuredInput.targetAge}
+Budget: ${structuredInput.budget}
+Campaign Goal: ${structuredInput.goal}`;
+    }
+
+    userPrompt += `
 
 Available Targeting Categories:
 ${JSON.stringify(categoryContext, null, 2)}`;
+
+    console.log("Generating recommendations with structured input:", userPrompt);
 
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",

@@ -13,19 +13,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const validatedData = generateRecommendationSchema.parse(req.body);
       
-      const recommendations = await generateTargetingRecommendations(
-        validatedData.userInput,
-        validatedData.budgetRange,
-        validatedData.geographicFocus,
-        validatedData.campaignGoal
-      );
+      // Handle both structured and legacy input
+      let recommendations;
+      if (validatedData.businessType && validatedData.productService) {
+        // New structured format
+        recommendations = await generateTargetingRecommendations({
+          businessType: validatedData.businessType,
+          productService: validatedData.productService,
+          targetAge: validatedData.targetAge || "",
+          budget: validatedData.budget || "",
+          goal: validatedData.goal || ""
+        });
+      } else if (validatedData.userInput) {
+        // Legacy format
+        recommendations = await generateTargetingRecommendations(
+          validatedData.userInput,
+          validatedData.budgetRange,
+          validatedData.geographicFocus,
+          validatedData.campaignGoal
+        );
+      } else {
+        throw new Error("Please provide either structured questionnaire data or a user description");
+      }
 
       // Save the recommendation to storage
       const savedRecommendation = await storage.createRecommendation({
-        userInput: validatedData.userInput,
-        budgetRange: validatedData.budgetRange,
+        userInput: validatedData.userInput || `${validatedData.businessType}: ${validatedData.productService}`,
+        budgetRange: validatedData.budgetRange || validatedData.budget,
         geographicFocus: validatedData.geographicFocus,
-        campaignGoal: validatedData.campaignGoal,
+        campaignGoal: validatedData.campaignGoal || validatedData.goal,
         recommendations: recommendations,
       });
 
