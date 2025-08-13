@@ -7,6 +7,7 @@ IntelliTarget is a clean, focused AI-powered Meta ads strategist designed for en
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+UI Requirements: Hierarchical tree explorer similar to file explorer (Windows Explorer/macOS Finder) where users can expand/collapse branches in place. Parent nodes (with children) are expandable only, leaf nodes (no children) are selectable with checkboxes.
 
 ## System Architecture
 
