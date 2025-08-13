@@ -43,7 +43,7 @@ export const insertRecommendationSchema = createInsertSchema(recommendations).om
 });
 
 export const generateRecommendationSchema = z.object({
-  userInput: z.string().min(10, "Please provide a more detailed description"),
+  userInput: z.string().min(3, "Please provide a description of your product or audience"),
   budgetRange: z.string().optional(),
   geographicFocus: z.string().optional(),
   campaignGoal: z.string().optional(),

@@ -53,10 +53,12 @@ export default function Home() {
         description: `Found ${data.recommendations?.length || 0} targeting recommendations`,
       });
     },
-    onError: (error) => {
+    onError: (error: any) => {
+      console.error("AI Generation Error:", error);
+      const errorMessage = error?.response?.data?.message || "Failed to generate AI strategy. Please try again.";
       toast({
         title: "Generation Failed",
-        description: "Failed to generate AI strategy. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     },
@@ -83,6 +85,16 @@ export default function Home() {
       });
       return;
     }
+    
+    if (userInput.trim().length < 3) {
+      toast({
+        title: "Description Too Short",
+        description: "Please provide a more detailed description (at least 3 characters)",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     generateStrategyMutation.mutate(userInput);
   };
 
