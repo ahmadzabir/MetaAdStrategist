@@ -351,7 +351,21 @@ export default function Home() {
                                 <div key={rec.id} className="flex items-center justify-between p-3 bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700">
                                   <div className="flex-1">
                                     <div className="font-medium text-gray-900 dark:text-white">{rec.name}</div>
-                                    <div className="text-xs text-gray-500 dark:text-gray-400">{rec.breadcrumbs?.join(" > ")}</div>
+                                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                                      {rec.breadcrumbs && rec.breadcrumbs.length > 0 ? (
+                                        <span className="flex items-center gap-1">
+                                          <span className="text-gray-400">Find in:</span>
+                                          {rec.breadcrumbs.join(" > ")}
+                                          <span className="ml-2 text-purple-600 dark:text-purple-400">
+                                            {rec.categoryType} • Level {rec.level} • {rec.estimatedReach}
+                                          </span>
+                                        </span>
+                                      ) : (
+                                        <span className="text-purple-600 dark:text-purple-400">
+                                          {rec.categoryType || "Meta"} • Level {rec.level || "?"} • {rec.estimatedReach || "Unknown"}
+                                        </span>
+                                      )}
+                                    </div>
                                   </div>
                                   <Button
                                     size="sm"

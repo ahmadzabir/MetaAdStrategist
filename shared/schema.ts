@@ -79,6 +79,9 @@ export interface TargetingRecommendation {
   priority?: "high" | "medium" | "low";
   confidenceScore?: number;
   estimatedReach?: string;
+  breadcrumbs?: string[];
+  categoryType?: string;
+  level?: number;
 }
 
 export interface AIRecommendationResponse {

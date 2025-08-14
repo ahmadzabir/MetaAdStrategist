@@ -145,19 +145,42 @@ ${JSON.stringify(categoryContext, null, 2)}`;
 
     const result: AIRecommendationResponse = JSON.parse(rawJson);
     
+    // Function to build breadcrumb path for a category
+    const buildBreadcrumbs = async (categoryId: string): Promise<string[]> => {
+      const breadcrumbs: string[] = [];
+      let currentId: string | null = categoryId;
+      
+      while (currentId) {
+        const category = await storage.getTargetingCategory(currentId);
+        if (category) {
+          breadcrumbs.unshift(category.name);
+          currentId = category.parentId;
+        } else {
+          break;
+        }
+      }
+      
+      return breadcrumbs;
+    };
+
     // Validate and enrich recommendations with authentic category data
     const enrichedRecommendations: TargetingRecommendation[] = [];
     
     for (const rec of result.recommendations) {
       const category = await storage.getTargetingCategory(rec.id);
       if (category) {
+        const breadcrumbs = await buildBreadcrumbs(rec.id);
+        
         enrichedRecommendations.push({
           id: `rec_${Date.now()}_${enrichedRecommendations.length}`,
           name: category.name,
           justification: rec.justification,
           priority: rec.priority || "medium",
           confidenceScore: 85 + Math.random() * 10,
-          estimatedReach: category.size || "Unknown"
+          estimatedReach: category.size || "Unknown",
+          breadcrumbs: breadcrumbs,
+          categoryType: category.categoryType,
+          level: category.level
         });
       } else {
         console.warn(`AI recommended non-existent category: ${rec.id}`);
