@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { Target, Search, TreePine, List } from "lucide-react";
+import { Target, Search, TreePine, List, ChevronRight, Brain, MessageCircle, TrendingUp, Users, Plus, X } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -31,21 +33,8 @@ type AppMode = "questionnaire" | "recommendations" | "chat";
 
 export default function Home() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [aiRecommendations, setAiRecommendations] = useState<RecommendationWithBreadcrumbs[]>([
-    {
-      id: "demographics_age_25_34",
-      name: "Age 25-34",
-      justification: "Perfect demographic for your target audience based on industry data.",
-      priority: "high" as const,
-      breadcrumbs: ["Demographics", "Age", "Age 25-34"],
-      estimatedReach: "150M-200M",
-      size: "150M-200M",
-      createdAt: null,
-      categoryType: "Demographics",
-      level: 3,
-      parentId: "demographics_age"
-    }
-  ]);
+  const [campaignDescription, setCampaignDescription] = useState("");
+  const [aiRecommendations, setAiRecommendations] = useState<RecommendationWithBreadcrumbs[]>([]);
   const [appMode, setAppMode] = useState<AppMode>("recommendations");
   const [questionnaireData, setQuestionnaireData] = useState<QuestionnaireData | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -133,6 +122,28 @@ export default function Home() {
   const handleQuestionnaireSubmit = (data: QuestionnaireData) => {
     setQuestionnaireData(data);
     generateStrategyMutation.mutate(data);
+  };
+
+  const handleGenerateStrategy = () => {
+    if (!campaignDescription.trim()) return;
+    
+    const mockData = {
+      businessType: "E-commerce",
+      productService: campaignDescription.slice(0, 50),
+      targetAge: "25-45",
+      budget: "Medium",
+      goal: "Conversions"
+    };
+    
+    generateStrategyMutation.mutate(mockData);
+  };
+
+  const handleAddEntireStrategy = () => {
+    const strategyIds = aiRecommendations.map(r => r.id);
+    setSelectedCategories(prev => {
+      const newIds = strategyIds.filter(id => !prev.includes(id));
+      return [...prev, ...newIds];
+    });
   };
 
   const handleStartChat = () => {
@@ -252,252 +263,330 @@ export default function Home() {
         {appMode === "questionnaire" || appMode === "chat" ? (
           renderContent()
         ) : (
-          <div className="py-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8">
-              {/* AI Recommendations */}
-              <div className="lg:col-span-5 xl:col-span-4">
-                <AIRecommendations
-                  recommendations={aiRecommendations}
-                  onStartChat={handleStartChat}
-                  onSelectCategory={handleSelectCategory}
-                  selectedCategories={selectedCategories}
-                />
+          /* Three-Column Strategic Workspace */
+          <div className="py-6 sm:py-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 min-h-[70vh]">
+              
+              {/* Column 1: Describe Your Campaign */}
+              <div className="lg:col-span-4">
+                <Card className="h-full bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-blue-200 dark:border-blue-800">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="flex items-center gap-3">
+                      <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg">
+                        <MessageCircle className="h-5 w-5 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-lg font-bold text-gray-900 dark:text-white">Describe Your Campaign</div>
+                        <div className="text-sm text-gray-600 dark:text-gray-400 font-normal">Tell the AI what you want to achieve</div>
+                      </div>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
+                        Campaign Description
+                      </label>
+                      <textarea
+                        placeholder="Describe your product, ideal customer (ICP), and goals in detail. For example: 'I'm selling premium organic skincare products to health-conscious women aged 25-40 who value sustainability and are willing to pay more for quality ingredients...'"
+                        className="w-full h-40 p-4 border border-gray-300 dark:border-gray-600 rounded-xl resize-none focus:border-blue-500 focus:ring-blue-500/20 text-sm"
+                        value={campaignDescription}
+                        onChange={(e) => setCampaignDescription(e.target.value)}
+                        data-testid="campaign-description"
+                      />
+                    </div>
+                    <Button
+                      onClick={handleGenerateStrategy}
+                      disabled={!campaignDescription.trim() || generateStrategyMutation.isPending}
+                      className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3 text-base font-medium"
+                      data-testid="generate-ai-recommendations"
+                    >
+                      {generateStrategyMutation.isPending ? (
+                        <>
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                          Generating...
+                        </>
+                      ) : (
+                        <>
+                          <Brain className="h-4 w-4 mr-2" />
+                          Generate AI Recommendations
+                        </>
+                      )}
+                    </Button>
+                  </CardContent>
+                </Card>
               </div>
 
-              {/* Targeting Explorer */}
-              <div className="lg:col-span-7 xl:col-span-8">
-                <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-emerald-200 dark:border-emerald-800 shadow-xl h-fit">
-                  <CardHeader className="space-y-4 sm:space-y-6 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/30 dark:to-green-900/30 rounded-t-lg p-4 sm:p-6">
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0">
-                      <CardTitle className="flex items-center gap-3 sm:gap-4">
-                        <div className="p-2 sm:p-3 bg-gradient-to-br from-emerald-500 to-green-600 rounded-lg flex-shrink-0">
-                          <Target className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+              {/* Column 2: Review AI-Generated Strategy */}
+              <div className="lg:col-span-4">
+                <div className="space-y-6">
+                  {/* AI Strategy Card */}
+                  <Card className="bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20 border-emerald-200 dark:border-emerald-800">
+                    <CardHeader className="pb-4">
+                      <CardTitle className="flex items-center gap-3">
+                        <div className="p-2 bg-gradient-to-br from-emerald-500 to-green-600 rounded-lg">
+                          <Brain className="h-5 w-5 text-white" />
                         </div>
-                        <div className="min-w-0">
-                          <div className="text-base sm:text-lg font-bold text-gray-900 dark:text-white">Targeting Explorer</div>
-                          <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-normal mt-1">
-                            Browse 650+ authentic Meta targeting categories
-                          </div>
+                        <div>
+                          <div className="text-lg font-bold text-gray-900 dark:text-white">AI-Generated Strategy</div>
+                          <div className="text-sm text-gray-600 dark:text-gray-400 font-normal">Ready-to-use targeting recommendation</div>
                         </div>
                       </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      {aiRecommendations.length > 0 ? (
+                        <>
+                          {/* Strategy Justification */}
+                          <div className="p-4 bg-white/60 dark:bg-slate-800/60 rounded-lg border border-emerald-200/50 dark:border-emerald-700/50">
+                            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Strategy Justification</h4>
+                            <p className="text-sm text-gray-700 dark:text-gray-300">
+                              This strategy combines complementary audience segments using AND logic to find your ideal customers who are {aiRecommendations.map(r => r.name).join(", ")}.
+                            </p>
+                          </div>
+                          
+                          {/* Recommended Targets */}
+                          <div>
+                            <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Recommended Targets ({aiRecommendations.length})</h4>
+                            <div className="space-y-2">
+                              {aiRecommendations.map((rec) => (
+                                <div key={rec.id} className="flex items-center justify-between p-3 bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700">
+                                  <div className="flex-1">
+                                    <div className="font-medium text-gray-900 dark:text-white">{rec.name}</div>
+                                    <div className="text-xs text-gray-500 dark:text-gray-400">{rec.breadcrumbs?.join(" > ")}</div>
+                                  </div>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => handleSelectCategory(rec.id)}
+                                    className={selectedCategories.includes(rec.id) ? "bg-emerald-100 border-emerald-300" : ""}
+                                  >
+                                    {selectedCategories.includes(rec.id) ? "Added" : "Add"}
+                                  </Button>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Add Entire Strategy Button */}
+                          <Button
+                            onClick={handleAddEntireStrategy}
+                            className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white py-2"
+                            data-testid="add-entire-strategy"
+                          >
+                            <Plus className="h-4 w-4 mr-2" />
+                            Add Entire Strategy to Campaign
+                          </Button>
+                        </>
+                      ) : (
+                        <div className="text-center py-8 text-gray-500">
+                          <Brain className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                          <p>Generate AI recommendations to see your strategy here</p>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  {/* Manual Exploration Section */}
+                  <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-gray-200 dark:border-gray-700">
+                    <CardHeader className="pb-4">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <CardTitle className="flex items-center gap-3">
+                          <div className="p-2 bg-gradient-to-br from-gray-500 to-slate-600 rounded-lg">
+                            <Search className="h-4 w-4 text-white" />
+                          </div>
+                          <div>
+                            <div className="text-base font-bold text-gray-900 dark:text-white">Manual Exploration</div>
+                            <div className="text-xs text-gray-600 dark:text-gray-400">Browse 650+ targeting categories</div>
+                          </div>
+                        </CardTitle>
+                        
+                        {/* View mode toggle */}
+                        <div className="flex items-center gap-1 bg-white/60 dark:bg-slate-700/60 rounded-lg p-1 border">
+                          <Button
+                            variant={viewMode === "tree" ? "default" : "ghost"}
+                            size="sm"
+                            onClick={() => setViewMode("tree")}
+                            className={`h-7 px-2 text-xs ${viewMode === "tree" ? "bg-gray-500 text-white" : ""}`}
+                            data-testid="tree-view-button"
+                          >
+                            <TreePine className="h-3 w-3 mr-1" />
+                            Tree
+                          </Button>
+                          <Button
+                            variant={viewMode === "list" ? "default" : "ghost"}
+                            size="sm"
+                            onClick={() => setViewMode("list")}
+                            className={`h-7 px-2 text-xs ${viewMode === "list" ? "bg-gray-500 text-white" : ""}`}
+                            data-testid="list-view-button"
+                          >
+                            <List className="h-3 w-3 mr-1" />
+                            List
+                          </Button>
+                        </div>
+                      </div>
                       
-                      {/* View mode toggle */}
-                      <div className="flex items-center gap-1 bg-white/60 dark:bg-slate-700/60 backdrop-blur-sm rounded-xl p-1 border border-gray-200 dark:border-slate-600 w-full sm:w-auto">
-                        <Button
-                          variant={viewMode === "tree" ? "default" : "ghost"}
-                          size="sm"
-                          onClick={() => setViewMode("tree")}
-                          className={`h-8 sm:h-9 px-3 sm:px-4 rounded-lg transition-all flex-1 sm:flex-none text-xs sm:text-sm ${
-                            viewMode === "tree" 
-                              ? "bg-emerald-500 hover:bg-emerald-600 text-white shadow-md" 
-                              : "hover:bg-gray-100 dark:hover:bg-slate-600"
-                          }`}
-                          data-testid="tree-view-button"
-                        >
-                          <TreePine className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                          <span className="hidden sm:inline">Tree View</span>
-                          <span className="sm:hidden">Tree</span>
-                        </Button>
-                        <Button
-                          variant={viewMode === "list" ? "default" : "ghost"}
-                          size="sm"
-                          onClick={() => setViewMode("list")}
-                          className={`h-8 sm:h-9 px-3 sm:px-4 rounded-lg transition-all flex-1 sm:flex-none text-xs sm:text-sm ${
-                            viewMode === "list" 
-                              ? "bg-emerald-500 hover:bg-emerald-600 text-white shadow-md" 
-                              : "hover:bg-gray-100 dark:hover:bg-slate-600"
-                          }`}
-                          data-testid="list-view-button"
-                        >
-                          <List className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                          <span className="hidden sm:inline">List View</span>
-                          <span className="sm:hidden">List</span>
-                        </Button>
+                      {/* Search */}
+                      <div className="relative mt-4">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                        <Input
+                          placeholder="Search targeting categories..."
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          className="pl-10 h-9 text-sm"
+                          data-testid="search-targeting"
+                        />
+                      </div>
+                    </CardHeader>
+                    
+                    <CardContent className="p-3">
+                      <ScrollArea className="h-[40vh]">
+                        {isLoading ? (
+                          <div className="flex items-center justify-center h-32">
+                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-500"></div>
+                          </div>
+                        ) : (
+                          <div className="space-y-2">
+                            {(viewMode === "tree" ? hierarchicalCategories : filteredCategories).map((category) => (
+                              <div key={category.id}>
+                                {viewMode === "tree" ? (
+                                  <SimpleTree
+                                    categories={[category]}
+                                    selectedCategories={selectedCategories}
+                                    onCategorySelect={handleCategorySelect}
+                                  />
+                                ) : (
+                                  <div className={`flex items-center justify-between p-2 rounded border text-sm ${
+                                    selectedCategories.includes(category.id) ? 'bg-emerald-50 border-emerald-300' : 'bg-white hover:bg-gray-50'
+                                  }`}>
+                                    <div className="flex items-center gap-2 flex-1 min-w-0">
+                                      <Checkbox
+                                        checked={selectedCategories.includes(category.id)}
+                                        onCheckedChange={(checked) => handleCategorySelect(category.id, !!checked)}
+                                        className="w-3 h-3"
+                                      />
+                                      <div className="min-w-0 flex-1">
+                                        <p className="font-medium truncate">{category.name}</p>
+                                        <p className="text-xs text-gray-500">Level {category.level} • {category.categoryType}</p>
+                                      </div>
+                                    </div>
+                                    {category.size && category.size !== "Unknown" && (
+                                      <span className="text-xs bg-gray-100 px-2 py-1 rounded">{category.size}</span>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </ScrollArea>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+
+              {/* Column 3: Analyze Your Campaign */}
+              <div className="lg:col-span-4">
+                <Card className="h-full bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-purple-200 dark:border-purple-800">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="flex items-center gap-3">
+                      <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg">
+                        <TrendingUp className="h-5 w-5 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-lg font-bold text-gray-900 dark:text-white">Analyze Your Campaign</div>
+                        <div className="text-sm text-gray-600 dark:text-gray-400 font-normal">Review your targeting strategy</div>
+                      </div>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    {/* Live Analysis */}
+                    <div className="space-y-4">
+                      <h4 className="font-semibold text-gray-900 dark:text-white">Live Analysis</h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="p-3 bg-white/60 dark:bg-slate-800/60 rounded-lg border border-purple-200/50 dark:border-purple-700/50">
+                          <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Total Reach</div>
+                          <div className="text-lg font-bold text-purple-700 dark:text-purple-300">
+                            {selectedCategories.length > 0 ? "250M-400M" : "0"}
+                          </div>
+                        </div>
+                        <div className="p-3 bg-white/60 dark:bg-slate-800/60 rounded-lg border border-purple-200/50 dark:border-purple-700/50">
+                          <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Specificity</div>
+                          <div className="text-lg font-bold text-purple-700 dark:text-purple-300">
+                            {selectedCategories.length > 0 ? "High" : "None"}
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    
-                    {/* Search */}
-                    <div className="relative">
-                      <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
-                      <Input
-                        placeholder="Search targeting categories, interests, demographics..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-10 sm:pl-12 h-10 sm:h-12 border-gray-300 dark:border-gray-600 focus:border-emerald-500 focus:ring-emerald-500/20 rounded-xl bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm text-sm sm:text-base"
-                        data-testid="search-targeting"
-                      />
-                      {searchQuery && (
-                        <button
-                          onClick={() => setSearchQuery("")}
-                          className="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 text-lg sm:text-xl"
-                        >
-                          ×
-                        </button>
-                      )}
+
+                    {/* Selected Items */}
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <h4 className="font-semibold text-gray-900 dark:text-white">Selected Items</h4>
+                        <Badge variant="outline" className="text-xs">
+                          {selectedCategories.length} selected
+                        </Badge>
+                      </div>
+                      
+                      <ScrollArea className="h-60">
+                        {selectedCategories.length > 0 ? (
+                          <div className="space-y-2">
+                            {selectedCategories.map((categoryId) => {
+                              const category = flatCategories?.find(c => c.id === categoryId) || 
+                                              aiRecommendations.find(r => r.id === categoryId);
+                              
+                              return (
+                                <div key={categoryId} className="flex items-center justify-between p-3 bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700">
+                                  <div className="flex-1">
+                                    <div className="font-medium text-gray-900 dark:text-white text-sm">
+                                      {category?.name || "Unknown Category"}
+                                    </div>
+                                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                                      {category?.categoryType || "Unknown"} • Level {category?.level || "?"}
+                                    </div>
+                                  </div>
+                                  <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    onClick={() => handleSelectCategory(categoryId)}
+                                    className="text-red-500 hover:text-red-700 hover:bg-red-50 p-1"
+                                  >
+                                    <X className="h-3 w-3" />
+                                  </Button>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          <div className="text-center py-8 text-gray-500">
+                            <Target className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                            <p className="text-sm">No targeting categories selected yet</p>
+                            <p className="text-xs text-gray-400 mt-1">Add categories from Column 2</p>
+                          </div>
+                        )}
+                      </ScrollArea>
                     </div>
 
-                    {/* Selected categories count */}
+                    {/* Final AI Review */}
                     {selectedCategories.length > 0 && (
-                      <div className="flex items-center gap-2 text-sm bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 px-4 py-3 rounded-xl border border-blue-200/50 dark:border-blue-800/50">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                        <span className="font-medium text-blue-700 dark:text-blue-300">
-                          {selectedCategories.length} categories selected
-                        </span>
-                        <button
-                          onClick={() => setSelectedCategories([])}
-                          className="ml-auto text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200 text-xs underline"
+                      <div className="space-y-4">
+                        <Button
+                          onClick={handleStartChat}
+                          className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3"
+                          data-testid="get-ai-strategy-review"
                         >
-                          Clear all
-                        </button>
+                          <MessageCircle className="h-4 w-4 mr-2" />
+                          Get AI Strategy Review
+                        </Button>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+                          Get feedback on potential loopholes, creative ideas, and detailed persona analysis
+                        </p>
                       </div>
                     )}
-                  </CardHeader>
-
-                  <CardContent className="p-0">
-                    <ScrollArea className="h-[700px] p-6">
-                      {isLoading ? (
-                        <div className="flex flex-col items-center justify-center py-12">
-                          <div className="animate-spin rounded-full h-12 w-12 border-3 border-emerald-300 border-t-emerald-600 mb-4"></div>
-                          <p className="text-gray-600 dark:text-gray-400">Loading targeting categories...</p>
-                        </div>
-                      ) : searchQuery ? (
-                        // Search results view
-                        <div className="space-y-3">
-                          <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                              Search Results
-                            </h3>
-                            <span className="text-xs text-gray-500 bg-gray-100 dark:bg-slate-700 px-2 py-1 rounded-full">
-                              {filteredCategories.length} found
-                            </span>
-                          </div>
-                          {filteredCategories.map((category) => (
-                            <div
-                              key={category.id}
-                              className={`group p-4 rounded-xl border cursor-pointer transition-all duration-200 hover:shadow-lg ${
-                                selectedCategories.includes(category.id)
-                                  ? 'border-emerald-300 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/30 dark:to-green-900/30 shadow-md'
-                                  : 'border-gray-200 dark:border-slate-600 hover:border-emerald-300 dark:hover:border-emerald-600 bg-white/50 dark:bg-slate-800/50'
-                              }`}
-                              onClick={() => handleCategorySelect(category.id, !selectedCategories.includes(category.id))}
-                              data-testid={`category-${category.id}`}
-                            >
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                  <input
-                                    type="checkbox"
-                                    checked={selectedCategories.includes(category.id)}
-                                    onChange={() => {}}
-                                    className="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-emerald-500"
-                                  />
-                                  <div className="flex-1">
-                                    <h4 className="font-medium text-sm text-gray-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors">
-                                      {category.name}
-                                    </h4>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                      Level {category.level} • {category.categoryType}
-                                    </p>
-                                  </div>
-                                </div>
-                                
-                                <div className="flex items-center gap-2">
-                                  {category.size && category.size !== "Unknown" && (
-                                    <span className="text-xs text-gray-600 bg-gray-100 dark:bg-slate-700 dark:text-gray-300 px-3 py-1 rounded-full">
-                                      {category.size}
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                          
-                          {filteredCategories.length === 0 && (
-                            <div className="flex flex-col items-center justify-center py-12 text-center" data-testid="no-search-results">
-                              <div className="w-16 h-16 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center mb-4">
-                                <Search className="h-8 w-8 text-gray-400" />
-                              </div>
-                              <p className="text-gray-600 dark:text-gray-400 font-medium">No categories found</p>
-                              <p className="text-sm text-gray-500 mt-1">Try searching for "{searchQuery.split(' ')[0]}" or browse the tree view</p>
-                            </div>
-                          )}
-                        </div>
-                      ) : viewMode === "tree" ? (
-                        // Hierarchical tree explorer view
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                              Hierarchical Categories
-                            </h3>
-                            <span className="text-xs text-gray-500 bg-gray-100 dark:bg-slate-700 px-2 py-1 rounded-full">
-                              {hierarchicalCategories.length} sections
-                            </span>
-                          </div>
-                          <SimpleTree
-                            categories={hierarchicalCategories}
-                            selectedCategories={selectedCategories}
-                            onCategorySelect={handleCategorySelect}
-                          />
-                        </div>
-                      ) : (
-                        // List view (all categories flat)
-                        <div className="space-y-3">
-                          <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                              All Categories
-                            </h3>
-                            <span className="text-xs text-gray-500 bg-gray-100 dark:bg-slate-700 px-2 py-1 rounded-full">
-                              {flatCategories.length} total
-                            </span>
-                          </div>
-                          {flatCategories.map((category) => (
-                            <div
-                              key={category.id}
-                              className={`group p-4 rounded-xl border cursor-pointer transition-all duration-200 hover:shadow-lg ${
-                                selectedCategories.includes(category.id)
-                                  ? 'border-emerald-300 bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/30 dark:to-green-900/30 shadow-md'
-                                  : 'border-gray-200 dark:border-slate-600 hover:border-emerald-300 dark:hover:border-emerald-600 bg-white/50 dark:bg-slate-800/50'
-                              }`}
-                              onClick={() => handleCategorySelect(category.id, !selectedCategories.includes(category.id))}
-                              data-testid={`category-${category.id}`}
-                            >
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                  <input
-                                    type="checkbox"
-                                    checked={selectedCategories.includes(category.id)}
-                                    onChange={() => {}}
-                                    className="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-emerald-500"
-                                  />
-                                  <div className="flex-1">
-                                    <h4 className="font-medium text-sm text-gray-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors">
-                                      {category.name}
-                                    </h4>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                      Level {category.level} • {category.categoryType}
-                                    </p>
-                                  </div>
-                                </div>
-                                
-                                <div className="flex items-center gap-2">
-                                  {category.size && category.size !== "Unknown" && (
-                                    <span className="text-xs text-gray-600 bg-gray-100 dark:bg-slate-700 dark:text-gray-300 px-3 py-1 rounded-full">
-                                      {category.size}
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </ScrollArea>
                   </CardContent>
                 </Card>
               </div>
             </div>
           </div>
         )}
-
       </div>
     </div>
   );
