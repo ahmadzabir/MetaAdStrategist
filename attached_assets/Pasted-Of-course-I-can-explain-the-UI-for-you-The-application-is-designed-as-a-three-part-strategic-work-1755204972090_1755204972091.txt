@@ -1,0 +1,40 @@
+Of course. I can explain the UI for you.
+
+The application is designed as a three-part strategic workspace that guides you through a clear, logical workflow from left to right.
+
+Column 1: Describe Your Campaign
+This is your starting point.
+
+Purpose: To tell the AI what you want to achieve.
+
+How it works: You're given a large text box where you can describe your product, your ideal customer (often called an ICP), and your overall goals in plain English. The idea is that the more detail you provide here, the better the AI's recommendations will be.
+
+Action: Once you've written your description, you click the main purple button, "Generate AI Recommendations," to kick off the analysis.
+
+Column 2: Review AI-Generated Strategy
+This is where the AI's primary recommendation appears.
+
+Purpose: To present a complete, ready-to-use targeting strategy based on your input.
+
+How it works: Instead of just a list of individual targets, you get a single, cohesive "Strategy Card."
+
+Strategy Justification: At the top, it explains how the recommended targets work together using "AND" logic to find your specific customer. For example, it might explain that it's combining people interested in "luxury goods" AND "sustainable fashion" to find a very specific niche.
+
+Recommended Targets: Below the explanation, it lists the 2-10 specific Meta targeting categories that make up this strategy.
+
+Action: You can add this entire strategy to your final campaign with a single click on the "+ Add Entire Strategy to Campaign" button.
+
+Manual Exploration: Below the AI strategy card, there's also a section to manually browse and add other targeting categories if you want to make your own additions or refinements.
+
+Column 3: Analyze Your Campaign
+This is your final dashboard where you review your chosen strategy.
+
+Purpose: To see a high-level analysis of your selected targets and get a final AI review.
+
+How it works:
+
+Live Analysis: At the top, you see key metrics that would update in real-time, like the Total Estimated Reach and the Audience Specificity of your combined targets.
+
+Selected Items: This is a list of all the targeting categories you've chosen, whether from the AI's recommendation or your manual additions. You can remove individual items here.
+
+Final AI Review: The last step is a powerful one. You can click the "Get AI Strategy Review" button, and the AI will perform a deeper analysis on your final list, giving you feedback on potential loopholes, creative ideas for your ads, and a detailed persona of who you'll be targeting.
