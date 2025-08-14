@@ -505,13 +505,19 @@ export default function Home() {
                         <div className="p-3 bg-white/60 dark:bg-slate-800/60 rounded-lg border border-purple-200/50 dark:border-purple-700/50">
                           <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Total Reach</div>
                           <div className="text-lg font-bold text-purple-700 dark:text-purple-300">
-                            {selectedCategories.length > 0 ? "250M-400M" : "0"}
+                            {selectedCategories.length === 0 ? "0" : 
+                             selectedCategories.length === 1 ? "50M-150M" :
+                             selectedCategories.length === 2 ? "150M-300M" :
+                             selectedCategories.length >= 3 ? "250M-500M" : "Unknown"}
                           </div>
                         </div>
                         <div className="p-3 bg-white/60 dark:bg-slate-800/60 rounded-lg border border-purple-200/50 dark:border-purple-700/50">
                           <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Specificity</div>
                           <div className="text-lg font-bold text-purple-700 dark:text-purple-300">
-                            {selectedCategories.length > 0 ? "High" : "None"}
+                            {selectedCategories.length === 0 ? "None" :
+                             selectedCategories.length === 1 ? "Low" :
+                             selectedCategories.length === 2 ? "Medium" :
+                             selectedCategories.length >= 3 ? "High" : "Unknown"}
                           </div>
                         </div>
                       </div>
@@ -530,24 +536,49 @@ export default function Home() {
                         {selectedCategories.length > 0 ? (
                           <div className="space-y-2">
                             {selectedCategories.map((categoryId) => {
-                              const category = flatCategories?.find(c => c.id === categoryId) || 
-                                              aiRecommendations.find(r => r.id === categoryId);
+                              // Look for category in all available sources
+                              let category = flatCategories?.find(c => c.id === categoryId);
+                              
+                              // If not found in flat categories, check AI recommendations
+                              if (!category) {
+                                category = aiRecommendations.find(r => r.id === categoryId);
+                              }
+                              
+                              // If still not found, search in hierarchical categories
+                              if (!category && hierarchicalCategories) {
+                                const findInHierarchy = (cats: any[]): any => {
+                                  for (const cat of cats) {
+                                    if (cat.id === categoryId) return cat;
+                                    if (cat.children) {
+                                      const found = findInHierarchy(cat.children);
+                                      if (found) return found;
+                                    }
+                                  }
+                                  return null;
+                                };
+                                category = findInHierarchy(hierarchicalCategories);
+                              }
                               
                               return (
                                 <div key={categoryId} className="flex items-center justify-between p-3 bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700">
                                   <div className="flex-1">
                                     <div className="font-medium text-gray-900 dark:text-white text-sm">
-                                      {category?.name || "Unknown Category"}
+                                      {category?.name || categoryId.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
                                     </div>
                                     <div className="text-xs text-gray-500 dark:text-gray-400">
-                                      {category?.categoryType || "Unknown"} • Level {category?.level || "?"}
+                                      {category?.categoryType || category?.type || "Unknown"} • Level {category?.level !== undefined ? category.level : "?"}
+                                      {category?.size && category.size !== "Unknown" && (
+                                        <span className="ml-2 text-purple-600 dark:text-purple-400 font-medium">
+                                          • {category.size}
+                                        </span>
+                                      )}
                                     </div>
                                   </div>
                                   <Button
                                     size="sm"
                                     variant="ghost"
                                     onClick={() => handleSelectCategory(categoryId)}
-                                    className="text-red-500 hover:text-red-700 hover:bg-red-50 p-1"
+                                    className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 p-1"
                                   >
                                     <X className="h-3 w-3" />
                                   </Button>
