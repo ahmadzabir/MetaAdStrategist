@@ -261,13 +261,13 @@ export default function Home() {
         {appMode === "questionnaire" || appMode === "chat" ? (
           renderContent()
         ) : (
-          /* Three-Column Strategic Workspace */
+          /* Single-Column Vertical Layout */
           <div className="py-6 sm:py-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 min-h-[70vh]">
+            <div className="max-w-6xl mx-auto space-y-8">
               
-              {/* Column 1: Describe Your Campaign */}
-              <div className="lg:col-span-4">
-                <Card className="h-full bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-blue-200 dark:border-blue-800">
+              {/* Section 1: Describe Your Campaign - Full Width */}
+              <div className="w-full">
+                <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-blue-200 dark:border-blue-800">
                   <CardHeader className="pb-4">
                     <CardTitle className="flex items-center gap-3">
                       <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg">
@@ -314,10 +314,9 @@ export default function Home() {
                 </Card>
               </div>
 
-              {/* Column 2: Review AI-Generated Strategy */}
-              <div className="lg:col-span-4">
-                <div className="space-y-6">
-                  {/* AI Strategy Card */}
+              {/* Section 2: AI-Generated Strategy - Full Width */}
+              <div className="w-full">
+                {/* AI Strategy Card */}
                   <Card className="bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20 border-emerald-200 dark:border-emerald-800">
                     <CardHeader className="pb-4">
                       <CardTitle className="flex items-center gap-3">
@@ -398,8 +397,11 @@ export default function Home() {
                     </CardContent>
                   </Card>
 
-                  {/* Manual Exploration Section */}
-                  <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-gray-200 dark:border-gray-700">
+              </div>
+
+              {/* Section 3: Manual Exploration - Full Width */}
+              <div className="w-full">
+                <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-gray-200 dark:border-gray-700">
                     <CardHeader className="pb-4">
                       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                         <CardTitle className="flex items-center gap-3">
@@ -492,13 +494,12 @@ export default function Home() {
                         )}
                       </ScrollArea>
                     </CardContent>
-                  </Card>
-                </div>
+                </Card>
               </div>
 
-              {/* Column 3: Analyze Your Campaign */}
-              <div className="lg:col-span-4">
-                <Card className="h-full bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-purple-200 dark:border-purple-800">
+              {/* Section 4: Campaign Analysis - Full Width */}
+              <div className="w-full">
+                <Card className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-purple-200 dark:border-purple-800">
                   <CardHeader className="pb-4">
                     <CardTitle className="flex items-center gap-3">
                       <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg">
