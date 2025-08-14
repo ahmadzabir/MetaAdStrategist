@@ -346,24 +346,25 @@ export default function Home() {
                             <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Recommended Targets ({aiRecommendations.length})</h4>
                             <div className="space-y-2">
                               {aiRecommendations.map((rec) => (
-                                <div key={rec.id} className="flex items-center justify-between p-3 bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700">
-                                  <div className="flex-1">
-                                    <div className="font-medium text-gray-900 dark:text-white">{rec.name}</div>
-                                    <div className="text-xs text-gray-500 dark:text-gray-400">
-                                      {rec.breadcrumbs && rec.breadcrumbs.length > 0 ? (
-                                        <span className="flex items-center gap-1">
-                                          <span className="text-gray-400">Find in:</span>
-                                          {rec.breadcrumbs.join(" > ")}
-                                          <span className="ml-2 text-purple-600 dark:text-purple-400">
-                                            {rec.categoryType} • Level {rec.level} • {rec.estimatedReach}
-                                          </span>
+                                <div key={rec.id} className="flex items-center justify-between p-4 bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 hover:border-emerald-300 dark:hover:border-emerald-600 transition-colors">
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2 mb-2">
+                                      <h5 className="font-semibold text-gray-900 dark:text-white truncate">{rec.name}</h5>
+                                      <div className="flex items-center gap-2 text-xs">
+                                        <span className="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full font-medium">
+                                          Level {rec.level}
                                         </span>
-                                      ) : (
-                                        <span className="text-purple-600 dark:text-purple-400">
-                                          {rec.categoryType || "Meta"} • Level {rec.level || "?"} • {rec.estimatedReach || "Unknown"}
+                                        <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full font-medium">
+                                          {rec.estimatedReach}
                                         </span>
-                                      )}
+                                      </div>
                                     </div>
+                                    {rec.breadcrumbs && rec.breadcrumbs.length > 1 && (
+                                      <div className="text-sm text-gray-600 dark:text-gray-400">
+                                        <span className="text-gray-500 dark:text-gray-500">📍 </span>
+                                        {rec.breadcrumbs.join(" › ")}
+                                      </div>
+                                    )}
                                   </div>
                                   <Button
                                     size="sm"
