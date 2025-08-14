@@ -183,6 +183,8 @@ ${JSON.stringify(categoryContext, null, 2)}`;
           categoryType: category.categoryType,
           level: category.level
         });
+        
+        console.log(`Enriched recommendation: ${category.name} - Level: ${category.level}, Type: ${category.categoryType}, Size: ${category.size}`);
       } else {
         console.warn(`AI recommended non-existent category: ${rec.id}`);
       }
