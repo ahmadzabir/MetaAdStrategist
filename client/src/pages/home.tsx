@@ -91,15 +91,13 @@ export default function Home() {
     onSuccess: async (data) => {
       const recommendations = data.recommendations || [];
       
-      // Generate breadcrumbs for each recommendation
-      const recommendationsWithBreadcrumbs = await Promise.all(
-        recommendations.map(async (rec: TargetingRecommendation) => ({
-          ...rec,
-          name: rec.name || rec.id || "Unknown Category",
-          breadcrumbs: await generateBreadcrumbs(rec.id),
-          estimatedReach: rec.size || "Unknown"
-        }))
-      );
+      // Use server-provided breadcrumbs - they're already generated correctly
+      const recommendationsWithBreadcrumbs = recommendations.map((rec: TargetingRecommendation) => ({
+        ...rec,
+        name: rec.name || rec.id || "Unknown Category",
+        breadcrumbs: rec.breadcrumbs || ["Unknown Category"], // Use server breadcrumbs
+        estimatedReach: rec.estimatedReach || "Unknown"
+      }));
       
       setAiRecommendations(recommendationsWithBreadcrumbs);
       setAppMode("recommendations");
