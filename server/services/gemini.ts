@@ -170,6 +170,7 @@ ${JSON.stringify(categoryContext, null, 2)}`;
       const category = await storage.getTargetingCategory(rec.id);
       if (category) {
         const breadcrumbs = await buildBreadcrumbs(rec.id);
+        console.log(`Generated breadcrumbs for ${rec.id}: [${breadcrumbs.join(" > ")}]`);
         
         enrichedRecommendations.push({
           id: `rec_${Date.now()}_${enrichedRecommendations.length}`,
@@ -178,7 +179,7 @@ ${JSON.stringify(categoryContext, null, 2)}`;
           priority: rec.priority || "medium",
           confidenceScore: 85 + Math.random() * 10,
           estimatedReach: category.size || "Unknown",
-          breadcrumbs: breadcrumbs,
+          breadcrumbs: breadcrumbs.length > 0 ? breadcrumbs : [category.name],
           categoryType: category.categoryType,
           level: category.level
         });
