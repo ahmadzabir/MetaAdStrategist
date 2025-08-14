@@ -175,7 +175,7 @@ export function EnhancedAIRecommendations({
                       {rec.breadcrumbs.map((crumb, i) => (
                         <div key={i} className="flex items-center gap-1">
                           <span className="hover:text-blue-600 cursor-default">{crumb}</span>
-                          {i < rec.breadcrumbs.length - 1 && (
+                          {i < (rec.breadcrumbs?.length || 0) - 1 && (
                             <ChevronRight className="h-3 w-3 text-gray-400" />
                           )}
                         </div>
