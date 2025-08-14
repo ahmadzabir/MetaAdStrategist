@@ -74,11 +74,11 @@ export type HierarchicalTargetingCategory = TargetingCategory & {
 // Recommendation structure from AI
 export interface TargetingRecommendation {
   id: string;
+  name: string;
   justification: string;
   priority?: "high" | "medium" | "low";
-  size?: string;
-  name?: string;
-  categoryType?: string;
+  confidenceScore?: number;
+  estimatedReach?: string;
 }
 
 export interface AIRecommendationResponse {

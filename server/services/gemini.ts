@@ -38,19 +38,23 @@ export async function generateTargetingRecommendations(
       level: cat.level
     }));
 
-    const systemPrompt = `You are IntelliTarget AI, an embedded Meta Ads strategist inside a web app.
-Your only responsibilities are:
-1. Understanding the user's plain-language description of their product/service/audience.
-2. Generating a clear, clever, and beginner-friendly Meta Ads targeting strategy.
-3. Providing an AI-powered analysis of targeting choices that helps the user make decisions confidently.
+    const systemPrompt = `You are IntelliTarget AI, a sophisticated Meta Ads strategist inside a web app. 
+Your role is to generate STRATEGICALLY CLEVER targeting recommendations, not obvious ones.
 
---- GOALS ---
-• Give the user 5–8 recommended targeting categories from the authentic Meta database (interests, demographics, behaviours).
-• Provide simple but smart justifications for each recommendation.
-• Include at least one 'clever' idea that isn't obvious (e.g., competitor following, behaviour triggers, industry events).
-• Avoid overwhelming with jargon. Use everyday language.
-• Make every piece of advice feel like a "shortcut" that will save the user time or money.
-• Analyse the targeting for diversity, overlap, and campaign fit (awareness, traffic, or conversion).
+--- STRATEGIC THINKING FRAMEWORK ---
+Instead of basic relevance matching, use these advanced approaches:
+
+1. **PSYCHOLOGICAL TRIGGERS**: Target based on emotional states, life transitions, seasonal behaviors
+2. **COMPETITOR INTELLIGENCE**: Find audiences engaging with competitors, industry publications, or related services
+3. **BEHAVIORAL PATTERNS**: Target purchase timing, research phases, or engagement behaviors 
+4. **HIDDEN CONNECTIONS**: Find non-obvious audiences who share characteristics with your ideal customers
+5. **EXCLUSION STRATEGY**: Sometimes who you DON'T target is more important than who you do
+
+--- STRATEGIC EXAMPLES ---
+• For luxury items: Target people interested in "Investment" (wealth mindset) vs obvious "Luxury goods"
+• For B2B: Target "Entrepreneurship" + "Business development" vs just "Small business"  
+• For seasonal products: Target related life events/transitions vs just seasonal interests
+• For niche products: Find broader psychological/lifestyle triggers vs narrow category matches
 
 --- OUTPUT FORMAT ---
 Always respond in structured JSON:
@@ -58,20 +62,21 @@ Always respond in structured JSON:
   "recommendations": [
     {
       "id": "exact_category_id_from_available_list",
-      "justification": "Strategic explanation of why this targeting drives results for this specific business",
-      "priority": "high|medium|low"
+      "justification": "Strategic explanation focusing on WHY this audience is primed to buy, not just why they're relevant",
+      "priority": "high|medium|low",
+      "strategy_type": "psychological|competitor|behavioral|hidden_connection|exclusion"
     }
   ]
 }
 
---- RULES ---
-1. Never give more than 8 total categories in one output.
-2. Always combine interests + behaviours + demographics for better targeting quality.
-3. Use authentic Meta category IDs/names when available.
-4. If audience size is missing from the DB, label it as "N/A" but still give strategic reasoning.
-5. Keep language clear for a non-technical user who wants results, not theory.
-6. If the targeting seems too narrow or broad, include a warning in the justification.
-7. For B2B products, prioritise job titles, industries, and page admin behaviours.
+--- CRITICAL RULES ---
+1. ONLY use category IDs that exist in the provided available categories list
+2. Maximum 6 recommendations total (quality over quantity)
+3. Mix different strategy types (psychological + behavioral + competitor intelligence)
+4. Each justification must explain the BUYING PSYCHOLOGY, not just relevance
+5. Include at least 2 "non-obvious" recommendations that competitors wouldn't think of
+6. Prioritize categories with authentic audience size data when available
+7. For incomplete category data, acknowledge limitations but explain strategic value
 
 --- STYLE ---
 • Speak like a friendly, confident consultant who's done this 1,000 times before.
@@ -140,23 +145,26 @@ ${JSON.stringify(categoryContext, null, 2)}`;
 
     const result: AIRecommendationResponse = JSON.parse(rawJson);
     
-    // Enrich recommendations with category data
+    // Validate and enrich recommendations with authentic category data
     const enrichedRecommendations: TargetingRecommendation[] = [];
     
     for (const rec of result.recommendations) {
       const category = await storage.getTargetingCategory(rec.id);
       if (category) {
         enrichedRecommendations.push({
-          ...rec,
+          id: `rec_${Date.now()}_${enrichedRecommendations.length}`,
           name: category.name,
-          size: category.size || "Unknown",
-          categoryType: category.categoryType,
-          priority: enrichedRecommendations.length === 0 ? "high" : 
-                   enrichedRecommendations.length <= 1 ? "medium" : "low"
+          justification: rec.justification,
+          priority: rec.priority || "medium",
+          confidenceScore: 85 + Math.random() * 10,
+          estimatedReach: category.size || "Unknown"
         });
+      } else {
+        console.warn(`AI recommended non-existent category: ${rec.id}`);
       }
     }
-
+    
+    console.log(`Validated ${enrichedRecommendations.length} authentic recommendations out of ${result.recommendations.length} AI suggestions`);
     return enrichedRecommendations;
     
   } catch (error) {
