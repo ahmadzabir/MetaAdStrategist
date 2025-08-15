@@ -8,6 +8,7 @@ interface VennDiagramProps {
   selectedCategories: string[];
   audienceSize?: number;
   onCategoryToggle: (categoryId: string, selected: boolean) => void;
+  strategicTargeting?: StrategicTargeting;
   className?: string;
 }
 
@@ -20,16 +21,32 @@ interface VennCircle {
   radius: number;
 }
 
-export function VennDiagram({ selectedCategories, audienceSize, onCategoryToggle, className = "" }: VennDiagramProps) {
-  // Mock visualization data for now
-  const mockGroups = [
-    { id: "demographics", name: "Demographics", color: "#3B82F6" },
-    { id: "interests", name: "Interests", color: "#8B5CF6" },
-    { id: "behaviors", name: "Behaviors", color: "#10B981" }
-  ];
+export function VennDiagram({ selectedCategories, audienceSize, onCategoryToggle, strategicTargeting, className = "" }: VennDiagramProps) {
+  // Get actual strategic groups with selected categories
+  const activeGroups = useMemo(() => {
+    if (!strategicTargeting) {
+      return [
+        { id: "demographics", name: "Demographics", color: "#3B82F6", categories: [], selectedCount: 0 },
+        { id: "interests", name: "Interests", color: "#8B5CF6", categories: [], selectedCount: 0 },
+        { id: "behaviors", name: "Behaviors", color: "#10B981", categories: [], selectedCount: 0 }
+      ];
+    }
+
+    return strategicTargeting.groups.map((group, index) => {
+      const selectedInGroup = group.categories.filter(cat => selectedCategories.includes(cat.id));
+      const colors = ["#3B82F6", "#8B5CF6", "#10B981", "#F59E0B", "#EF4444"];
+      
+      return {
+        id: group.id,
+        name: group.name,
+        color: colors[index % colors.length],
+        categories: selectedInGroup,
+        selectedCount: selectedInGroup.length
+      };
+    }).filter(group => group.selectedCount > 0); // Only show groups with selections
+  }, [strategicTargeting, selectedCategories]);
 
   const circles = useMemo(() => {
-    const groups = mockGroups.slice(0, 3);
     const svgSize = 300;
     const centerX = svgSize / 2;
     const centerY = svgSize / 2;
@@ -42,15 +59,16 @@ export function VennDiagram({ selectedCategories, audienceSize, onCategoryToggle
       { x: centerX, y: centerY + 40 }, // Bottom
     ];
 
-    return groups.map((group, index) => ({
+    return activeGroups.slice(0, 3).map((group, index) => ({
       id: group.id,
       name: group.name,
       color: group.color,
       x: positions[index]?.x || centerX,
       y: positions[index]?.y || centerY,
-      radius
+      radius,
+      selectedCount: group.selectedCount
     }));
-  }, []);
+  }, [activeGroups]);
 
   const estimatedAudience = audienceSize || selectedCategories.length * 5000000; // Mock calculation
   
@@ -153,29 +171,33 @@ export function VennDiagram({ selectedCategories, audienceSize, onCategoryToggle
           </h4>
           
           <div className="space-y-2">
-            {circles.map((circle, index) => (
+            {activeGroups.map((group, index) => (
               <div
-                key={circle.id}
+                key={group.id}
                 className="p-3 rounded-lg border bg-white dark:bg-gray-800 hover:shadow-md transition-shadow"
-                style={{ borderColor: circle.color }}
+                style={{ borderColor: group.color }}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <div
                         className="w-3 h-3 rounded-full"
-                        style={{ backgroundColor: circle.color }}
+                        style={{ backgroundColor: group.color }}
                       />
-                      <span className="font-medium text-sm text-gray-900 dark:text-gray-100">
-                        {circle.name}
+                      <span className="font-medium text-gray-900 dark:text-gray-100">
+                        {group.name}
                       </span>
-                      <Badge variant="outline" className="text-xs">
-                        Active
+                      <Badge variant="secondary" className="text-xs">
+                        {group.selectedCount} selected
                       </Badge>
                     </div>
-                    <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
-                      Strategic targeting group for {circle.name.toLowerCase()}
-                    </p>
+                    <div className="space-y-1">
+                      {group.categories.map(cat => (
+                        <p key={cat.id} className="text-xs text-gray-600 dark:text-gray-400">
+                          • {cat.name} {cat.size && `(${cat.size})`}
+                        </p>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
