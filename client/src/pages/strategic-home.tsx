@@ -37,13 +37,15 @@ import { VennDiagram } from "@/components/venn-diagram";
 import { StrategicConversation } from "@/components/strategic-conversation";
 import SimpleTree from "@/components/simple-tree";
 import { SearchAutocomplete } from "@/components/search-autocomplete";
+import { LocationSearch } from "@/components/location-search";
 
 import type { 
   BusinessDiscovery, 
   StrategicTargeting, 
   TargetingRecommendation,
   HierarchicalTargetingCategory,
-  TargetingCategory
+  TargetingCategory,
+  SelectedLocation
 } from "@shared/schema";
 
 type AppMode = "guided" | "expert";
@@ -61,7 +63,9 @@ export default function StrategicHome() {
   const [audienceSize, setAudienceSize] = useState<number | null>(null);
   
   // Campaign settings
-  const [location, setLocation] = useState("US");
+  const [selectedLocations, setSelectedLocations] = useState<SelectedLocation[]>([
+    { key: "US", name: "United States", type: "country", displayName: "United States" }
+  ]);
   const [ageMin, setAgeMin] = useState<number>(18);
   const [ageMax, setAgeMax] = useState<number>(65);
   
@@ -646,20 +650,13 @@ export default function StrategicHome() {
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <Label htmlFor="location" className="text-sm font-medium">Location</Label>
-                          <Select value={location} onValueChange={setLocation}>
-                            <SelectTrigger data-testid="select-location">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="US">United States</SelectItem>
-                              <SelectItem value="CA">Canada</SelectItem>
-                              <SelectItem value="UK">United Kingdom</SelectItem>
-                              <SelectItem value="AU">Australia</SelectItem>
-                              <SelectItem value="worldwide">Worldwide</SelectItem>
-                            </SelectContent>
-                          </Select>
+                        <div className="col-span-2">
+                          <LocationSearch
+                            value={selectedLocations}
+                            onChange={setSelectedLocations}
+                            maxSelections={5}
+                            allowedTypes={['country', 'region', 'city']}
+                          />
                         </div>
                         
                         <div>
@@ -981,19 +978,13 @@ export default function StrategicHome() {
                     {/* Campaign settings */}
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <Label htmlFor="expert-location" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Location</Label>
-                        <Select value={location} onValueChange={setLocation}>
-                          <SelectTrigger className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600" data-testid="select-expert-location">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="US">United States</SelectItem>
-                            <SelectItem value="CA">Canada</SelectItem>
-                            <SelectItem value="UK">United Kingdom</SelectItem>
-                            <SelectItem value="AU">Australia</SelectItem>
-                            <SelectItem value="worldwide">Worldwide</SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <LocationSearch
+                          value={selectedLocations}
+                          onChange={setSelectedLocations}
+                          maxSelections={10}
+                          allowedTypes={['country', 'region', 'city', 'zip']}
+                          className="w-full"
+                        />
                       </div>
                       
                       <div className="space-y-2">
