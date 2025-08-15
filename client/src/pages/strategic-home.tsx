@@ -115,7 +115,7 @@ export default function StrategicHome() {
         name: recommendation.name,
         parentId: null,
         level: 1,
-        size: null,
+        size: undefined,
         categoryType: recommendation.type,
         createdAt: new Date()
       };
@@ -164,19 +164,42 @@ export default function StrategicHome() {
 
   // Export campaign configuration
   const handleExportCampaign = () => {
+    if (!strategicTargeting || selectedCategories.length === 0) return;
+
+    // Get selected category details
+    const selectedCategoryDetails = strategicTargeting.groups
+      .flatMap(group => group.categories)
+      .filter(category => selectedCategories.includes(category.id));
+
     const campaignConfig = {
+      name: `IntelliTarget Campaign - ${new Date().toLocaleDateString()}`,
       businessDiscovery,
       strategicTargeting,
-      selectedCategories,
-      campaignSettings: {
-        location,
-        ageMin,
-        ageMax,
-        logic: campaignLogic
+      selectedCategories: selectedCategoryDetails.map(cat => ({
+        id: cat.id,
+        name: cat.name,
+        type: cat.categoryType,
+        size: cat.size
+      })),
+      metaTargeting: {
+        age_min: 18,
+        age_max: 65,
+        geo_locations: { countries: ["US"] },
+        flexible_spec: [{
+          interests: selectedCategoryDetails
+            .filter(cat => cat.categoryType === 'interests')
+            .map(cat => ({ id: cat.id, name: cat.name })),
+          behaviors: selectedCategoryDetails
+            .filter(cat => cat.categoryType === 'behaviors')
+            .map(cat => ({ id: cat.id, name: cat.name })),
+          demographics: selectedCategoryDetails
+            .filter(cat => cat.categoryType === 'demographics')
+            .map(cat => ({ id: cat.id, name: cat.name }))
+        }]
       },
       audienceSize: calculateAudienceSize(),
       specificity: getCampaignSpecificity(),
-      exportedAt: new Date().toISOString()
+      created: new Date().toISOString()
     };
     
     const blob = new Blob([JSON.stringify(campaignConfig, null, 2)], { type: 'application/json' });
@@ -320,10 +343,22 @@ export default function StrategicHome() {
 
                 {/* Right: Strategic Overview */}
                 <div className="space-y-6">
-                  <VennDiagram
-                    strategicTargeting={strategicTargeting}
-                    audienceSize={calculateAudienceSize()}
-                  />
+                  <div className="p-6 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950/20 dark:to-purple-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                    <h4 className="font-semibold text-blue-900 dark:text-blue-100 mb-2">Strategic Overview</h4>
+                    <p className="text-sm text-blue-800 dark:text-blue-200">
+                      Using AND logic between strategic groups to create precise audience intersections.
+                    </p>
+                    <div className="mt-4 flex items-center gap-4 text-sm">
+                      <div className="flex items-center gap-2">
+                        <Users className="h-4 w-4 text-green-600" />
+                        <span>{calculateAudienceSize().toLocaleString()} estimated reach</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Target className="h-4 w-4 text-blue-600" />
+                        <span>{getCampaignSpecificity()} specificity</span>
+                      </div>
+                    </div>
+                  </div>
                   
                   {/* Quick campaign summary */}
                   <Card className="border-0 shadow-lg">
@@ -404,10 +439,26 @@ export default function StrategicHome() {
                   {/* Strategic Groups */}
                   <div className="lg:col-span-2">
                     {strategicTargeting && (
-                      <VennDiagram
-                        strategicTargeting={strategicTargeting}
-                        audienceSize={calculateAudienceSize()}
-                      />
+                      <div className="p-6 bg-white dark:bg-gray-800 rounded-lg border shadow-lg">
+                        <h3 className="font-bold text-lg mb-4">Strategic Groups Overview</h3>
+                        <div className="space-y-4">
+                          {strategicTargeting.groups.map((group) => (
+                            <div key={group.id} className="p-4 border rounded-lg">
+                              <h4 className="font-semibold">{group.name}</h4>
+                              <p className="text-sm text-gray-600 dark:text-gray-400">{group.description}</p>
+                              <div className="mt-2">
+                                <Badge variant="outline">{group.categories.length} categories</Badge>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="mt-6 text-center">
+                          <div className="text-2xl font-bold text-green-600">
+                            {calculateAudienceSize().toLocaleString()}
+                          </div>
+                          <div className="text-sm text-gray-600">Estimated Reach</div>
+                        </div>
+                      </div>
                     )}
                   </div>
                   

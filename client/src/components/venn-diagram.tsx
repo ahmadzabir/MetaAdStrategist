@@ -149,32 +149,32 @@ export function VennDiagram({ selectedCategories, audienceSize, onCategoryToggle
         <div className="space-y-3">
           <h4 className="font-medium text-gray-900 dark:text-gray-100 flex items-center gap-2">
             <Zap className="h-4 w-4 text-purple-600" />
-            Strategic Groups ({strategicTargeting.groups.length})
+            Strategic Groups ({circles.length})
           </h4>
           
           <div className="space-y-2">
-            {strategicTargeting.groups.map((group, index) => (
+            {circles.map((circle, index) => (
               <div
-                key={group.id}
+                key={circle.id}
                 className="p-3 rounded-lg border bg-white dark:bg-gray-800 hover:shadow-md transition-shadow"
-                style={{ borderColor: group.color || `hsl(${(index * 90) % 360}, 70%, 60%)` }}
+                style={{ borderColor: circle.color }}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <div
                         className="w-3 h-3 rounded-full"
-                        style={{ backgroundColor: group.color || `hsl(${(index * 90) % 360}, 70%, 60%)` }}
+                        style={{ backgroundColor: circle.color }}
                       />
                       <span className="font-medium text-sm text-gray-900 dark:text-gray-100">
-                        {group.name}
+                        {circle.name}
                       </span>
                       <Badge variant="outline" className="text-xs">
-                        {group.categories.length} categories
+                        Active
                       </Badge>
                     </div>
                     <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
-                      {group.description}
+                      Strategic targeting group for {circle.name.toLowerCase()}
                     </p>
                   </div>
                 </div>
@@ -204,8 +204,8 @@ export function VennDiagram({ selectedCategories, audienceSize, onCategoryToggle
                 Specificity
               </span>
             </div>
-            <Badge className={`text-sm font-medium ${getSpecificityColor(strategicTargeting.specificity)}`}>
-              {strategicTargeting.specificity}
+            <Badge className="text-xs font-medium text-blue-600 bg-blue-50 border-blue-200">
+              High Specificity
             </Badge>
           </div>
         </div>
@@ -217,7 +217,7 @@ export function VennDiagram({ selectedCategories, audienceSize, onCategoryToggle
             Strategic Approach
           </h5>
           <p className="text-sm text-blue-800 dark:text-blue-200 leading-relaxed">
-            This targeting forces Meta to find users who match <strong>ALL {strategicTargeting.groups.length} groups simultaneously</strong> using AND logic. 
+            This targeting forces Meta to find users who match <strong>ALL {circles.length} groups simultaneously</strong> using AND logic. 
             Within each group, categories use OR logic for flexibility. This creates highly qualified audiences 
             with multiple behavioral and demographic indicators.
           </p>
