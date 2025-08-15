@@ -195,6 +195,16 @@ export function StrategicResults({
                                       ID: {category.id}
                                     </p>
                                   )}
+                                  {category.breadcrumbs && category.breadcrumbs.length > 0 && (
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                                      Path: {category.breadcrumbs.join(" > ")}
+                                    </p>
+                                  )}
+                                  {category.level && (
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                                      Level: L{category.level}
+                                    </p>
+                                  )}
                                   {category.parentId && (
                                     <p className="text-xs text-gray-500 dark:text-gray-400">
                                       Parent: {category.parentId}
