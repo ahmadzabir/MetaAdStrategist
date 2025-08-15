@@ -106,6 +106,25 @@ export interface MetaTargetingSpec {
     countries?: string[];
     regions?: Array<{ key: string }>;
     cities?: Array<{ key: string; radius?: number; distance_unit?: "mile" | "kilometer" }>;
+    zips?: Array<{ key: string }>;
+    places?: Array<{ key: string; name?: string; radius?: number; distance_unit?: "mile" | "kilometer" }>;
+    custom_locations?: Array<{ 
+      latitude?: number; 
+      longitude?: number; 
+      address_string?: string;
+      name?: string;
+      radius?: number; 
+      distance_unit?: "mile" | "kilometer" 
+    }>;
+    geo_markets?: Array<{ key: string; name?: string }>;
+    electoral_districts?: Array<{ key: string }>;
+    location_types?: Array<'home' | 'recent'>;
+    country_groups?: string[];
+  };
+  excluded_geo_locations?: {
+    countries?: string[];
+    regions?: Array<{ key: string }>;
+    cities?: Array<{ key: string; radius?: number; distance_unit?: "mile" | "kilometer" }>;
   };
   age_min?: number;
   age_max?: number;
@@ -127,6 +146,30 @@ export interface MetaTargetingCategory {
   description?: string;
   audience_size?: number;
   path?: string[];
+}
+
+// Location types for Meta location targeting
+export interface MetaLocation {
+  key: string;
+  name: string;
+  type: 'country' | 'region' | 'city' | 'zip' | 'dma' | 'electoral_district';
+  country_code?: string;
+  country_name?: string;
+  region?: string;
+  region_id?: string;
+  supports_region?: boolean;
+  supports_city?: boolean;
+  latitude?: number;
+  longitude?: number;
+}
+
+export interface SelectedLocation {
+  key: string;
+  name: string;
+  type: string;
+  displayName: string;
+  country_code?: string;
+  country_name?: string;
 }
 
 // Strategic Discovery Questions
