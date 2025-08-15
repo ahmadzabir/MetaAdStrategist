@@ -253,6 +253,13 @@ export default function StrategicHome() {
   };
 
   const moveTargetToGroup = (categoryId: string, fromGroupId: string, toGroupId: string) => {
+    // Don't move if it's the same group
+    if (fromGroupId === toGroupId) return;
+    
+    // Check if target already exists in destination group
+    const targetGroup = targetingGroups.find(g => g.id === toGroupId);
+    if (targetGroup && targetGroup.categories.includes(categoryId)) return;
+    
     setTargetingGroups(prev => prev.map(group => {
       if (group.id === fromGroupId) {
         return { ...group, categories: group.categories.filter(id => id !== categoryId) };
@@ -261,6 +268,15 @@ export default function StrategicHome() {
       }
       return group;
     }));
+    
+    const category = getCategoryDetails(categoryId);
+    const sourceGroup = targetingGroups.find(g => g.id === fromGroupId);
+    const destGroup = targetingGroups.find(g => g.id === toGroupId);
+    
+    toast({
+      title: "Target Moved",
+      description: `${category?.name || 'Target'} moved from ${sourceGroup?.name || 'group'} to ${destGroup?.name || 'group'}.`
+    });
   };
 
   const getCategoryDetails = (categoryId: string) => {
@@ -1030,6 +1046,24 @@ export default function StrategicHome() {
                             <div
                               key={group.id}
                               className="border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800/50 shadow-sm"
+                              onDragOver={(e) => {
+                                e.preventDefault();
+                                e.currentTarget.classList.add('ring-2', 'ring-blue-300', 'bg-blue-50');
+                              }}
+                              onDragLeave={(e) => {
+                                e.currentTarget.classList.remove('ring-2', 'ring-blue-300', 'bg-blue-50');
+                              }}
+                              onDrop={(e) => {
+                                e.preventDefault();
+                                e.currentTarget.classList.remove('ring-2', 'ring-blue-300', 'bg-blue-50');
+                                
+                                const categoryId = e.dataTransfer.getData('text/plain');
+                                const fromGroupId = e.dataTransfer.getData('application/json');
+                                
+                                if (categoryId && fromGroupId && fromGroupId !== group.id) {
+                                  moveTargetToGroup(categoryId, fromGroupId, group.id);
+                                }
+                              }}
                             >
                               {/* Group Header */}
                               <div className="flex items-center justify-between p-3 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/30 rounded-t-lg">
@@ -1085,11 +1119,21 @@ export default function StrategicHome() {
                                       return (
                                         <div
                                           key={`${group.id}-${categoryId}-${index}`}
-                                          className="group flex items-start justify-between p-3 bg-gray-50 dark:bg-gray-700/30 rounded-lg border border-gray-200 dark:border-gray-600 hover:shadow-sm transition-all"
+                                          className="group flex items-start justify-between p-3 bg-gray-50 dark:bg-gray-700/30 rounded-lg border border-gray-200 dark:border-gray-600 hover:shadow-sm transition-all cursor-move"
+                                          draggable={true}
+                                          onDragStart={(e) => {
+                                            e.dataTransfer.setData('text/plain', categoryId);
+                                            e.dataTransfer.setData('application/json', group.id);
+                                            e.currentTarget.classList.add('opacity-50');
+                                          }}
+                                          onDragEnd={(e) => {
+                                            e.currentTarget.classList.remove('opacity-50');
+                                          }}
                                         >
                                           <div className="flex-1 min-w-0">
-                                            {/* Category name */}
+                                            {/* Category name with drag handle */}
                                             <div className="flex items-center gap-2 mb-1">
+                                              <Grip className="h-3 w-3 text-gray-400 flex-shrink-0" />
                                               <span className="font-medium text-gray-900 dark:text-gray-100 text-sm">
                                                 {category.name}
                                               </span>
