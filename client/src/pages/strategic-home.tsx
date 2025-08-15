@@ -37,6 +37,7 @@ import { VennDiagram } from "@/components/venn-diagram";
 import { StrategicConversation } from "@/components/strategic-conversation";
 import SimpleTree from "@/components/simple-tree";
 import { SearchAutocomplete } from "@/components/search-autocomplete";
+import { MetaTargetingSearch } from "@/components/meta-targeting-search";
 import { LocationSearch } from "@/components/location-search";
 
 import type { 
@@ -76,6 +77,7 @@ export default function StrategicHome() {
   
   // Manual exploration state
   const [viewMode, setViewMode] = useState<"tree" | "list">("tree");
+  const [selectedTargetingType, setSelectedTargetingType] = useState<'adTargetingCategory' | 'interests' | 'behaviors' | 'demographics'>('adTargetingCategory');
   const [searchQuery, setSearchQuery] = useState("");
   const [categories, setCategories] = useState<HierarchicalTargetingCategory[]>([]);
   const [flatCategories, setFlatCategories] = useState<TargetingCategory[]>([]);
@@ -840,24 +842,86 @@ export default function StrategicHome() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    {/* Smart Search with Autocomplete */}
+                    {/* Enhanced Meta Targeting Search with Live API */}
                     <div className="space-y-4 mb-6">
-                      <SearchAutocomplete
-                        categories={flatCategories}
+                      <MetaTargetingSearch
                         onSelect={(category) => {
                           try {
+                            // Create a compatible category object
+                            const targetingCategory = {
+                              id: category.id,
+                              name: category.name,
+                              parentId: category.parentId || null,
+                              level: category.level || 1,
+                              size: category.audience_size_display || null,
+                              categoryType: category.type || 'interests',
+                              createdAt: new Date()
+                            };
+                            
+                            // Add to flat categories for consistency
+                            setFlatCategories(prev => {
+                              const exists = prev.find(cat => cat.id === category.id);
+                              if (!exists) {
+                                return [...prev, targetingCategory];
+                              }
+                              return prev;
+                            });
+                            
                             handleCategorySelect(category.id, true);
                             toast({
-                              title: "Target Added",
-                              description: `${category.name} added to your campaign targeting.`
+                              title: "Target Added from Meta API",
+                              description: `${category.name} added to your campaign with live audience data.`
                             });
                           } catch (error) {
                             console.error('Error selecting category:', error);
+                            toast({
+                              title: "Selection Error",
+                              description: "Failed to add targeting category. Please try again.",
+                              variant: "destructive"
+                            });
                           }
                         }}
-                        placeholder="Search targeting categories... (e.g., fashion, fitness, parents)"
+                        placeholder="Search live Meta targeting categories with breadcrumbs..."
                         className="w-full"
+                        targetingType={selectedTargetingType}
                       />
+                      
+                      {/* Targeting Type Tabs */}
+                      <div className="flex flex-wrap gap-2 p-3 bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-800 dark:to-blue-900/20 rounded-lg border border-gray-200 dark:border-gray-700">
+                        <div className="text-sm font-medium text-gray-700 dark:text-gray-300 mr-2">Search by type:</div>
+                        {(['adTargetingCategory', 'interests', 'behaviors', 'demographics'] as const).map((type) => (
+                          <Button
+                            key={type}
+                            variant={selectedTargetingType === type ? "default" : "outline"}
+                            size="sm"
+                            className="h-7 text-xs"
+                            onClick={() => {
+                              setSelectedTargetingType(type);
+                              const input = document.querySelector('[data-testid="input-meta-targeting-search"]') as HTMLInputElement;
+                              if (input) {
+                                input.focus();
+                                input.placeholder = `Search ${type === 'adTargetingCategory' ? 'all categories' : type}...`;
+                                input.value = '';
+                              }
+                            }}
+                            data-testid={`button-targeting-type-${type}`}
+                          >
+                            {type === 'adTargetingCategory' ? 'All' : 
+                             type === 'demographics' ? 'Demographics' :
+                             type === 'interests' ? 'Interests' : 'Behaviors'}
+                          </Button>
+                        ))}
+                      </div>
+                      
+                      {/* Status indicator */}
+                      <div className="text-center">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-50 dark:bg-green-900/20 rounded-full border border-green-200 dark:border-green-700">
+                          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                          <span className="text-xs font-medium text-green-700 dark:text-green-300">
+                            Live Meta API with hierarchical breadcrumbs + local fallback
+                          </span>
+                        </div>
+                      </div>
                       
                       {/* View Mode Toggle */}
                       <div className="flex items-center justify-between bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-800 dark:to-blue-900/20 p-3 rounded-lg border border-gray-200 dark:border-gray-700">
