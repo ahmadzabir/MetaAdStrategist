@@ -62,16 +62,20 @@ Group 3: "Professional Behaviors" (behaviors)
 - LinkedIn active users  
 - B2B purchase decision makers
 
-EXAMPLE STRUCTURE (Men's Bowties):
-- Group A: "Professional Demographics" 
+AUTHENTIC META EXAMPLE (Professional Services):
+- Group A: "Target Demographics" 
   Categories: [
-    {"id": "6003020834540", "name": "Men age 25-54", "type": "demographics", "size": "120M", "parentId": "6003020834500", "level": 3, "breadcrumbs": ["Demographics", "Age and Gender", "Men age 25-54"], "categoryType": "demographics"}, 
-    {"id": "6004854404172", "name": "Business professionals", "type": "demographics", "size": "45M", "parentId": "6004854404100", "level": 4, "breadcrumbs": ["Demographics", "Work", "Industries", "Business professionals"], "categoryType": "demographics"}
+    {"id": "age_25_34", "name": "Age 25-34", "type": "demographics", "size": "85M", "parentId": null, "level": 1, "breadcrumbs": ["Age 25-34"], "categoryType": "demographics"}, 
+    {"id": "age_35_44", "name": "Age 35-44", "type": "demographics", "size": "76M", "parentId": null, "level": 1, "breadcrumbs": ["Age 35-44"], "categoryType": "demographics"}
   ]
-- Group B: "Lifestyle Interests"  
+- Group B: "Business Interests"  
   Categories: [
-    {"id": "6003195797498", "name": "Fashion accessories", "type": "interests", "size": "80M", "parentId": "6003195797400", "level": 3, "breadcrumbs": ["Interests", "Fashion", "Fashion accessories"], "categoryType": "interests"}, 
-    {"id": "6003050399578", "name": "Wedding planning", "type": "interests", "size": "25M", "parentId": "6003050399500", "level": 4, "breadcrumbs": ["Interests", "Family and relationships", "Life events", "Wedding planning"], "categoryType": "interests"}
+    {"id": "6003195797498", "name": "CRM software", "type": "interests", "size": "15M", "parentId": "6003195797400", "level": 4, "breadcrumbs": ["Business and industry", "Business software", "CRM software"], "categoryType": "interests"}, 
+    {"id": "6003050399578", "name": "Marketing automation", "type": "interests", "size": "8M", "parentId": "6003050399500", "level": 4, "breadcrumbs": ["Business and industry", "Business software", "Marketing automation"], "categoryType": "interests"}
+  ]
+- Group C: "Professional Behaviors"
+  Categories: [
+    {"id": "6002123456789", "name": "Small business owners", "type": "behaviors", "size": "25M", "parentId": "6002123456700", "level": 3, "breadcrumbs": ["Digital activities", "Small business owners"], "categoryType": "behaviors"}
   ]
 
 CRITICAL: Each category MUST include ALL these fields:
@@ -84,13 +88,35 @@ CRITICAL: Each category MUST include ALL these fields:
 - breadcrumbs: Array showing full hierarchy path like ["Demographics", "Age", "Age 25-54"]
 - categoryType: Same as type for compatibility
 
-Generate REAL, SPECIFIC categories that make business sense for the user's industry. 
-Use realistic Meta targeting IDs (format: 6003XXXXXXXX) and plausible audience sizes based on real Meta data.
+Generate AUTHENTIC META CATEGORIES that make business sense:
 
-ENSURE STRATEGIC DIVERSITY:
-- Group 1: Demographics (age, job titles, life stages)  
-- Group 2: Interests (hobbies, topics, brands they follow)
-- Group 3: Behaviors (purchase patterns, device usage, online activities)
+DEMOGRAPHICS: Use simple age/gender selectors (no complex hierarchy):
+- Age ranges: age_18_24, age_25_34, age_35_44, etc.
+- Simple names: "Age 25-34", "Age 35-44"
+- Breadcrumbs: Just ["Age 25-34"] - no deep hierarchy
+- Level: Always 1
+
+INTERESTS: Use REAL Meta interest hierarchies:
+- Real IDs: 6003XXXXXXXX format
+- Real paths: ["Business and industry", "Business services", "Consulting"]
+- Authentic categories like: Marketing, Business software, Industry topics
+
+BEHAVIORS: Use REAL Meta behavior categories:
+- Real IDs: 6004XXXXXXXX format  
+- Real paths: ["Digital activities", "Facebook page admins"]
+- Authentic behaviors like: Purchase patterns, Device usage, Job roles
+
+ENSURE STRATEGIC DIVERSITY & AUTHENTIC META STRUCTURE:
+- Group 1: Demographics - Use BASIC AGE/GENDER selectors only (no hierarchical breadcrumbs for demographics)
+  * Ages: 18-24, 25-34, 35-44, 45-54, 55-64, 65+
+  * Gender: All, Men, Women
+  * These are simple selectors, not hierarchical categories
+- Group 2: Interests - Use REAL Meta interest hierarchy with authentic breadcrumbs
+  * Format: "Business and industry > Business software > CRM"
+  * Real paths like: "Hobbies and activities > Sports > Fitness and wellness"
+- Group 3: Behaviors - Use REAL Meta behavior categories with authentic paths  
+  * Format: "Digital activities > Facebook page admins"
+  * Real paths like: "Purchase behavior > Premium brand shoppers"
 
 This creates powerful AND logic: find people who match demographics AND interests AND behaviors simultaneously.
 
