@@ -213,8 +213,23 @@ export function LocationSearch({
   };
 
   const handleInputFocus = () => {
+    console.log('Input focused, query:', query, 'suggestions:', suggestions.length);
     if (query.trim() && suggestions.length > 0) {
       setIsOpen(true);
+    } else if (query.length === 0) {
+      // Show popular countries on focus when no query
+      const popularCountries = [
+        { key: 'US', name: 'United States', type: 'country', country_name: 'United States' },
+        { key: 'CA', name: 'Canada', type: 'country', country_name: 'Canada' },
+        { key: 'GB', name: 'United Kingdom', type: 'country', country_name: 'United Kingdom' },
+        { key: 'AU', name: 'Australia', type: 'country', country_name: 'Australia' },
+        { key: 'DE', name: 'Germany', type: 'country', country_name: 'Germany' },
+        { key: 'FR', name: 'France', type: 'country', country_name: 'France' }
+      ].filter(loc => !value.some(selected => selected.key === loc.key)) as LocationResult[];
+      
+      setSuggestions(popularCountries);
+      setIsOpen(popularCountries.length > 0);
+      console.log('Setting popular countries:', popularCountries.length, 'open:', popularCountries.length > 0);
     }
   };
 
@@ -328,25 +343,29 @@ export function LocationSearch({
 
       {/* Debug info */}
       {process.env.NODE_ENV === 'development' && (
-        <div className="text-xs text-gray-400">
-          Query: "{query}" | Suggestions: {suggestions.length} | Open: {isOpen.toString()}
+        <div className="text-xs text-gray-400 p-2 bg-yellow-50 border rounded">
+          Query: "{query}" | Suggestions: {suggestions.length} | Open: {isOpen.toString()} | Loading: {isLoading.toString()}
+          {suggestions.length > 0 && (
+            <div>Suggestions: {suggestions.map(s => s.name).join(', ')}</div>
+          )}
         </div>
       )}
 
-      {/* Suggestions Dropdown */}
-      {isOpen && suggestions.length > 0 && (
-        <div 
-          ref={dropdownRef}
-          className="absolute left-0 right-0 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl max-h-80 overflow-y-auto"
-          style={{ 
-            position: 'absolute', 
-            top: '100%', 
-            left: 0, 
-            right: 0, 
-            zIndex: 9999,
-            marginTop: '8px'
-          }}
-        >
+      {/* Suggestions Dropdown - Always render but conditionally show */}
+      <div 
+        ref={dropdownRef}
+        className={`absolute left-0 right-0 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl max-h-80 overflow-y-auto transition-opacity duration-200 ${
+          isOpen && suggestions.length > 0 ? 'opacity-100 visible' : 'opacity-0 invisible'
+        }`}
+        style={{ 
+          position: 'absolute', 
+          top: '100%', 
+          left: 0, 
+          right: 0, 
+          zIndex: 9999,
+          marginTop: '8px'
+        }}
+      >
           {suggestions.map((location, index) => (
             <button
               key={`${location.key}-${index}`}
@@ -393,8 +412,7 @@ export function LocationSearch({
               </div>
             </button>
           ))}
-        </div>
-      )}
+      </div>
 
       {/* Helper text */}
       <p className="text-xs text-gray-500 dark:text-gray-400">
