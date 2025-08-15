@@ -1,0 +1,410 @@
+Basic Targeting
+Basic or core targeting includes:
+
+Demographics and Events
+Location
+Interests
+Behaviors
+Restrictions
+Advertisers running housing, employment, credit ads, issues, election, or political ads who are based in the United States or running ads targeted to the United States have different sets of restrictions.
+
+Demographics and Events
+Start with basic demographic and location based targeting. Typically you get data to define targeting from Targeting Search, then specify options in Targeting Spec. Targeting Specs are ad set attributes that define who sees an ad.
+
+You must specify at least one country in targeting, unless you use Custom Audiences.
+
+Targeting by demographic:
+
+Available Fields
+Name	Description
+genders
+
+array	
+Genders to target. Defaults to all. 1 targets males, 2 targets females.
+
+age_min
+
+int	
+Minimum age. Defaults to 18. If used, must be 13 or higher. If the app has custom settings for age restrictions, the app's age restrictions will be used for ads with APP_INSTALL goals. For example, if you set age_min to 13 but your app's age minimum is set to 18, 18 will be used in ads targeting.
+
+age_max
+
+int	
+Maximum age. If used, must be 65 or lower.
+
+Location
+Search and retrieve values for location targeting at Targeting Search API. This targeting has two parameters: geo_locations to target locations, and optionally excluded_geo_locations to exclude areas.
+
+Use country_groups for geo_locations to target broader geographic regions such as Europe or North America.
+
+Using radius can cause an error, code: 100, subcode 1815946, when targeting multiple locations. We recommend creating an ad for each location or not using radius in your call.
+
+Available Fields
+Name	Description
+countries
+
+array	
+Country targeting. Requires array of country codes. Targeting Search, Countries. Example: 'countries': ['US']
+
+regions
+
+array	
+State, province, or region. Available values, see Targeting Search, Regions. Limit: 200.
+Example: 'regions': [{'key':'3847'}]
+
+cities
+
+array	
+Specify key, radius & distance_unit. For key, see Targeting Search, Cities. radius is a distance around cities, from 10 to 50 miles or 17 to 80 kilometers. distance_unit is mile or kilometer. Limit: 250.
+Example: 'cities': [{'key':'2430536', 'radius':12, 'distance_unit':'mile'}]
+
+zips
+
+array	
+Target Zip Code, See targeting search API. Limit: 50,000. Formerly 2,500. If you provide more than 2,500 we create an array known as location_cluster which represents a set of zip codes. Example: 'zips':[{'key':'US:94304'},{'key':'US:00501'}]
+
+To read a location_cluster and see the locations targeted: GET /location_cluster_ID
+
+places
+
+array	
+Provide a specific place. Limit: 200. Example: "places":[{"key":129672430416115,"name":"SFO", "radius":10, "distance_unit":"mile"}]
+
+custom_locations
+
+array	
+Available for all objectives. Provide exact location in latitude and longitude or address as the center of an area. Also specify radius for your location from .63 to 50 miles, or 1 to 80 kilometers. distance_unit is miles or kilometers; default is mile. Limit: 200. PO Box alone is not supported in address_string. You must provide at minimum, a street address. Example: 'custom_locations':[{'address_string': '1601 Willow Road, Menlo Park, CA', 'radius': 5},{'latitude': 36, 'longitude': -121.0, 'radius': 5, 'distance_unit': 'kilometer'},]
+
+custom_locations.latitude
+
+float	
+Latitude of location
+
+custom_locations.longitude
+
+float	
+Longitude of location
+
+custom_locations.name
+
+string	
+Name for address. You can use with latitude and longitude values for geo location targeting without providing address_string
+
+custom_locations.radius
+
+float	
+Radius around latitude/longitude, in miles unless otherwise in distance_unit. From 0.63 to 50 miles, or 1 to 80 kilometers.
+
+custom_locations.distance_unit
+
+string	
+Optional.
+
+kilometer or mile; default mile
+
+custom_locations.address_string
+
+string	
+Address at latitude/longitude, such as 1601 Willow Rd, Menlo Park, CA. Suggested format: street number street name, city, state/province, country. Exclude postal codes.
+
+geo_markets
+
+array	
+Key for market, formatted “DMA:501”. We support all designated market areas (DMA). Get DMA codes at Targeting Search querying by DMA name. Limit: 2500
+Example 'geo_markets':[{'key': 'DMA:501', 'name': 'New York'},{'key': 'DMA:543', 'name': 'Springfield-Holyoke'},]
+
+electoral_district
+
+array	
+Key for electoral districts. Get districts at Targeting Search, Electoral.
+Example: 'electoral_districts':[{'key':'US:AK00'},{'key':'US:CA01'},{'key':'US:NY14'}]
+
+location_types
+
+array	
+Note: Beginning with v18.0, the array ['home', 'recent'] will be the only option available.
+
+
+For v18.0+, if no location_types is provided, it will default to the array ['home', 'recent'].
+
+
+recent: People whose recent location is in a selected area, as determined from mobile device data. Not available to exclude locations.
+home: People whose stated location in their Facebook profile “current city” is in an area. Facebook validates this by IP and information from their friends' profile locations.
+country_groups
+
+array	
+Global geographical regions and free trade areas. Provide array of country group codes:
+
+
+worldwide: Worldwide.
+
+africa: Africa.
+
+afta: ASEAN Free Trade Area.
+
+android_app_store: paid apps supporting countries in Android app store.
+
+android_free_store: free apps supporting countries in Android app store.
+
+apec: Asia-Pacific Economic Cooperation.
+
+asia: Asia
+
+caribbean: Caribbean.
+
+central_america: Central America.
+
+cisfta: Commonwealth of Independent States Free Trade Area.
+
+eea: European Economic Area.
+
+emerging_markets: countries in Emerging Markets
+
+europe: Europe.
+
+gcc: Gulf Cooperation Council.
+
+itunes_app_store: supported countries for iTunes app store.
+
+mercosur: MERCOSUR.
+
+nafta: North American Free Trade Agreement.
+
+north_america: North America.
+
+oceania: Oceania.
+
+south_america: South America.
+
+
+See Targeting Search, Country Groups.
+
+Example: 'country_groups': ['asia','mercosur']
+
+Examples
+Target By Countries
+cURLNode.js SDKPHP SDKPython SDKJava SDKRuby SDK
+Copy Codecurl -X POST \
+  -F 'name="My Reach Ad Set"' \
+  -F 'optimization_goal="REACH"' \
+  -F 'billing_event="IMPRESSIONS"' \
+  -F 'bid_amount=2' \
+  -F 'daily_budget=1000' \
+  -F 'campaign_id="<AD_CAMPAIGN_ID>"' \
+  -F 'targeting={
+       "geo_locations": {
+         "countries": [
+           "US"
+         ]
+       },
+       "facebook_positions": [
+         "feed"
+       ]
+     }' \
+  -F 'status="PAUSED"' \
+  -F 'promoted_object={
+       "page_id": "<PAGE_ID>"
+     }' \
+  -F 'access_token=<ACCESS_TOKEN>' \
+  https://graph.facebook.com/v23.0/act_<AD_ACCOUNT_ID>/adsets
+Open In Graph API ExplorerOpen In Postman
+Give Feedback
+
+Location Targeting With Exclusions
+cURLNode.js SDKPHP SDKPython SDKJava SDKRuby SDK
+Copy Codecurl -X POST \
+  -F 'name="My Reach Ad Set"' \
+  -F 'optimization_goal="REACH"' \
+  -F 'billing_event="IMPRESSIONS"' \
+  -F 'bid_amount=2' \
+  -F 'daily_budget=1000' \
+  -F 'campaign_id="<AD_CAMPAIGN_ID>"' \
+  -F 'targeting={
+       "excluded_geo_locations": {
+         "regions": [
+           {
+             "key": "3847"
+           }
+         ]
+       },
+       "geo_locations": {
+         "countries": [
+           "US"
+         ]
+       },
+       "facebook_positions": [
+         "feed"
+       ]
+     }' \
+  -F 'status="PAUSED"' \
+  -F 'promoted_object={
+       "page_id": "<PAGE_ID>"
+     }' \
+  -F 'access_token=<ACCESS_TOKEN>' \
+  https://graph.facebook.com/v23.0/act_<AD_ACCOUNT_ID>/adsets
+Open In Graph API Explorer
+Give Feedback
+
+Target By Zip Codes
+Target by Custom Locations, DMAs and Location Types
+The following code sets up targeting for:
+
+5 miles around 1601 Willow Road, Menlo Park, CA
+5 kilometers around latitude 36 longitude -121.0
+DMAs 501 and 543 with location type as recent and home
+Search And Targeting
+To target males age 20-24 within 10 miles of Menlo Park, CA or living in Texas or in Japan:
+
+Step 1
+First, get Japan's country code:
+
+Step 2
+Get Texas's region code:
+
+Step 3
+Search Menlo Park, CA city code:
+
+Step 4
+Provide genders and age as age_min and age_max.
+
+Step 5
+Our targeting spec is ready with country, region and city codes:
+
+Target Multiple Cities
+Set custom_type to 'multi_city' and define either country or country_group as described before. Additional, optional, parameters are:
+
+Name	Description
+min_population
+
+int	
+The minimum population threshold on which the cities are chosen for targeting.
+
+max_population
+
+int	
+The maximum population threshold on which the cities are chosen for targeting.
+
+Interest Targeting
+Target based on interests from someone's timeline, from Pages liked or from keywords associated with Pages or apps someone uses. See Targeting Search, Interests.
+
+To target people interested in soccer, first query:
+
+Add this interest by name and id to a targeting spec, where path is the path of this interest in ads tools.
+
+cURLNode.js SDKPHP SDKPython SDKJava SDKRuby SDK
+Copy Codecurl -X POST \
+  -F 'name="My First AdSet"' \
+  -F 'daily_budget=10000' \
+  -F 'bid_amount=300' \
+  -F 'billing_event="IMPRESSIONS"' \
+  -F 'optimization_goal="REACH"' \
+  -F 'campaign_id="<AD_CAMPAIGN_ID>"' \
+  -F 'promoted_object={
+       "page_id": "<PAGE_ID>"
+     }' \
+  -F 'targeting={
+       "facebook_positions": [
+         "feed"
+       ],
+       "geo_locations": {
+         "countries": [
+           "US"
+         ],
+         "regions": [
+           {
+             "key": "4081"
+           }
+         ],
+         "cities": [
+           {
+             "key": 777934,
+             "radius": 10,
+             "distance_unit": "mile"
+           }
+         ]
+       },
+       "genders": [
+         1
+       ],
+       "age_max": 24,
+       "age_min": 20,
+       "publisher_platforms": [
+         "facebook",
+         "audience_network"
+       ],
+       "device_platforms": [
+         "mobile"
+       ],
+       "flexible_spec": [
+         {
+           "interests": [
+             {
+               "id": "<INTEREST_ID>",
+               "name": "<INTEREST_NAME>"
+             }
+           ]
+         }
+       ]
+     }' \
+  -F 'status="PAUSED"' \
+  -F 'access_token=<ACCESS_TOKEN>' \
+  https://graph.facebook.com/v23.0/act_<AD_ACCOUNT_ID>/adsets
+Open In Graph API Explorer
+Give Feedback
+
+Here's another example:
+
+Available Fields
+Name	Description
+interests
+
+array	
+Array with 'id' and optional 'name' fields: 'interests':[{id: 6003139266461, 'name': 'Movies'}, {id: 6003139266462}, 6003139266463]
+
+Behavioral Targeting
+Target based on digital activities, devices people use, past or intended purchases, and travel. View options at Browse such as Frequent Travelers. See Targeting Search API.
+
+Add the behavior to targeting_spec:
+
+Another example:
+
+cURLNode.js SDKPHP SDKPython SDKJava SDKRuby SDK
+Copy Codecurl -X POST \
+  -F 'name="My AdSet"' \
+  -F 'optimization_goal="REACH"' \
+  -F 'billing_event="IMPRESSIONS"' \
+  -F 'bid_amount=2' \
+  -F 'daily_budget=1000' \
+  -F 'campaign_id="<AD_CAMPAIGN_ID>"' \
+  -F 'targeting={
+       "facebook_positions": [
+         "feed"
+       ],
+       "geo_locations": {
+         "countries": [
+           "US"
+         ]
+       },
+       "behaviors": [
+         {
+           "id": 6007101597783,
+           "name": "Business Travelers"
+         },
+         {
+           "id": 6004386044572,
+           "name": "Android Owners (All)"
+         }
+       ]
+     }' \
+  -F 'access_token=<ACCESS_TOKEN>' \
+  https://graph.facebook.com/v23.0/act_<AD_ACCOUNT_ID>/adsets
+Open In Graph API Explorer
+Give Feedback
+Available Fields
+Name	Description
+behaviors
+
+array	
+Array with 'id' and optional 'name' fields: 'behaviors':[{id: 6004386044572, 'name': 'Android Owners (All)'}, {id: 6004386044573}, 6004386044574]
+
+Resources
