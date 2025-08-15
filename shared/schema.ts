@@ -71,13 +71,18 @@ export type HierarchicalTargetingCategory = TargetingCategory & {
   children?: HierarchicalTargetingCategory[];
 };
 
+// Extended type for targeting categories with breadcrumbs for strategic display
+export type StrategicTargetingCategory = TargetingCategory & {
+  breadcrumbs?: string[];
+};
+
 // Strategic Group Structure for Advanced Targeting
 export interface TargetingGroup {
   id: string;
   name: string; // e.g., "Financial Qualification", "Life Stage Demographics"
   description: string; // Strategic explanation
   logic: "OR"; // Within group logic (always OR)
-  categories: TargetingCategory[];
+  categories: StrategicTargetingCategory[];
   color: string; // For Venn diagram visualization
 }
 

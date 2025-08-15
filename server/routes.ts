@@ -84,27 +84,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
         categories = await storage.getAllTargetingCategories();
       }
 
-      res.json(categories);
+      res.json({
+        success: true,
+        categories: categories,
+        count: categories.length
+      });
     } catch (error) {
       console.error("Error fetching targeting categories:", error);
-      res.status(500).json({ message: "Failed to fetch targeting categories" });
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to fetch targeting categories" 
+      });
     }
   });
 
   // Get hierarchical targeting categories for tree display
   app.get("/api/targeting-categories/hierarchical", async (req, res) => {
     try {
+      let hierarchicalCategories;
       if (storage instanceof FirebaseStorage) {
-        const hierarchicalCategories = await storage.getHierarchicalTargetingCategories();
-        res.json(hierarchicalCategories);
+        hierarchicalCategories = await storage.getHierarchicalTargetingCategories();
       } else {
         // Use buildHierarchy method for HardcodedStorage
-        const hierarchicalCategories = (storage as any).buildHierarchy();
-        res.json(hierarchicalCategories);
+        hierarchicalCategories = (storage as any).buildHierarchy();
       }
+
+      res.json({
+        success: true,
+        categories: hierarchicalCategories,
+        count: hierarchicalCategories.length
+      });
     } catch (error) {
       console.error("Error in hierarchical route:", error);
-      res.status(500).json({ message: "Failed to fetch hierarchical targeting categories" });
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to fetch hierarchical targeting categories" 
+      });
     }
   });
 

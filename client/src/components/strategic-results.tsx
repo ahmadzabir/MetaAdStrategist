@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Target, Users, Eye, CheckCircle, Circle, MessageCircle } from 'lucide-react';
-import { StrategicTargeting, TargetingGroup } from '@shared/schema';
+import { StrategicTargeting, TargetingGroup, StrategicTargetingCategory } from '@shared/schema';
 
 interface StrategicResultsProps {
   strategicTargeting: StrategicTargeting;
