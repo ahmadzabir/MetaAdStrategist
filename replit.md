@@ -6,15 +6,19 @@ IntelliTarget is a clean, focused AI-powered Meta ads strategist designed for en
 
 ## Recent Changes (January 2025)
 
-- **MAJOR UI ARCHITECTURE OVERHAUL COMPLETE**: Completely redesigned user interface from free-form input to structured questionnaire approach
-- **Structured Questionnaire System**: Replaced text input with pre-built questions requiring 1-3 word answers (business type, product/service, target age, budget, goal)
-- **AI Recommendations with Breadcrumbs**: AI now generates targeting recommendations with hierarchical breadcrumb navigation (Demographics > Family > etc.) and strategic explanations
-- **Chat Interface Integration**: Added optional "Start Chat" feature for continued AI conversation after viewing recommendations
-- **Enhanced AI Prompt System**: Updated IntelliTarget AI with professional consultant-style prompting for beginner-friendly, actionable advice
-- **Improved Backend Integration**: Modified Gemini service to handle structured questionnaire data alongside legacy text input format
-- **Component Architecture**: Created modular components (StructuredQuestionnaire, AIRecommendations, AIChat) for better maintainability
-- **Error Handling & Type Safety**: Fixed LSP errors, improved TypeScript interfaces, and enhanced error messaging
-- **AI Model Optimization**: Switched from gemini-2.5-pro to gemini-2.5-flash for better performance and reduced timeout issues
+### MAJOR STRATEGIC TARGETING REVOLUTION (January 15, 2025)
+- **COMPLETE ARCHITECTURE TRANSFORMATION**: Rebuilt from category browser to psychology-based targeting consultant
+- **Strategic Discovery System**: Multi-step customer psychology profiling (business type, decision maker, financial capacity, life stage, pain points, behaviors)
+- **Sophisticated AND/OR Group Logic**: Creates strategic intersections using Meta's flexible_spec format for precise audience targeting
+- **Meta API Integration**: Full integration with Meta Marketing API for real-time audience estimates and live targeting data
+- **Venn Diagram Visualization**: Interactive visualization showing strategic group intersections and audience overlap
+- **Conversational AI Strategist**: Real-time chat with AI consultant for strategic targeting recommendations and customer psychology insights
+- **Dual-Mode Interface**: Guided strategic mode for beginners + Expert manual mode for advanced users
+- **Real-Time Audience Sizing**: Live audience estimates using Meta's Reach Estimate API
+- **Psychology-Based Targeting**: Focus on customer behavior patterns rather than obvious product-related interests
+- **Strategic Campaign Export**: Export sophisticated targeting configurations directly compatible with Meta Ads Manager
+
+### Previous Major Changes
 - **Database Restoration Complete**: Successfully restored 653/673 authentic Meta targeting categories from HTML source with 85% audience size coverage
 - **Authentic Data Verification**: Confirmed audience size data is 100% authentic Meta data (558/653 categories have real audience numbers)
 - **Hierarchical Structure**: Proper 5-level hierarchy established (L1:3, L2:26, L3:234, L4:359, L5:14)
@@ -48,10 +52,19 @@ UI Requirements: Hierarchical tree explorer similar to file explorer (Windows Ex
 - **Migrations**: Drizzle Kit for database schema migrations and management
 
 ### AI Integration
-- **Provider**: Google Gemini (gemini-2.5-pro) for natural language processing and recommendation generation
-- **Strategy**: Contextual prompting with comprehensive targeting category data to generate strategic recommendations
-- **Response Format**: Structured JSON responses with targeting IDs and strategic justifications using schema-based response formatting
+- **Provider**: Google Gemini (gemini-2.5-flash) for strategic consulting and psychology-based targeting recommendations
+- **Strategic AI Service**: Advanced customer psychology profiling and sophisticated AND/OR group generation
+- **Conversational AI**: Real-time chat interface for targeting strategy refinement and customer behavior analysis
+- **Response Format**: Structured JSON responses with strategic targeting groups and psychological justifications
+- **Psychology Focus**: Targets customer behavior patterns and indirect indicators rather than obvious product interests
 - **Error Handling**: Graceful fallback and error reporting for AI service failures
+
+### Meta API Integration
+- **Reach Estimate API**: Real-time audience sizing for targeting combinations and Venn diagram visualization
+- **Targeting Search API**: Live Meta targeting category search with autocomplete functionality
+- **Location Search API**: Geographic targeting with real-time location data
+- **Flexible Spec Builder**: Converts strategic targeting groups to Meta's flexible_spec format for campaign export
+- **Credential Management**: Secure API key and ad account configuration system
 
 ### Authentication & Session Management
 - **Session Storage**: PostgreSQL-based session storage using connect-pg-simple

@@ -71,10 +71,91 @@ export type HierarchicalTargetingCategory = TargetingCategory & {
   children?: HierarchicalTargetingCategory[];
 };
 
+// Strategic Group Structure for Advanced Targeting
+export interface TargetingGroup {
+  id: string;
+  name: string; // e.g., "Financial Qualification", "Life Stage Demographics"
+  description: string; // Strategic explanation
+  logic: "OR"; // Within group logic (always OR)
+  categories: TargetingCategory[];
+  color: string; // For Venn diagram visualization
+}
+
+export interface StrategicTargeting {
+  groups: TargetingGroup[];
+  groupLogic: "AND"; // Between groups (always AND for strategic targeting)
+  totalAudienceSize?: number;
+  specificity: "None" | "Low" | "Medium" | "High";
+}
+
+// Meta API Integration
+export interface MetaReachEstimate {
+  users: number;
+  dailyBudgetMin?: number;
+  dailyBudgetMax?: number;
+  targeting_spec: MetaTargetingSpec;
+}
+
+export interface MetaTargetingSpec {
+  geo_locations?: {
+    countries?: string[];
+    regions?: Array<{ key: string }>;
+    cities?: Array<{ key: string; radius?: number; distance_unit?: "mile" | "kilometer" }>;
+  };
+  age_min?: number;
+  age_max?: number;
+  genders?: number[];
+  flexible_spec?: Array<{
+    interests?: Array<{ id: string; name?: string }>;
+    behaviors?: Array<{ id: string; name?: string }>;
+    demographics?: Array<{ id: string; name?: string }>;
+    [key: string]: any;
+  }>;
+  custom_audiences?: Array<{ id: string }>;
+  excluded_custom_audiences?: Array<{ id: string }>;
+}
+
+export interface MetaTargetingCategory {
+  id: string;
+  name: string;
+  type: string;
+  description?: string;
+  audience_size?: number;
+  path?: string[];
+}
+
+// Strategic Discovery Questions
+export interface BusinessDiscovery {
+  businessType?: string;
+  productService?: string;
+  decisionMaker?: string; // Who makes the buying decision?
+  financialCapacity?: string; // What income level is needed?
+  lifeStage?: string; // What life situation creates the need?
+  painPoints?: string; // What frustrates them?
+  behaviors?: string; // What do they do when NOT thinking about your product?
+  currentSpending?: string; // What else do they spend money on?
+}
+
+// Conversation Context for AI
+export interface ConversationContext {
+  messages: Array<{
+    role: "user" | "assistant";
+    content: string;
+    timestamp: Date;
+    recommendations?: TargetingRecommendation[];
+  }>;
+  discovery: BusinessDiscovery;
+  currentTargeting?: StrategicTargeting;
+}
+
 // Recommendation structure from AI
 export interface TargetingRecommendation {
   id: string;
   name: string;
+  type: "interests" | "behaviors" | "demographics";
+  justification: string;
+  category: string;
+  response?: string; // AI conversational response
   justification: string;
   priority?: "high" | "medium" | "low";
   confidenceScore?: number;
