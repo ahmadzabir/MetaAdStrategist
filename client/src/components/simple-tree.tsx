@@ -8,6 +8,7 @@ interface SimpleTreeProps {
   categories: HierarchicalTargetingCategory[];
   selectedCategories: string[];
   onCategorySelect: (categoryId: string, selected: boolean) => void;
+  searchQuery?: string;
 }
 
 function TreeItem({ 
@@ -144,13 +145,57 @@ function TreeItem({
   );
 }
 
-export default function SimpleTree({ categories, selectedCategories, onCategorySelect }: SimpleTreeProps) {
+export default function SimpleTree({ categories, selectedCategories, onCategorySelect, searchQuery = "" }: SimpleTreeProps) {
   console.log(`SimpleTree received ${categories.length} categories`);
+  
+  // Filter categories based on search query
+  const filterCategories = (cats: HierarchicalTargetingCategory[]): HierarchicalTargetingCategory[] => {
+    if (!searchQuery.trim()) {
+      return cats;
+    }
+    
+    const searchLower = searchQuery.toLowerCase();
+    
+    return cats.map(category => {
+      // Check if current category matches
+      const categoryMatches = category.name.toLowerCase().includes(searchLower);
+      
+      // Filter children recursively
+      const filteredChildren = category.children ? filterCategories(category.children) : [];
+      
+      // Include category if it matches or has matching children
+      if (categoryMatches || filteredChildren.length > 0) {
+        return {
+          ...category,
+          children: filteredChildren
+        };
+      }
+      
+      return null;
+    }).filter(Boolean) as HierarchicalTargetingCategory[];
+  };
+  
+  const filteredCategories = filterCategories(categories);
+
+  if (searchQuery.trim() && filteredCategories.length === 0) {
+    return (
+      <div className="border border-gray-200 dark:border-gray-700 rounded-xl p-8 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-sm">
+        <div className="text-center">
+          <p className="text-gray-500 dark:text-gray-400">
+            No targeting categories found matching "{searchQuery}"
+          </p>
+          <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">
+            Try a different search term or browse categories above
+          </p>
+        </div>
+      </div>
+    );
+  }
   
   return (
     <div className="border border-gray-200 dark:border-gray-700 rounded-xl p-3 sm:p-4 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-sm">
       <div className="space-y-1 sm:space-y-2">
-        {categories.map((category) => (
+        {filteredCategories.map((category) => (
           <div key={category.id} className="animate-in fade-in duration-300">
             <TreeItem
               category={category}

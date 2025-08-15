@@ -782,6 +782,7 @@ export default function StrategicHome() {
                           categories={categories}
                           selectedCategories={selectedCategories}
                           onCategorySelect={handleCategorySelect}
+                          searchQuery={searchQuery}
                         />
                       ) : (
                         <div className="space-y-2">
