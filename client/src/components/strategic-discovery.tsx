@@ -44,15 +44,15 @@ export function StrategicDiscovery({ onDiscoveryComplete, initialDiscovery = {} 
       questions: [
         {
           key: "decisionMaker" as keyof BusinessDiscovery,
-          label: "Who actually makes the buying decision?",
-          placeholder: "e.g., Parents (not students), Business owners, HR managers",
+          label: "Who buys your product?",
+          placeholder: "e.g., Men, Parents, Business owners, Women 25-45",
           type: "input"
         },
         {
           key: "lifeStage" as keyof BusinessDiscovery,
-          label: "What life situation creates the need for your solution?",
-          placeholder: "e.g., Having teenagers, starting a business, feeling overwhelmed",
-          type: "textarea"
+          label: "When do they need your product?",
+          placeholder: "e.g., Special occasions, work events, daily use, holidays",
+          type: "input"
         }
       ]
     },
@@ -63,15 +63,15 @@ export function StrategicDiscovery({ onDiscoveryComplete, initialDiscovery = {} 
       questions: [
         {
           key: "financialCapacity" as keyof BusinessDiscovery,
-          label: "What income level do they need to afford your solution?",
-          placeholder: "e.g., Top 25% income, Middle class with disposable income",
+          label: "How much can they afford to spend?",
+          placeholder: "e.g., $50-100, $200+, Budget-conscious, Premium buyers",
           type: "input"
         },
         {
           key: "currentSpending" as keyof BusinessDiscovery,
-          label: "What else do they currently spend money on?",
-          placeholder: "e.g., Premium education, business tools, convenience services",
-          type: "textarea"
+          label: "What else do they buy similar to your product?",
+          placeholder: "e.g., Fashion accessories, Professional clothing, Gifts",
+          type: "input"
         }
       ]
     },
@@ -82,15 +82,15 @@ export function StrategicDiscovery({ onDiscoveryComplete, initialDiscovery = {} 
       questions: [
         {
           key: "painPoints" as keyof BusinessDiscovery,
-          label: "What frustrates them most in their daily life?",
-          placeholder: "e.g., Not enough time, stress about children's future, inefficient processes",
-          type: "textarea"
+          label: "What problem does your product solve for them?",
+          placeholder: "e.g., Looking professional, Finding good gifts, Standing out",
+          type: "input"
         },
         {
           key: "behaviors" as keyof BusinessDiscovery,
-          label: "What do they do when NOT thinking about your product?",
-          placeholder: "e.g., Browse social media, order takeout, shop online for convenience",
-          type: "textarea"
+          label: "Where do they spend their free time?",
+          placeholder: "e.g., Social media, Shopping online, Work events, Family time",
+          type: "input"
         }
       ]
     }
@@ -165,7 +165,7 @@ export function StrategicDiscovery({ onDiscoveryComplete, initialDiscovery = {} 
           </div>
           
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            Step {currentStep + 1} of {discoverySteps.length}: Let's understand your customer psychology
+            Step {currentStep + 1} of {discoverySteps.length}: Help us understand your customers
           </p>
         </CardHeader>
 
@@ -206,16 +206,16 @@ export function StrategicDiscovery({ onDiscoveryComplete, initialDiscovery = {} 
               <div className="text-sm text-amber-800 dark:text-amber-200">
                 <p className="font-medium mb-1">Strategic Tip:</p>
                 {currentStep === 0 && (
-                  <p>Think beyond what you sell. Focus on the transformation or outcome your customer wants.</p>
+                  <p>Be specific about what you sell. For example: "Men's bowties" instead of just "accessories".</p>
                 )}
                 {currentStep === 1 && (
-                  <p>The person who has the problem isn't always the person who pays. Understanding decision-makers is crucial.</p>
+                  <p>Think about who actually buys your product and when they need it most.</p>
                 )}
                 {currentStep === 2 && (
-                  <p>Financial capacity affects targeting precision. Higher-income targeting often performs better than broad audiences.</p>
+                  <p>Understanding your customer's budget helps us target the right income levels.</p>
                 )}
                 {currentStep === 3 && (
-                  <p>The best targeting often comes from understanding what people do when they're NOT thinking about your product.</p>
+                  <p>Where your customers spend time helps us find them with better targeting.</p>
                 )}
               </div>
             </div>
