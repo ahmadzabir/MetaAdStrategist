@@ -11,6 +11,7 @@ interface StrategicResultsProps {
   strategicTargeting: StrategicTargeting;
   onCategorySelect: (categoryId: string, selected: boolean) => void;
   onStartConversation: () => void;
+  onExportCampaign: () => void;
   selectedCategories: string[];
 }
 
@@ -18,6 +19,7 @@ export function StrategicResults({
   strategicTargeting, 
   onCategorySelect, 
   onStartConversation,
+  onExportCampaign,
   selectedCategories 
 }: StrategicResultsProps) {
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
@@ -67,6 +69,26 @@ export function StrategicResults({
             </div>
           </div>
         </CardHeader>
+      </Card>
+
+      {/* Strategic Logic Explanation */}
+      <Card className="border border-blue-200 bg-blue-50 dark:bg-blue-950/20 dark:border-blue-800">
+        <CardContent className="p-4">
+          <div className="flex items-start gap-3">
+            <Target className="h-5 w-5 text-blue-600 mt-0.5" />
+            <div className="space-y-2">
+              <h4 className="font-semibold text-blue-900 dark:text-blue-100">How Strategic Groups Work</h4>
+              <p className="text-sm text-blue-800 dark:text-blue-200">
+                Each group below represents a different angle to target your ideal customer. 
+                When you select categories from multiple groups, Meta will find people who match 
+                <strong> ALL groups simultaneously</strong> (AND logic) - creating precise audience intersections.
+              </p>
+              <p className="text-xs text-blue-700 dark:text-blue-300">
+                Within each group, categories use OR logic (anyone matching any category in the group qualifies).
+              </p>
+            </div>
+          </div>
+        </CardContent>
       </Card>
 
       {/* Strategic Groups */}
@@ -142,9 +164,16 @@ export function StrategicResults({
                                 <p className="font-medium text-gray-800 dark:text-gray-200">
                                   {category.name}
                                 </p>
-                                <Badge variant="outline" className="text-xs mt-1">
-                                  {category.categoryType}
-                                </Badge>
+                                <div className="flex items-center gap-2 mt-1">
+                                  <Badge variant="outline" className="text-xs">
+                                    {category.categoryType}
+                                  </Badge>
+                                  {category.size && (
+                                    <Badge variant="secondary" className="text-xs">
+                                      {category.size} audience
+                                    </Badge>
+                                  )}
+                                </div>
                               </div>
                             </div>
                             
@@ -183,6 +212,7 @@ export function StrategicResults({
             </Button>
             
             <Button
+              onClick={onExportCampaign}
               disabled={getTotalSelectedCount() === 0}
               size="lg"
               className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white min-w-[200px]"

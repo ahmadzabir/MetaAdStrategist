@@ -5,8 +5,9 @@ import { Users, Target, Zap } from "lucide-react";
 import type { StrategicTargeting, TargetingGroup } from "@shared/schema";
 
 interface VennDiagramProps {
-  strategicTargeting: StrategicTargeting;
+  selectedCategories: string[];
   audienceSize?: number;
+  onCategoryToggle: (categoryId: string, selected: boolean) => void;
   className?: string;
 }
 
@@ -19,32 +20,40 @@ interface VennCircle {
   radius: number;
 }
 
-export function VennDiagram({ strategicTargeting, audienceSize, className = "" }: VennDiagramProps) {
+export function VennDiagram({ selectedCategories, audienceSize, onCategoryToggle, className = "" }: VennDiagramProps) {
+  // Mock visualization data for now
+  const mockGroups = [
+    { id: "demographics", name: "Demographics", color: "#3B82F6" },
+    { id: "interests", name: "Interests", color: "#8B5CF6" },
+    { id: "behaviors", name: "Behaviors", color: "#10B981" }
+  ];
+
   const circles = useMemo(() => {
-    const groups = strategicTargeting.groups.slice(0, 4); // Max 4 groups for visual clarity
+    const groups = mockGroups.slice(0, 3);
     const svgSize = 300;
     const centerX = svgSize / 2;
     const centerY = svgSize / 2;
     const radius = 80;
     
-    // Calculate positions for up to 4 circles
+    // Calculate positions for up to 3 circles
     const positions = [
-      { x: centerX - 40, y: centerY - 40 }, // Top left
-      { x: centerX + 40, y: centerY - 40 }, // Top right  
-      { x: centerX - 40, y: centerY + 40 }, // Bottom left
-      { x: centerX + 40, y: centerY + 40 }, // Bottom right
+      { x: centerX - 40, y: centerY - 30 }, // Left
+      { x: centerX + 40, y: centerY - 30 }, // Right  
+      { x: centerX, y: centerY + 40 }, // Bottom
     ];
 
     return groups.map((group, index) => ({
       id: group.id,
       name: group.name,
-      color: group.color || `hsl(${(index * 90) % 360}, 70%, 60%)`,
+      color: group.color,
       x: positions[index]?.x || centerX,
       y: positions[index]?.y || centerY,
       radius
     }));
-  }, [strategicTargeting.groups]);
+  }, []);
 
+  const estimatedAudience = audienceSize || selectedCategories.length * 5000000; // Mock calculation
+  
   const getSpecificityColor = (specificity: string) => {
     switch (specificity) {
       case "High": return "text-red-600 bg-red-50 border-red-200";
