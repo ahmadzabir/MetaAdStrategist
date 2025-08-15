@@ -312,15 +312,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Search Meta targeting categories
+  // Enhanced Meta targeting search with hierarchical breadcrumbs
   app.get("/api/meta/search-targeting", async (req, res) => {
     try {
       const { q, type, class: categoryClass, limit } = req.query;
       
       const metaApi = getMetaApiService();
       if (!metaApi) {
-        return res.status(400).json({ 
-          message: "Meta API not configured. Please provide API credentials." 
+        // Fallback to local storage if Meta API not configured
+        const categories = await storage.searchTargetingCategories(q as string || "");
+        return res.json({
+          success: true,
+          categories: categories.map(cat => ({
+            id: cat.id,
+            name: cat.name,
+            type: cat.categoryType,
+            description: `Level ${cat.level} ${cat.categoryType}`,
+            audience_size: cat.size ? parseInt(cat.size.replace(/[^\d]/g, '')) || null : null,
+            path: getBreadcrumbPath(cat, categories),
+            level: cat.level,
+            parentId: cat.parentId
+          })),
+          total: categories.length,
+          source: "local"
         });
       }
 
@@ -331,16 +345,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
         parseInt(limit as string) || 25
       );
       
+      // Enhance categories with breadcrumb paths
+      const enhancedCategories = categories.map(cat => ({
+        ...cat,
+        breadcrumbs: cat.path || [],
+        level: cat.path ? cat.path.length : 1,
+        audience_size_display: cat.audience_size ? 
+          formatAudienceSize(cat.audience_size) : null
+      }));
+      
       res.json({
         success: true,
-        categories,
-        total: categories.length
+        categories: enhancedCategories,
+        total: categories.length,
+        source: "meta_api"
       });
     } catch (error) {
       console.error("Error searching Meta targeting:", error);
-      res.status(500).json({ 
-        message: "Failed to search targeting categories. Please check your Meta API credentials." 
-      });
+      // Fallback to local search on error
+      try {
+        const searchQuery = req.query.q as string || "";
+        const categories = await storage.searchTargetingCategories(searchQuery);
+        res.json({
+          success: true,
+          categories: categories.map(cat => ({
+            id: cat.id,
+            name: cat.name,
+            type: cat.categoryType,
+            description: `Level ${cat.level} ${cat.categoryType}`,
+            audience_size: cat.size ? parseInt(cat.size.replace(/[^\d]/g, '')) || null : null,
+            path: getBreadcrumbPath(cat, categories),
+            level: cat.level,
+            parentId: cat.parentId
+          })),
+          total: categories.length,
+          source: "local_fallback"
+        });
+      } catch (fallbackError) {
+        res.status(500).json({ 
+          message: "Failed to search targeting categories." 
+        });
+      }
     }
   });
 
@@ -404,6 +449,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     }
   });
+
+  // Helper functions for enhanced search
+  
+  /**
+   * Get breadcrumb path for a targeting category
+   */
+  function getBreadcrumbPath(category: any, allCategories: any[]): string[] {
+    const path: string[] = [];
+    let current = category;
+    
+    while (current) {
+      path.unshift(current.name);
+      if (!current.parentId) break;
+      
+      current = allCategories.find(cat => cat.id === current.parentId);
+      if (!current) break;
+    }
+    
+    return path;
+  }
+  
+  /**
+   * Format audience size for display
+   */
+  function formatAudienceSize(size: number): string {
+    if (size >= 1000000000) {
+      return `${(size / 1000000000).toFixed(1)}B`;
+    } else if (size >= 1000000) {
+      return `${(size / 1000000).toFixed(1)}M`;
+    } else if (size >= 1000) {
+      return `${(size / 1000).toFixed(1)}K`;
+    }
+    return size.toString();
+  }
 
   const httpServer = createServer(app);
   return httpServer;
