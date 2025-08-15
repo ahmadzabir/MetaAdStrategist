@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -66,6 +66,36 @@ export default function StrategicHome() {
   const [searchQuery, setSearchQuery] = useState("");
   const [categories, setCategories] = useState<HierarchicalTargetingCategory[]>([]);
   const [flatCategories, setFlatCategories] = useState<TargetingCategory[]>([]);
+
+  // Load categories for expert mode when needed
+  const loadExpertData = async () => {
+    if (appMode !== "expert" || (categories.length > 0 && flatCategories.length > 0)) return;
+    
+    try {
+      // Load hierarchical categories
+      const hierarchicalResponse = await fetch('/api/targeting-categories/hierarchical');
+      const hierarchicalData = await hierarchicalResponse.json();
+      if (hierarchicalData.success) {
+        setCategories(hierarchicalData.categories);
+      }
+
+      // Load flat categories
+      const flatResponse = await fetch('/api/targeting-categories');
+      const flatData = await flatResponse.json();
+      if (flatData.success) {
+        setFlatCategories(flatData.categories);
+      }
+    } catch (error) {
+      console.error("Error loading expert data:", error);
+    }
+  };
+
+  // Load data when switching to expert mode
+  useEffect(() => {
+    if (appMode === "expert") {
+      loadExpertData();
+    }
+  }, [appMode]);
   
   const { toast } = useToast();
 
