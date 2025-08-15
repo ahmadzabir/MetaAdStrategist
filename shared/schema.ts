@@ -153,10 +153,11 @@ export interface TargetingRecommendation {
   id: string;
   name: string;
   type: "interests" | "behaviors" | "demographics";
+  size?: string; // Audience size like "120M"
+  parentId?: string | null;
   justification: string;
   category: string;
   response?: string; // AI conversational response
-  justification: string;
   priority?: "high" | "medium" | "low";
   confidenceScore?: number;
   estimatedReach?: string;

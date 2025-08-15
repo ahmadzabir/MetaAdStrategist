@@ -269,12 +269,33 @@ export default function StrategicHome() {
             )}
 
             {currentPhase === "results" && strategicTargeting && (
-              <StrategicResults
-                strategicTargeting={strategicTargeting}
-                onCategorySelect={handleCategorySelect}
-                onStartConversation={() => setCurrentPhase("conversation")}
-                selectedCategories={selectedCategories}
-              />
+              <div className="space-y-8">
+                <StrategicResults
+                  strategicTargeting={strategicTargeting}
+                  onCategorySelect={handleCategorySelect}
+                  onStartConversation={() => setCurrentPhase("conversation")}
+                  onExportCampaign={handleExportCampaign}
+                  selectedCategories={selectedCategories}
+                />
+                
+                {/* Venn Diagram */}
+                {selectedCategories.length > 0 && (
+                  <div className="mt-8">
+                    <Card className="border-0 shadow-xl">
+                      <CardHeader>
+                        <CardTitle className="text-xl text-center">Audience Intersection Visualization</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <VennDiagram
+                          selectedCategories={selectedCategories}
+                          audienceSize={audienceSize}
+                          onCategoryToggle={handleCategorySelect}
+                        />
+                      </CardContent>
+                    </Card>
+                  </div>
+                )}
+              </div>
             )}
 
             {currentPhase === "conversation" && strategicTargeting && (

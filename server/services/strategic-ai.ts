@@ -46,11 +46,19 @@ TASK: Create 2-3 strategic targeting groups with REAL targeting categories. Each
 
 EXAMPLE STRUCTURE (Men's Bowties):
 - Group A: "Professional Men" 
-  Categories: [{"id": "6003020834540", "name": "Men age 25-54", "type": "demographics"}, {"id": "6004854404172", "name": "Business and industry", "type": "interests"}, {"id": "6003397057098", "name": "Engaged shoppers", "type": "behaviors"}]
-- Group B: "Fashion & Events"
-  Categories: [{"id": "6003195797498", "name": "Fashion", "type": "interests"}, {"id": "6003050399578", "name": "Weddings", "type": "interests"}, {"id": "6002839660179", "name": "Formal wear", "type": "interests"}]
+  Categories: [
+    {"id": "6003020834540", "name": "Men age 25-54", "type": "demographics", "size": "120M", "parentId": null}, 
+    {"id": "6004854404172", "name": "Business and industry", "type": "interests", "size": "45M", "parentId": null}, 
+    {"id": "6003397057098", "name": "Engaged shoppers", "type": "behaviors", "size": "85M", "parentId": null}
+  ]
+- Group B: "Fashion & Events"  
+  Categories: [
+    {"id": "6003195797498", "name": "Fashion", "type": "interests", "size": "180M", "parentId": null}, 
+    {"id": "6003050399578", "name": "Weddings", "type": "interests", "size": "25M", "parentId": null}, 
+    {"id": "6002839660179", "name": "Formal wear", "type": "interests", "size": "15M", "parentId": null}
+  ]
 
-IMPORTANT: Always include real targeting categories with proper IDs, names, and types (interests/behaviors/demographics).
+CRITICAL: Each category MUST include id, name, type, size (audience size like "120M" or "45M"), and parentId (null for top-level).
 
 Respond with JSON in this exact format:
 {
@@ -94,8 +102,11 @@ Respond with JSON in this exact format:
                         properties: {
                           id: { type: "string" },
                           name: { type: "string" },
-                          type: { type: "string" }
-                        }
+                          type: { type: "string" },
+                          size: { type: "string" },
+                          parentId: { type: ["string", "null"] }
+                        },
+                        required: ["id", "name", "type", "size", "parentId"]
                       }
                     },
                     color: { type: "string" }
