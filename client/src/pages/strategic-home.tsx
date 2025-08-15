@@ -163,7 +163,7 @@ export default function StrategicHome() {
         name: recommendation.name,
         parentId: null,
         level: 1,
-        size: undefined,
+        size: null,
         categoryType: recommendation.type,
         createdAt: new Date()
       };
@@ -396,7 +396,7 @@ export default function StrategicHome() {
                       <CardContent>
                         <VennDiagram
                           selectedCategories={selectedCategories}
-                          audienceSize={audienceSize}
+                          audienceSize={audienceSize ?? undefined}
                           onCategoryToggle={handleCategorySelect}
                           strategicTargeting={strategicTargeting}
                         />
@@ -440,7 +440,7 @@ export default function StrategicHome() {
                   <CardContent>
                     <VennDiagram
                       selectedCategories={selectedCategories}
-                      audienceSize={audienceSize}
+                      audienceSize={audienceSize ?? undefined}
                       onCategoryToggle={handleCategorySelect}
                       strategicTargeting={strategicTargeting}
                     />
