@@ -42,7 +42,7 @@ import type {
 } from "@shared/schema";
 
 type AppMode = "guided" | "expert";
-type DiscoveryPhase = "discovery" | "results" | "conversation" | "targeting" | "campaign";
+type DiscoveryPhase = "discovery" | "results" | "visualization" | "conversation" | "targeting" | "campaign";
 
 export default function StrategicHome() {
   // App state
@@ -160,6 +160,18 @@ export default function StrategicHome() {
     if (selectedCategories.length <= 2) return "Low";
     if (selectedCategories.length <= 5) return "Medium";
     return "High";
+  };
+
+  // Handle proceeding to visualization
+  const handleProceedToVisualization = () => {
+    if (!strategicTargeting || selectedCategories.length === 0) return;
+    
+    setCurrentPhase("visualization");
+    
+    toast({
+      title: "Moving to Visualization",
+      description: "View your final audience intersection and campaign implementation guide."
+    });
   };
 
   // Export campaign configuration
@@ -298,6 +310,7 @@ export default function StrategicHome() {
                   onCategorySelect={handleCategorySelect}
                   onStartConversation={() => setCurrentPhase("conversation")}
                   onExportCampaign={handleExportCampaign}
+                  onProceedToVisualization={handleProceedToVisualization}
                   selectedCategories={selectedCategories}
                 />
                 
@@ -318,6 +331,103 @@ export default function StrategicHome() {
                     </Card>
                   </div>
                 )}
+              </div>
+            )}
+
+            {currentPhase === "visualization" && strategicTargeting && (
+              <div className="space-y-8">
+                <div className="text-center">
+                  <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-3">
+                    Audience Intersection Visualization
+                  </h2>
+                  <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-6">
+                    Your final campaign visualization. This shows how your selected targeting categories intersect 
+                    and provides implementation guidance for Meta Ads Manager.
+                  </p>
+                  <div className="flex items-center justify-center gap-4 text-sm text-gray-600">
+                    <div className="flex items-center gap-2">
+                      <Users className="h-4 w-4 text-green-600" />
+                      <span>{selectedCategories.length} Categories Selected</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Target className="h-4 w-4 text-blue-600" />
+                      <span>{calculateAudienceSize().toLocaleString()} Est. Reach</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Venn Diagram Visualization */}
+                <Card className="border-0 shadow-xl">
+                  <CardHeader>
+                    <CardTitle className="text-xl text-center flex items-center justify-center gap-2">
+                      <Layers className="h-5 w-5" />
+                      Strategic Audience Intersection
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <VennDiagram
+                      selectedCategories={selectedCategories}
+                      audienceSize={audienceSize}
+                      onCategoryToggle={handleCategorySelect}
+                    />
+                  </CardContent>
+                </Card>
+
+                {/* Implementation Guide */}
+                <Card className="border border-blue-200 bg-blue-50 dark:bg-blue-950/20 dark:border-blue-800">
+                  <CardHeader>
+                    <CardTitle className="text-xl flex items-center gap-2">
+                      <Settings className="h-5 w-5" />
+                      Meta Ads Implementation Guide
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="text-sm text-blue-800 dark:text-blue-200">
+                      <p className="mb-4">
+                        <strong>How to implement this targeting in Meta Ads Manager:</strong>
+                      </p>
+                      <ol className="list-decimal list-inside space-y-2 ml-4">
+                        <li>Create a new campaign in Meta Ads Manager</li>
+                        <li>In the Ad Set level, navigate to "Audience" section</li>
+                        <li>Set Demographics: Age, Gender, Location as needed</li>
+                        <li>Add Detailed Targeting categories from your selection below</li>
+                        <li>Use AND logic between different category types (automatic in Meta)</li>
+                        <li>Review your estimated daily reach and adjust if needed</li>
+                      </ol>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Final Actions */}
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button 
+                    onClick={() => setCurrentPhase("results")}
+                    variant="outline"
+                    size="lg"
+                    className="min-w-[200px]"
+                  >
+                    Back to Playground
+                  </Button>
+                  
+                  <Button
+                    onClick={handleExportCampaign}
+                    size="lg"
+                    className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white min-w-[200px]"
+                  >
+                    <Download className="h-5 w-5 mr-2" />
+                    Export Final Configuration
+                  </Button>
+                  
+                  <Button 
+                    onClick={() => setCurrentPhase("conversation")}
+                    variant="outline"
+                    size="lg"
+                    className="border-purple-200 text-purple-700 hover:bg-purple-50 min-w-[200px]"
+                  >
+                    <MessageCircle className="h-5 w-5 mr-2" />
+                    Refine with AI Chat
+                  </Button>
+                </div>
               </div>
             )}
 
