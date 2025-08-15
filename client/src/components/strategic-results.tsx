@@ -13,6 +13,11 @@ interface StrategicResultsProps {
   onStartConversation: () => void;
   onExportCampaign: () => void;
   selectedCategories: string[];
+  onGroupToggle?: (groupId: string, enabled: boolean) => void;
+  onLogicChange?: (groupId: string, logic: 'AND' | 'OR') => void;
+  onProceedToVisualization?: () => void;
+  enabledGroups?: string[];
+  groupLogic?: Record<string, 'AND' | 'OR'>;
 }
 
 export function StrategicResults({ 
@@ -20,7 +25,12 @@ export function StrategicResults({
   onCategorySelect, 
   onStartConversation,
   onExportCampaign,
-  selectedCategories 
+  selectedCategories,
+  onGroupToggle,
+  onLogicChange,
+  onProceedToVisualization,
+  enabledGroups = strategicTargeting.groups.map(g => g.id),
+  groupLogic = {}
 }: StrategicResultsProps) {
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
 
@@ -233,6 +243,32 @@ export function StrategicResults({
         })}
       </div>
 
+      {/* Interactive Playground Status */}
+      <Card className="border border-green-200 bg-green-50 dark:bg-green-950/20 dark:border-green-800">
+        <CardContent className="pt-6">
+          <div className="flex items-start gap-3">
+            <div className="p-2 rounded-full bg-green-100 dark:bg-green-900/20">
+              <Target className="h-4 w-4 text-green-600" />
+            </div>
+            <div className="space-y-2">
+              <h4 className="font-semibold text-green-900 dark:text-green-100">Interactive Targeting Playground</h4>
+              <p className="text-sm text-green-800 dark:text-green-200">
+                Experiment with different targeting combinations. Select/unselect categories to build your perfect audience.
+              </p>
+              <div className="flex items-center gap-2 text-sm text-green-700 dark:text-green-300">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span>
+                  {getTotalSelectedCount() === 0 
+                    ? "Start by selecting categories from groups below"
+                    : `${getTotalSelectedCount()} categories selected - ready to proceed`
+                  }
+                </span>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Action Buttons */}
       <Card className="border-0 shadow-xl bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-950/50 dark:to-blue-950/50">
         <CardContent className="p-6">
@@ -249,19 +285,32 @@ export function StrategicResults({
             </Button>
             
             <Button
-              onClick={onExportCampaign}
+              onClick={onProceedToVisualization}
               disabled={getTotalSelectedCount() === 0}
               size="lg"
               className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white min-w-[200px]"
+              data-testid="button-proceed-visualization"
+            >
+              <Eye className="h-5 w-5 mr-2" />
+              Proceed to Audience Visualization
+            </Button>
+
+            <Button
+              onClick={onExportCampaign}
+              disabled={getTotalSelectedCount() === 0}
+              variant="outline"
+              size="lg"
+              className="border-blue-200 text-blue-700 hover:bg-blue-50 min-w-[200px]"
               data-testid="button-export-campaign"
             >
-              Export to Meta Ads ({getTotalSelectedCount()} targets)
+              <Target className="h-5 w-5 mr-2" />
+              Export Configuration
             </Button>
           </div>
           
           {getTotalSelectedCount() === 0 && (
             <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-3">
-              Select targeting categories to export your campaign
+              Select targeting categories to activate visualization and export features
             </p>
           )}
         </CardContent>
