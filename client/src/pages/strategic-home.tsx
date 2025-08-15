@@ -805,27 +805,71 @@ export default function StrategicHome() {
                         <div className="space-y-2">
                           {flatCategories
                             .filter(cat => !searchQuery || cat.name.toLowerCase().includes(searchQuery.toLowerCase()))
-                            .map((category) => (
-                              <div
-                                key={category.id}
-                                className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
-                              >
-                                <div className="flex-1">
-                                  <span className="font-medium">{category.name}</span>
-                                  <Badge variant="outline" className="ml-2 text-xs">
-                                    {category.categoryType}
-                                  </Badge>
-                                </div>
-                                <Button
-                                  size="sm"
-                                  variant={selectedCategories.includes(category.id) ? "secondary" : "outline"}
-                                  onClick={() => handleCategorySelect(category.id, !selectedCategories.includes(category.id))}
-                                  data-testid={`button-category-${category.id}`}
+                            .map((category) => {
+                              // Build breadcrumbs for list view
+                              const getBreadcrumbs = (cat: typeof category): string[] => {
+                                const breadcrumbs: string[] = [];
+                                let current = cat;
+                                
+                                while (current) {
+                                  breadcrumbs.unshift(current.name);
+                                  if (!current.parentId) break;
+                                  
+                                  const parent = flatCategories.find(c => c.id === current.parentId);
+                                  if (!parent) break;
+                                  current = parent;
+                                }
+                                
+                                return breadcrumbs;
+                              };
+
+                              return (
+                                <div
+                                  key={category.id}
+                                  className="flex items-start justify-between p-3 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                                 >
-                                  {selectedCategories.includes(category.id) ? "Added" : "Add"}
-                                </Button>
-                              </div>
-                            ))}
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2">
+                                      <span className="font-medium text-gray-900 dark:text-gray-100">
+                                        {category.name}
+                                      </span>
+                                      <Badge variant="outline" className="text-xs shrink-0">
+                                        {category.categoryType}
+                                      </Badge>
+                                    </div>
+                                    
+                                    {/* Show breadcrumbs for deeper levels, especially when searching */}
+                                    {(category.level > 1 || searchQuery) && (
+                                      <div className="flex items-center gap-1 mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                        {getBreadcrumbs(category).slice(0, -1).map((breadcrumb, idx, arr) => (
+                                          <span key={idx} className="flex items-center gap-1">
+                                            <span className="truncate max-w-[100px]">{breadcrumb}</span>
+                                            {idx < arr.length - 1 && (
+                                              <ChevronRight className="h-3 w-3 text-gray-400" />
+                                            )}
+                                          </span>
+                                        ))}
+                                      </div>
+                                    )}
+                                    
+                                    {category.size && category.size !== 'Unknown' && category.size !== 'Not available' && (
+                                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                        {category.size} people
+                                      </p>
+                                    )}
+                                  </div>
+                                  <Button
+                                    size="sm"
+                                    variant={selectedCategories.includes(category.id) ? "secondary" : "outline"}
+                                    onClick={() => handleCategorySelect(category.id, !selectedCategories.includes(category.id))}
+                                    data-testid={`button-category-${category.id}`}
+                                    className="shrink-0 ml-3"
+                                  >
+                                    {selectedCategories.includes(category.id) ? "Added" : "Add"}
+                                  </Button>
+                                </div>
+                              );
+                            })}
                         </div>
                       )}
                     </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Search, ChevronDown } from 'lucide-react';
+import { Search, ChevronDown, ChevronRight } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import type { TargetingCategory } from '@shared/schema';
@@ -23,6 +23,24 @@ export function SearchAutocomplete({
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Build breadcrumbs for a category
+  const getBreadcrumbs = useCallback((category: TargetingCategory): string[] => {
+    const breadcrumbs: string[] = [];
+    let current = category;
+    
+    while (current) {
+      breadcrumbs.unshift(current.name);
+      if (!current.parentId) break;
+      
+      // Find parent in categories list
+      const parent = categories.find(cat => cat.id === current.parentId);
+      if (!parent) break;
+      current = parent;
+    }
+    
+    return breadcrumbs;
+  }, [categories]);
 
   // Filter categories based on search query
   useEffect(() => {
@@ -174,11 +192,26 @@ export function SearchAutocomplete({
               }`}
               data-testid={`suggestion-${category.id}`}
             >
-              <div className="flex items-center justify-between gap-3">
+              <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-gray-900 dark:text-gray-100 truncate">
                     {category.name}
                   </p>
+                  
+                  {/* Breadcrumbs */}
+                  {category.level > 1 && (
+                    <div className="flex items-center gap-1 mt-1 text-xs text-gray-500 dark:text-gray-400">
+                      {getBreadcrumbs(category).slice(0, -1).map((breadcrumb, idx, arr) => (
+                        <span key={idx} className="flex items-center gap-1">
+                          <span className="truncate max-w-[80px]">{breadcrumb}</span>
+                          {idx < arr.length - 1 && (
+                            <ChevronRight className="h-3 w-3 text-gray-400" />
+                          )}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  
                   <div className="flex items-center gap-2 mt-1">
                     <Badge 
                       variant="outline" 
@@ -193,7 +226,7 @@ export function SearchAutocomplete({
                     )}
                   </div>
                 </div>
-                <div className="text-xs text-gray-400 dark:text-gray-500">
+                <div className="text-xs text-gray-400 dark:text-gray-500 shrink-0">
                   L{category.level}
                 </div>
               </div>
