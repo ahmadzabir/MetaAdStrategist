@@ -198,13 +198,20 @@ export default function StrategicHome() {
   // Handle category selection from manual exploration
   const handleCategorySelect = (categoryId: string, selected: boolean) => {
     if (selected) {
-      // Add to first group by default
-      setTargetingGroups(prev => prev.map(group => 
-        group.id === 'group-1' 
-          ? { ...group, categories: [...group.categories, categoryId] }
-          : group
-      ));
-      setSelectedCategories(prev => [...prev, categoryId]);
+      // Check if category is already in any group to prevent duplicates
+      const isAlreadyInGroup = targetingGroups.some(group => 
+        group.categories.includes(categoryId)
+      );
+      
+      if (!isAlreadyInGroup) {
+        // Add to first group by default
+        setTargetingGroups(prev => prev.map(group => 
+          group.id === 'group-1' 
+            ? { ...group, categories: [...group.categories, categoryId] }
+            : group
+        ));
+        setSelectedCategories(prev => [...prev, categoryId]);
+      }
     } else {
       // Remove from all groups
       setTargetingGroups(prev => prev.map(group => ({
@@ -217,11 +224,18 @@ export default function StrategicHome() {
 
   const addNewGroup = () => {
     const newId = `group-${Date.now()}`;
+    const newGroupName = `Group ${targetingGroups.length + 1}`;
+    
     setTargetingGroups(prev => [...prev, {
       id: newId,
-      name: `Group ${prev.length + 1}`,
+      name: newGroupName,
       categories: []
     }]);
+    
+    toast({
+      title: "Group Added",
+      description: `${newGroupName} created successfully. You can now drag targets into this group.`
+    });
   };
 
   const removeGroup = (groupId: string) => {
@@ -1010,7 +1024,7 @@ export default function StrategicHome() {
                         </Button>
                       </div>
                       
-                      <ScrollArea className="max-h-80 pr-4">
+                      <ScrollArea className="max-h-80 overflow-y-auto">
                         <div className="space-y-3">
                           {targetingGroups.map((group) => (
                             <div
@@ -1049,7 +1063,7 @@ export default function StrategicHome() {
                                   </p>
                                 ) : (
                                   <div className="space-y-2">
-                                    {group.categories.map((categoryId) => {
+                                    {group.categories.map((categoryId, index) => {
                                       const category = getCategoryDetails(categoryId);
                                       const breadcrumbs = getBreadcrumbs(categoryId);
                                       
@@ -1070,7 +1084,7 @@ export default function StrategicHome() {
 
                                       return (
                                         <div
-                                          key={categoryId}
+                                          key={`${group.id}-${categoryId}-${index}`}
                                           className="group flex items-start justify-between p-3 bg-gray-50 dark:bg-gray-700/30 rounded-lg border border-gray-200 dark:border-gray-600 hover:shadow-sm transition-all"
                                         >
                                           <div className="flex-1 min-w-0">
