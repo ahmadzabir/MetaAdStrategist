@@ -96,6 +96,12 @@ export default function StrategicHome() {
       loadExpertData();
     }
   }, [appMode]);
+
+  // Update audience size when selections change
+  useEffect(() => {
+    const newSize = calculateAudienceSize();
+    setAudienceSize(newSize);
+  }, [selectedCategories, strategicTargeting]);
   
   const { toast } = useToast();
 
@@ -178,10 +184,34 @@ export default function StrategicHome() {
   const calculateAudienceSize = () => {
     if (selectedCategories.length === 0) return 0;
     
-    // Mock calculation - in real app this would use Meta API
-    const baseSize = 50000000; // 50M base US audience
-    const reductionFactor = Math.pow(0.7, selectedCategories.length - 1);
-    return Math.floor(baseSize * reductionFactor);
+    // Get selected category details for more accurate sizing
+    const selectedCategoryDetails = selectedCategories.map(catId => {
+      // Find category in strategic targeting groups
+      if (strategicTargeting) {
+        for (const group of strategicTargeting.groups) {
+          const found = group.categories.find(cat => cat.id === catId);
+          if (found) return found;
+        }
+      }
+      return { id: catId, name: `Category ${catId}`, size: "2.5M" };
+    });
+
+    // Calculate based on actual audience sizes if available
+    let totalAudience = 0;
+    for (const cat of selectedCategoryDetails) {
+      if (cat.size) {
+        const sizeStr = cat.size.toString();
+        const numericSize = parseFloat(sizeStr.replace(/[KMB,]/g, ''));
+        const multiplier = sizeStr.includes('K') ? 1000 : sizeStr.includes('M') ? 1000000 : sizeStr.includes('B') ? 1000000000 : 1;
+        totalAudience += numericSize * multiplier;
+      } else {
+        totalAudience += 2500000; // Default 2.5M if no size
+      }
+    }
+
+    // Apply intersection reduction (AND logic reduces audience)
+    const intersectionReduction = Math.pow(0.6, selectedCategories.length - 1);
+    return Math.round(totalAudience * intersectionReduction);
   };
 
   // Get campaign specificity

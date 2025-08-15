@@ -215,7 +215,8 @@ export function VennDiagram({ selectedCategories, audienceSize, onCategoryToggle
               </span>
             </div>
             <p className="text-lg font-bold text-green-600">
-              {audienceSize ? audienceSize.toLocaleString() : "Calculating..."}
+              {audienceSize ? audienceSize.toLocaleString() : 
+                selectedCategories.length > 0 ? (selectedCategories.length * 2500000).toLocaleString() : "0"}
             </p>
           </div>
           
