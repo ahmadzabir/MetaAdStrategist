@@ -63,25 +63,26 @@ Group 3: "Professional Behaviors" (behaviors)
 - B2B purchase decision makers
 
 EXAMPLE STRUCTURE (Men's Bowties):
-- Group A: "Professional Men" 
+- Group A: "Professional Demographics" 
   Categories: [
-    {"id": "6003020834540", "name": "Men age 25-54", "type": "demographics", "size": "120M", "parentId": null}, 
-    {"id": "6004854404172", "name": "Business and industry", "type": "interests", "size": "45M", "parentId": null}, 
-    {"id": "6003397057098", "name": "Engaged shoppers", "type": "behaviors", "size": "85M", "parentId": null}
+    {"id": "6003020834540", "name": "Men age 25-54", "type": "demographics", "size": "120M", "parentId": "6003020834500", "level": 3, "breadcrumbs": ["Demographics", "Age and Gender", "Men age 25-54"], "categoryType": "demographics"}, 
+    {"id": "6004854404172", "name": "Business professionals", "type": "demographics", "size": "45M", "parentId": "6004854404100", "level": 4, "breadcrumbs": ["Demographics", "Work", "Industries", "Business professionals"], "categoryType": "demographics"}
   ]
-- Group B: "Fashion & Events"  
+- Group B: "Lifestyle Interests"  
   Categories: [
-    {"id": "6003195797498", "name": "Fashion", "type": "interests", "size": "180M", "parentId": null}, 
-    {"id": "6003050399578", "name": "Weddings", "type": "interests", "size": "25M", "parentId": null}, 
-    {"id": "6002839660179", "name": "Formal wear", "type": "interests", "size": "15M", "parentId": null}
+    {"id": "6003195797498", "name": "Fashion accessories", "type": "interests", "size": "80M", "parentId": "6003195797400", "level": 3, "breadcrumbs": ["Interests", "Fashion", "Fashion accessories"], "categoryType": "interests"}, 
+    {"id": "6003050399578", "name": "Wedding planning", "type": "interests", "size": "25M", "parentId": "6003050399500", "level": 4, "breadcrumbs": ["Interests", "Family and relationships", "Life events", "Wedding planning"], "categoryType": "interests"}
   ]
 
-CRITICAL: Each category MUST include:
+CRITICAL: Each category MUST include ALL these fields:
 - id: Real Meta targeting ID (like "6003020834540")
 - name: Descriptive category name (like "Business professionals" or "Online shoppers")
 - type: One of "interests", "behaviors", or "demographics"
 - size: Audience size like "45M" or "120M" (make realistic estimates)
-- parentId: null for top-level categories
+- parentId: Parent category ID or null for top-level
+- level: Hierarchy level (1, 2, 3, 4, or 5)
+- breadcrumbs: Array showing full hierarchy path like ["Demographics", "Age", "Age 25-54"]
+- categoryType: Same as type for compatibility
 
 Generate REAL, SPECIFIC categories that make business sense for the user's industry. 
 Use realistic Meta targeting IDs (format: 6003XXXXXXXX) and plausible audience sizes based on real Meta data.
@@ -137,9 +138,12 @@ Respond with JSON in this exact format:
                           name: { type: "string" },
                           type: { type: "string" },
                           size: { type: "string" },
-                          parentId: { type: ["string", "null"] }
+                          parentId: { type: ["string", "null"] },
+                          level: { type: "integer" },
+                          breadcrumbs: { type: "array", items: { type: "string" } },
+                          categoryType: { type: "string" }
                         },
-                        required: ["id", "name", "type", "size", "parentId"]
+                        required: ["id", "name", "type", "size", "parentId", "level", "breadcrumbs", "categoryType"]
                       }
                     },
                     color: { type: "string" }

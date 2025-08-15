@@ -155,15 +155,15 @@ export interface TargetingRecommendation {
   type: "interests" | "behaviors" | "demographics";
   size?: string; // Audience size like "120M"
   parentId?: string | null;
+  level?: number;
+  breadcrumbs?: string[];
+  categoryType?: string;
   justification: string;
   category: string;
   response?: string; // AI conversational response
   priority?: "high" | "medium" | "low";
   confidenceScore?: number;
   estimatedReach?: string;
-  breadcrumbs?: string[];
-  categoryType?: string;
-  level?: number;
 }
 
 export interface AIRecommendationResponse {
