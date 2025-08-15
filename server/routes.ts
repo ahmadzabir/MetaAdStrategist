@@ -5,6 +5,9 @@ import { generateRecommendationSchema } from "@shared/schema";
 import { generateTargetingRecommendations } from "./services/gemini";
 import { FirebaseStorage } from "./services/firebase";
 import { flattenMetaData, validateMetaData, type MetaTargetingItem } from "./utils/data-processor";
+import { strategicAiService } from "./services/strategic-ai";
+import { getMetaApiService } from "./services/meta-api";
+import type { BusinessDiscovery, ConversationContext, MetaTargetingSpec } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
@@ -192,6 +195,198 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error switching to Firebase:", error);
       res.status(500).json({ message: "Failed to switch to Firebase storage" });
+    }
+  });
+
+  // Strategic AI Targeting Routes
+
+  // Generate strategic targeting groups from business discovery
+  app.post("/api/strategic/generate-targeting", async (req, res) => {
+    try {
+      const { discovery }: { discovery: BusinessDiscovery } = req.body;
+      
+      if (!discovery) {
+        return res.status(400).json({ message: "Business discovery data required" });
+      }
+
+      const strategicTargeting = await strategicAiService.generateStrategicTargeting(discovery);
+      
+      res.json({
+        success: true,
+        strategicTargeting,
+        message: "Strategic targeting groups generated successfully"
+      });
+    } catch (error) {
+      console.error("Error generating strategic targeting:", error);
+      res.status(500).json({ 
+        message: "Failed to generate strategic targeting. Please try again." 
+      });
+    }
+  });
+
+  // Generate conversational recommendations
+  app.post("/api/strategic/conversation", async (req, res) => {
+    try {
+      const { context, userMessage }: { context: ConversationContext; userMessage: string } = req.body;
+      
+      if (!context || !userMessage) {
+        return res.status(400).json({ message: "Conversation context and user message required" });
+      }
+
+      const recommendations = await strategicAiService.generateConversationalRecommendations(context, userMessage);
+      
+      res.json({
+        success: true,
+        recommendations,
+        message: "Conversational recommendations generated"
+      });
+    } catch (error) {
+      console.error("Error generating conversational recommendations:", error);
+      res.status(500).json({ 
+        message: "Failed to generate recommendations. Please try again." 
+      });
+    }
+  });
+
+  // Generate strategic discovery questions
+  app.post("/api/strategic/discovery-questions", async (req, res) => {
+    try {
+      const { discovery }: { discovery: Partial<BusinessDiscovery> } = req.body;
+      
+      const questions = await strategicAiService.generateDiscoveryQuestions(discovery || {});
+      
+      res.json({
+        success: true,
+        questions,
+        message: "Discovery questions generated"
+      });
+    } catch (error) {
+      console.error("Error generating discovery questions:", error);
+      res.status(500).json({ 
+        message: "Failed to generate discovery questions. Please try again." 
+      });
+    }
+  });
+
+  // Meta API Integration Routes
+
+  // Get real-time audience reach estimate
+  app.post("/api/meta/reach-estimate", async (req, res) => {
+    try {
+      const { targetingSpec }: { targetingSpec: MetaTargetingSpec } = req.body;
+      
+      const metaApi = getMetaApiService();
+      if (!metaApi) {
+        return res.status(400).json({ 
+          message: "Meta API not configured. Please provide API credentials." 
+        });
+      }
+
+      const reachEstimate = await metaApi.getReachEstimate(targetingSpec);
+      
+      res.json({
+        success: true,
+        reachEstimate,
+        message: "Reach estimate retrieved successfully"
+      });
+    } catch (error) {
+      console.error("Error getting reach estimate:", error);
+      res.status(500).json({ 
+        message: "Failed to get audience reach estimate. Please check your Meta API credentials." 
+      });
+    }
+  });
+
+  // Search Meta targeting categories
+  app.get("/api/meta/search-targeting", async (req, res) => {
+    try {
+      const { q, type, class: categoryClass, limit } = req.query;
+      
+      const metaApi = getMetaApiService();
+      if (!metaApi) {
+        return res.status(400).json({ 
+          message: "Meta API not configured. Please provide API credentials." 
+        });
+      }
+
+      const categories = await metaApi.searchTargeting(
+        q as string || "",
+        type as any || "adTargetingCategory",
+        categoryClass as string,
+        parseInt(limit as string) || 25
+      );
+      
+      res.json({
+        success: true,
+        categories,
+        total: categories.length
+      });
+    } catch (error) {
+      console.error("Error searching Meta targeting:", error);
+      res.status(500).json({ 
+        message: "Failed to search targeting categories. Please check your Meta API credentials." 
+      });
+    }
+  });
+
+  // Search Meta locations
+  app.get("/api/meta/search-locations", async (req, res) => {
+    try {
+      const { q, location_types, limit } = req.query;
+      
+      const metaApi = getMetaApiService();
+      if (!metaApi) {
+        return res.status(400).json({ 
+          message: "Meta API not configured. Please provide API credentials." 
+        });
+      }
+
+      const locationTypes = location_types ? JSON.parse(location_types as string) : ['country', 'region', 'city'];
+      const locations = await metaApi.searchLocations(
+        q as string || "",
+        locationTypes,
+        parseInt(limit as string) || 25
+      );
+      
+      res.json({
+        success: true,
+        locations,
+        total: locations.length
+      });
+    } catch (error) {
+      console.error("Error searching Meta locations:", error);
+      res.status(500).json({ 
+        message: "Failed to search locations. Please check your Meta API credentials." 
+      });
+    }
+  });
+
+  // Configure Meta API credentials
+  app.post("/api/meta/configure", async (req, res) => {
+    try {
+      const { accessToken, adAccountId } = req.body;
+      
+      if (!accessToken || !adAccountId) {
+        return res.status(400).json({ 
+          message: "Access token and ad account ID are required" 
+        });
+      }
+
+      // Initialize Meta API service with user credentials
+      const metaApi = require("./services/meta-api").initializeMetaApi(accessToken, adAccountId);
+      
+      // Test the connection by getting account info
+      await metaApi.searchTargeting("test", "adTargetingCategory", undefined, 1);
+      
+      res.json({
+        success: true,
+        message: "Meta API configured successfully"
+      });
+    } catch (error) {
+      console.error("Error configuring Meta API:", error);
+      res.status(400).json({ 
+        message: "Failed to configure Meta API. Please check your credentials." 
+      });
     }
   });
 
