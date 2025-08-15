@@ -32,6 +32,7 @@ import { StrategicResults } from "@/components/strategic-results";
 import { VennDiagram } from "@/components/venn-diagram";
 import { StrategicConversation } from "@/components/strategic-conversation";
 import SimpleTree from "@/components/simple-tree";
+import { SearchAutocomplete } from "@/components/search-autocomplete";
 
 import type { 
   BusinessDiscovery, 
@@ -744,34 +745,46 @@ export default function StrategicHome() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    {/* Search and view controls */}
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="flex-1">
-                        <Input
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          placeholder="Search targeting categories..."
-                          data-testid="input-search-categories"
-                          className="w-full"
-                        />
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Button
-                          variant={viewMode === "tree" ? "default" : "outline"}
-                          size="sm"
-                          onClick={() => setViewMode("tree")}
-                          data-testid="button-tree-view"
-                        >
-                          <TreePine className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant={viewMode === "list" ? "default" : "outline"}
-                          size="sm"
-                          onClick={() => setViewMode("list")}
-                          data-testid="button-list-view"
-                        >
-                          <List className="h-4 w-4" />
-                        </Button>
+                    {/* Smart Search with Autocomplete */}
+                    <div className="space-y-4 mb-6">
+                      <SearchAutocomplete
+                        categories={flatCategories}
+                        onSelect={(category) => {
+                          handleCategorySelect(category.id, true);
+                          toast({
+                            title: "Target Added",
+                            description: `${category.name} added to your campaign targeting.`
+                          });
+                        }}
+                        placeholder="Search targeting categories... (e.g., fashion, fitness, parents)"
+                        className="w-full"
+                      />
+                      
+                      {/* View Mode Toggle */}
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm text-gray-600 dark:text-gray-400">
+                          Browse {categories.length > 0 ? 'all categories' : 'available categories'} or search above
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant={viewMode === "tree" ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => setViewMode("tree")}
+                            data-testid="button-tree-view"
+                          >
+                            <TreePine className="h-4 w-4" />
+                            <span className="ml-1 hidden sm:inline">Tree</span>
+                          </Button>
+                          <Button
+                            variant={viewMode === "list" ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => setViewMode("list")}
+                            data-testid="button-list-view"
+                          >
+                            <List className="h-4 w-4" />
+                            <span className="ml-1 hidden sm:inline">List</span>
+                          </Button>
+                        </div>
                       </div>
                     </div>
                     
@@ -786,29 +799,37 @@ export default function StrategicHome() {
                         />
                       ) : (
                         <div className="space-y-2">
-                          {flatCategories
-                            .filter(cat => !searchQuery || cat.name.toLowerCase().includes(searchQuery.toLowerCase()))
-                            .map((category) => (
-                              <div
-                                key={category.id}
-                                className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
-                              >
-                                <div className="flex-1">
-                                  <span className="font-medium">{category.name}</span>
-                                  <Badge variant="outline" className="ml-2 text-xs">
+                          {flatCategories.map((category) => (
+                            <div
+                              key={category.id}
+                              className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                            >
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2">
+                                  <span className="font-medium text-gray-900 dark:text-gray-100 truncate">
+                                    {category.name}
+                                  </span>
+                                  <Badge variant="outline" className="text-xs shrink-0">
                                     {category.categoryType}
                                   </Badge>
                                 </div>
-                                <Button
-                                  size="sm"
-                                  variant={selectedCategories.includes(category.id) ? "secondary" : "outline"}
-                                  onClick={() => handleCategorySelect(category.id, !selectedCategories.includes(category.id))}
-                                  data-testid={`button-category-${category.id}`}
-                                >
-                                  {selectedCategories.includes(category.id) ? "Added" : "Add"}
-                                </Button>
+                                {category.size && category.size !== 'Unknown' && category.size !== 'Not available' && (
+                                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                    {category.size} people
+                                  </p>
+                                )}
                               </div>
-                            ))}
+                              <Button
+                                size="sm"
+                                variant={selectedCategories.includes(category.id) ? "secondary" : "outline"}
+                                onClick={() => handleCategorySelect(category.id, !selectedCategories.includes(category.id))}
+                                data-testid={`button-category-${category.id}`}
+                                className="shrink-0 ml-3"
+                              >
+                                {selectedCategories.includes(category.id) ? "Added" : "Add"}
+                              </Button>
+                            </div>
+                          ))}
                         </div>
                       )}
                     </div>
