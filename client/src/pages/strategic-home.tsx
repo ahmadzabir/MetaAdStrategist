@@ -418,15 +418,19 @@ export default function StrategicHome() {
             
             {/* Mode toggle */}
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <Label htmlFor="mode-toggle" className="text-sm font-medium">Mode:</Label>
+              <div className="flex items-center gap-2 p-1 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 rounded-lg border border-blue-200 dark:border-blue-700">
+                <Label htmlFor="mode-toggle" className="text-sm font-semibold text-gray-800 dark:text-white px-2">Mode:</Label>
                 <Select value={appMode} onValueChange={(value: AppMode) => setAppMode(value)}>
-                  <SelectTrigger className="w-40" data-testid="select-app-mode">
+                  <SelectTrigger className="w-40 bg-white dark:bg-gray-800 border-0 shadow-sm font-semibold text-gray-800 dark:text-white" data-testid="select-app-mode">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="guided">Guided Strategy</SelectItem>
-                    <SelectItem value="expert">Expert Manual</SelectItem>
+                  <SelectContent className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <SelectItem value="guided" className="font-medium text-gray-800 dark:text-white hover:bg-blue-50 dark:hover:bg-blue-900/20">
+                      Guided Strategy
+                    </SelectItem>
+                    <SelectItem value="expert" className="font-medium text-gray-800 dark:text-white hover:bg-purple-50 dark:hover:bg-purple-900/20">
+                      Expert Manual
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -813,23 +817,26 @@ export default function StrategicHome() {
         ) : (
           // EXPERT MODE: Direct Manual Exploration
           <div className="space-y-8">
-            <div className="text-center">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">
+            <div className="text-center bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 p-6 rounded-xl border border-purple-200 dark:border-purple-700">
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-3">
                 Expert Manual Targeting
               </h2>
-              <p className="text-gray-600 dark:text-gray-400">
-                Direct access to all targeting categories with advanced controls.
+              <p className="text-gray-700 dark:text-gray-300 text-lg">
+                Direct access to all targeting categories with advanced controls and precise audience building.
               </p>
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Manual exploration */}
               <div className="lg:col-span-2">
-                <Card className="border-0 shadow-lg">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Search className="h-5 w-5 text-blue-600" />
+                <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-blue-50/30 dark:from-gray-900 dark:to-blue-950/30">
+                  <CardHeader className="bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-t-lg">
+                    <CardTitle className="flex items-center gap-2 text-gray-800 dark:text-white">
+                      <Search className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                       Manual Exploration
+                      <Badge variant="outline" className="ml-2 bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-900/30 dark:text-indigo-300 dark:border-indigo-600">
+                        Search & Browse
+                      </Badge>
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -853,8 +860,8 @@ export default function StrategicHome() {
                       />
                       
                       {/* View Mode Toggle */}
-                      <div className="flex items-center justify-between">
-                        <div className="text-sm text-gray-600 dark:text-gray-400">
+                      <div className="flex items-center justify-between bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-800 dark:to-blue-900/20 p-3 rounded-lg border border-gray-200 dark:border-gray-700">
+                        <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
                           Browse all categories or search above
                         </div>
                         <div className="flex items-center gap-2">
@@ -967,11 +974,14 @@ export default function StrategicHome() {
               
               {/* Campaign summary with groups */}
               <div>
-                <Card className="border-0 shadow-xl bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
-                  <CardHeader className="pb-4">
-                    <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
-                      <Target className="h-5 w-5 text-purple-600" />
+                <Card className="border-0 shadow-xl bg-gradient-to-br from-white to-purple-50/30 dark:from-gray-900 dark:to-purple-950/30">
+                  <CardHeader className="pb-4 bg-gradient-to-r from-purple-50/50 to-pink-50/50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-t-lg">
+                    <CardTitle className="flex items-center gap-2 text-gray-800 dark:text-white">
+                      <Target className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                       Campaign Summary
+                      <Badge variant="outline" className="ml-2 bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-600">
+                        Expert Mode
+                      </Badge>
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-6">
@@ -988,27 +998,28 @@ export default function StrategicHome() {
                       </div>
                       
                       <div className="space-y-2">
-                        <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Age Range</Label>
-                        <div className="flex items-center gap-3 mt-2">
+                        <Label className="text-sm font-semibold text-gray-800 dark:text-gray-200">Age Range</Label>
+                        <div className="flex items-center gap-3 mt-2 p-3 bg-gradient-to-r from-blue-50/50 to-purple-50/50 dark:from-blue-900/10 dark:to-purple-900/10 rounded-lg border border-blue-200 dark:border-blue-700">
                           <Input
                             type="number"
                             value={ageMin}
                             onChange={(e) => setAgeMin(Number(e.target.value))}
-                            className="w-20 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+                            className="w-20 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 font-semibold text-gray-800 dark:text-white"
                             min="18"
                             max="65"
                             data-testid="input-age-min"
                           />
-                          <span className="text-gray-500 font-medium">to</span>
+                          <span className="text-gray-600 dark:text-gray-300 font-semibold">to</span>
                           <Input
                             type="number"
                             value={ageMax}
                             onChange={(e) => setAgeMax(Number(e.target.value))}
-                            className="w-20 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+                            className="w-20 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 font-semibold text-gray-800 dark:text-white"
                             min="18"
                             max="65"
                             data-testid="input-age-max"
                           />
+                          <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">years old</span>
                         </div>
                       </div>
                     </div>
@@ -1016,14 +1027,14 @@ export default function StrategicHome() {
                     {/* Targeting Groups */}
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
-                        <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                        <Label className="text-sm font-semibold text-gray-800 dark:text-gray-200">
                           Targeting Groups ({targetingGroups.reduce((acc, group) => acc + group.categories.length, 0)} targets)
                         </Label>
                         <Button 
                           variant="outline" 
                           size="sm"
                           onClick={addNewGroup}
-                          className="h-8 px-3 bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 dark:bg-blue-900/30 dark:border-blue-700 dark:text-blue-300"
+                          className="h-8 px-3 bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200 text-blue-700 hover:from-blue-100 hover:to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 dark:border-blue-700 dark:text-blue-300 font-medium"
                           data-testid="button-add-group"
                         >
                           <FolderPlus className="h-4 w-4 mr-1" />
@@ -1036,7 +1047,7 @@ export default function StrategicHome() {
                           {targetingGroups.map((group) => (
                             <div
                               key={group.id}
-                              className="border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800/50 shadow-sm"
+                              className="border border-gray-200 dark:border-gray-700 rounded-lg bg-gradient-to-br from-white to-gray-50/50 dark:from-gray-800/50 dark:to-gray-900/50 shadow-sm hover:shadow-md transition-shadow"
                               onDragOver={(e) => {
                                 e.preventDefault();
                                 e.currentTarget.classList.add('ring-2', 'ring-blue-300', 'bg-blue-50');
@@ -1057,13 +1068,13 @@ export default function StrategicHome() {
                               }}
                             >
                               {/* Group Header */}
-                              <div className="flex items-center justify-between p-3 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/30 rounded-t-lg">
+                              <div className="flex items-center justify-between p-3 border-b border-gray-100 dark:border-gray-700 bg-gradient-to-r from-indigo-50/50 to-purple-50/50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-t-lg">
                                 <div className="flex items-center gap-2">
-                                  <Grip className="h-4 w-4 text-gray-400" />
-                                  <span className="font-semibold text-gray-800 dark:text-gray-200 text-sm">
+                                  <Grip className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                                  <span className="font-semibold text-gray-800 dark:text-gray-100 text-sm">
                                     {group.name}
                                   </span>
-                                  <Badge variant="outline" className="text-xs bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-700">
+                                  <Badge variant="outline" className="text-xs bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-900/30 dark:text-indigo-300 dark:border-indigo-600 font-medium">
                                     {group.categories.length} targets
                                   </Badge>
                                 </div>
