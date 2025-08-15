@@ -21,7 +21,11 @@ import {
   TrendingUp,
   Lightbulb,
   MessageCircle,
-  Layers
+  Layers,
+  ChevronRight,
+  Grip,
+  Trash2,
+  FolderPlus
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
@@ -60,7 +64,11 @@ export default function StrategicHome() {
   const [location, setLocation] = useState("US");
   const [ageMin, setAgeMin] = useState<number>(18);
   const [ageMax, setAgeMax] = useState<number>(65);
-  const [campaignLogic, setCampaignLogic] = useState<"AND" | "OR">("AND");
+  
+  // Groups system for targeting
+  const [targetingGroups, setTargetingGroups] = useState([
+    { id: 'group-1', name: 'Group 1', categories: [] as string[] }
+  ]);
   
   // Manual exploration state
   const [viewMode, setViewMode] = useState<"tree" | "list">("tree");
@@ -112,7 +120,16 @@ export default function StrategicHome() {
 
   // Update audience size when selections change
   useEffect(() => {
-    const newSize = calculateAudienceSize();
+    // Calculate audience size
+    if (selectedCategories.length === 0) {
+      setAudienceSize(0);
+      return;
+    }
+    
+    // Simple calculation based on selected categories
+    const baseSize = 2500000;
+    const modifier = Math.pow(0.8, selectedCategories.length - 1);
+    const newSize = Math.floor(baseSize * modifier);
     setAudienceSize(newSize);
   }, [selectedCategories, strategicTargeting]);
   
@@ -181,10 +198,78 @@ export default function StrategicHome() {
   // Handle category selection from manual exploration
   const handleCategorySelect = (categoryId: string, selected: boolean) => {
     if (selected) {
+      // Add to first group by default
+      setTargetingGroups(prev => prev.map(group => 
+        group.id === 'group-1' 
+          ? { ...group, categories: [...group.categories, categoryId] }
+          : group
+      ));
       setSelectedCategories(prev => [...prev, categoryId]);
     } else {
+      // Remove from all groups
+      setTargetingGroups(prev => prev.map(group => ({
+        ...group,
+        categories: group.categories.filter(id => id !== categoryId)
+      })));
       setSelectedCategories(prev => prev.filter(id => id !== categoryId));
     }
+  };
+
+  const addNewGroup = () => {
+    const newId = `group-${Date.now()}`;
+    setTargetingGroups(prev => [...prev, {
+      id: newId,
+      name: `Group ${prev.length + 1}`,
+      categories: []
+    }]);
+  };
+
+  const removeGroup = (groupId: string) => {
+    if (targetingGroups.length <= 1) return; // Keep at least one group
+    
+    const groupToRemove = targetingGroups.find(g => g.id === groupId);
+    if (groupToRemove) {
+      // Remove categories from selected list
+      setSelectedCategories(prev => 
+        prev.filter(id => !groupToRemove.categories.includes(id))
+      );
+    }
+    
+    setTargetingGroups(prev => prev.filter(group => group.id !== groupId));
+  };
+
+  const moveTargetToGroup = (categoryId: string, fromGroupId: string, toGroupId: string) => {
+    setTargetingGroups(prev => prev.map(group => {
+      if (group.id === fromGroupId) {
+        return { ...group, categories: group.categories.filter(id => id !== categoryId) };
+      } else if (group.id === toGroupId) {
+        return { ...group, categories: [...group.categories, categoryId] };
+      }
+      return group;
+    }));
+  };
+
+  const getCategoryDetails = (categoryId: string) => {
+    return flatCategories.find(cat => cat.id === categoryId);
+  };
+
+  const getBreadcrumbs = (categoryId: string): string[] => {
+    const category = flatCategories.find(cat => cat.id === categoryId);
+    if (!category) return [];
+    
+    const breadcrumbs: string[] = [];
+    let current = category;
+    
+    while (current) {
+      breadcrumbs.unshift(current.name);
+      if (!current.parentId) break;
+      
+      const parent = flatCategories.find(cat => cat.id === current.parentId);
+      if (!parent) break;
+      current = parent;
+    }
+    
+    return breadcrumbs;
   };
 
   // Remove selected category
@@ -194,37 +279,13 @@ export default function StrategicHome() {
   };
 
   // Calculate audience size based on selections
-  const calculateAudienceSize = () => {
+  const calculateAudienceSize = (): number => {
     if (selectedCategories.length === 0) return 0;
     
-    // Get selected category details for more accurate sizing
-    const selectedCategoryDetails = selectedCategories.map(catId => {
-      // Find category in strategic targeting groups
-      if (strategicTargeting) {
-        for (const group of strategicTargeting.groups) {
-          const found = group.categories.find(cat => cat.id === catId);
-          if (found) return found;
-        }
-      }
-      return { id: catId, name: `Category ${catId}`, size: "2.5M" };
-    });
-
-    // Calculate based on actual audience sizes if available
-    let totalAudience = 0;
-    for (const cat of selectedCategoryDetails) {
-      if (cat.size) {
-        const sizeStr = cat.size.toString();
-        const numericSize = parseFloat(sizeStr.replace(/[KMB,]/g, ''));
-        const multiplier = sizeStr.includes('K') ? 1000 : sizeStr.includes('M') ? 1000000 : sizeStr.includes('B') ? 1000000000 : 1;
-        totalAudience += numericSize * multiplier;
-      } else {
-        totalAudience += 2500000; // Default 2.5M if no size
-      }
-    }
-
-    // Apply intersection reduction (AND logic reduces audience)
-    const intersectionReduction = Math.pow(0.6, selectedCategories.length - 1);
-    return Math.round(totalAudience * intersectionReduction);
+    // Simple calculation based on selected categories
+    const baseSize = 2500000;
+    const modifier = Math.pow(0.8, selectedCategories.length - 1);
+    return Math.floor(baseSize * modifier);
   };
 
   // Get campaign specificity
@@ -877,11 +938,11 @@ export default function StrategicHome() {
                 </Card>
               </div>
               
-              {/* Campaign summary */}
+              {/* Campaign summary with groups */}
               <div>
-                <Card className="border-0 shadow-lg">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
+                <Card className="border-0 shadow-xl bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-white">
                       <Target className="h-5 w-5 text-purple-600" />
                       Campaign Summary
                     </CardTitle>
@@ -889,10 +950,10 @@ export default function StrategicHome() {
                   <CardContent className="space-y-6">
                     {/* Campaign settings */}
                     <div className="space-y-4">
-                      <div>
-                        <Label htmlFor="expert-location" className="text-sm font-medium">Location</Label>
+                      <div className="space-y-2">
+                        <Label htmlFor="expert-location" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Location</Label>
                         <Select value={location} onValueChange={setLocation}>
-                          <SelectTrigger data-testid="select-expert-location">
+                          <SelectTrigger className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600" data-testid="select-expert-location">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -905,103 +966,204 @@ export default function StrategicHome() {
                         </Select>
                       </div>
                       
-                      <div>
-                        <Label className="text-sm font-medium">Age Range</Label>
-                        <div className="flex items-center gap-2 mt-1">
+                      <div className="space-y-2">
+                        <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Age Range</Label>
+                        <div className="flex items-center gap-3 mt-2">
                           <Input
                             type="number"
                             value={ageMin}
                             onChange={(e) => setAgeMin(Number(e.target.value))}
-                            min={13}
-                            max={65}
-                            className="w-20"
-                            data-testid="input-expert-age-min"
+                            className="w-20 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+                            min="18"
+                            max="65"
+                            data-testid="input-age-min"
                           />
-                          <span className="text-gray-500">to</span>
+                          <span className="text-gray-500 font-medium">to</span>
                           <Input
                             type="number"
                             value={ageMax}
                             onChange={(e) => setAgeMax(Number(e.target.value))}
-                            min={13}
-                            max={65}
-                            className="w-20"
-                            data-testid="input-expert-age-max"
+                            className="w-20 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+                            min="18"
+                            max="65"
+                            data-testid="input-age-max"
                           />
                         </div>
                       </div>
-                      
-                      <div>
-                        <Label className="text-sm font-medium">Targeting Logic</Label>
-                        <Select value={campaignLogic} onValueChange={(value: "AND" | "OR") => setCampaignLogic(value)}>
-                          <SelectTrigger data-testid="select-campaign-logic">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="AND">AND (Narrow)</SelectItem>
-                            <SelectItem value="OR">OR (Broad)</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
                     </div>
                     
-                    {/* Selected targets */}
-                    <div>
-                      <h4 className="font-medium mb-3">Selected Targets ({selectedCategories.length})</h4>
-                      <ScrollArea className="h-40">
-                        <div className="space-y-2">
-                          {flatCategories.filter(cat => selectedCategories.includes(cat.id)).map((category) => (
+                    {/* Targeting Groups */}
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <Label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                          Targeting Groups ({targetingGroups.reduce((acc, group) => acc + group.categories.length, 0)} targets)
+                        </Label>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={addNewGroup}
+                          className="h-8 px-3 bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 dark:bg-blue-900/30 dark:border-blue-700 dark:text-blue-300"
+                          data-testid="button-add-group"
+                        >
+                          <FolderPlus className="h-4 w-4 mr-1" />
+                          Add Group
+                        </Button>
+                      </div>
+                      
+                      <ScrollArea className="max-h-80 pr-4">
+                        <div className="space-y-3">
+                          {targetingGroups.map((group) => (
                             <div
-                              key={category.id}
-                              className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded-lg"
+                              key={group.id}
+                              className="border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800/50 shadow-sm"
                             >
-                              <span className="text-sm truncate flex-1">{category.name}</span>
-                              <Button
-                                size="sm"
-                                variant="ghost"
-                                onClick={() => handleRemoveCategory(category.id)}
-                                data-testid={`button-expert-remove-${category.id}`}
-                                className="h-6 w-6 p-0 text-gray-500 hover:text-red-500"
-                              >
-                                <X className="h-3 w-3" />
-                              </Button>
+                              {/* Group Header */}
+                              <div className="flex items-center justify-between p-3 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/30 rounded-t-lg">
+                                <div className="flex items-center gap-2">
+                                  <Grip className="h-4 w-4 text-gray-400" />
+                                  <span className="font-semibold text-gray-800 dark:text-gray-200 text-sm">
+                                    {group.name}
+                                  </span>
+                                  <Badge variant="outline" className="text-xs bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-700">
+                                    {group.categories.length} targets
+                                  </Badge>
+                                </div>
+                                {targetingGroups.length > 1 && (
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => removeGroup(group.id)}
+                                    className="h-6 w-6 p-0 text-red-500 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/30"
+                                    data-testid={`button-remove-group-${group.id}`}
+                                  >
+                                    <Trash2 className="h-3 w-3" />
+                                  </Button>
+                                )}
+                              </div>
+
+                              {/* Group Content */}
+                              <div className="p-3">
+                                {group.categories.length === 0 ? (
+                                  <p className="text-sm text-gray-500 dark:text-gray-400 italic text-center py-2">
+                                    No targets in this group
+                                  </p>
+                                ) : (
+                                  <div className="space-y-2">
+                                    {group.categories.map((categoryId) => {
+                                      const category = getCategoryDetails(categoryId);
+                                      const breadcrumbs = getBreadcrumbs(categoryId);
+                                      
+                                      if (!category) return null;
+                                      
+                                      const getCategoryTypeColor = (type: string) => {
+                                        switch (type) {
+                                          case 'demographics':
+                                            return 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-600';
+                                          case 'interests':
+                                            return 'bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-600';
+                                          case 'behaviors':
+                                            return 'bg-purple-100 text-purple-800 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-600';
+                                          default:
+                                            return 'bg-gray-100 text-gray-800 border-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600';
+                                        }
+                                      };
+
+                                      return (
+                                        <div
+                                          key={categoryId}
+                                          className="group flex items-start justify-between p-3 bg-gray-50 dark:bg-gray-700/30 rounded-lg border border-gray-200 dark:border-gray-600 hover:shadow-sm transition-all"
+                                        >
+                                          <div className="flex-1 min-w-0">
+                                            {/* Category name */}
+                                            <div className="flex items-center gap-2 mb-1">
+                                              <span className="font-medium text-gray-900 dark:text-gray-100 text-sm">
+                                                {category.name}
+                                              </span>
+                                              <Badge 
+                                                variant="outline" 
+                                                className={`text-xs ${getCategoryTypeColor(category.categoryType)}`}
+                                              >
+                                                {category.categoryType}
+                                              </Badge>
+                                            </div>
+                                            
+                                            {/* Breadcrumbs */}
+                                            {breadcrumbs.length > 1 && (
+                                              <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400 mb-1">
+                                                {breadcrumbs.slice(0, -1).map((breadcrumb, idx, arr) => (
+                                                  <span key={idx} className="flex items-center gap-1">
+                                                    <span className="truncate max-w-[80px]">{breadcrumb}</span>
+                                                    {idx < arr.length - 1 && (
+                                                      <ChevronRight className="h-3 w-3" />
+                                                    )}
+                                                  </span>
+                                                ))}
+                                              </div>
+                                            )}
+                                            
+                                            {/* Audience size */}
+                                            {category.size && category.size !== 'Unknown' && category.size !== 'Not available' && (
+                                              <p className="text-xs text-green-600 dark:text-green-400 font-medium">
+                                                {category.size} people
+                                              </p>
+                                            )}
+                                          </div>
+                                          
+                                          <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => handleCategorySelect(categoryId, false)}
+                                            className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity text-red-500 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/30"
+                                            data-testid={`button-remove-${categoryId}`}
+                                          >
+                                            <X className="h-3 w-3" />
+                                          </Button>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                )}
+                              </div>
                             </div>
                           ))}
                         </div>
                       </ScrollArea>
                     </div>
-                    
-                    {/* Campaign metrics */}
-                    <div className="space-y-3">
+
+                    {/* Audience estimate */}
+                    <div className="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-3 bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-800 dark:to-blue-900/20 -mx-6 px-6 -mb-6 pb-6 rounded-b-lg">
                       <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">Estimated Reach:</span>
-                        <span className="font-bold text-green-600">
-                          {calculateAudienceSize().toLocaleString()}
+                        <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Estimated Reach:</span>
+                        <span className="text-lg font-bold text-green-600 dark:text-green-400">
+                          {audienceSize ? audienceSize.toLocaleString() : "2,500,000"}
                         </span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">Specificity:</span>
-                        <Badge className={
-                          getCampaignSpecificity() === "High" ? "bg-red-100 text-red-800 border-red-200" :
-                          getCampaignSpecificity() === "Medium" ? "bg-orange-100 text-orange-800 border-orange-200" :
-                          getCampaignSpecificity() === "Low" ? "bg-yellow-100 text-yellow-800 border-yellow-200" :
-                          "bg-gray-100 text-gray-800 border-gray-200"
-                        }>
-                          {getCampaignSpecificity()}
+                        <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Specificity:</span>
+                        <Badge 
+                          variant="outline" 
+                          className={
+                            selectedCategories.length > 3 
+                              ? "bg-green-100 text-green-800 border-green-300 dark:bg-green-900/30 dark:text-green-300 dark:border-green-600" 
+                              : selectedCategories.length > 1 
+                              ? "bg-yellow-100 text-yellow-800 border-yellow-300 dark:bg-yellow-900/30 dark:text-yellow-300 dark:border-yellow-600" 
+                              : "bg-red-100 text-red-800 border-red-300 dark:bg-red-900/30 dark:text-red-300 dark:border-red-600"
+                          }
+                        >
+                          {selectedCategories.length > 3 ? "High" : selectedCategories.length > 1 ? "Medium" : "Low"}
                         </Badge>
                       </div>
                     </div>
-                    
+
                     {/* Export button */}
-                    {selectedCategories.length > 0 && (
-                      <Button
-                        onClick={handleExportCampaign}
-                        className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
-                        data-testid="button-expert-export"
-                      >
-                        <Download className="h-4 w-4 mr-2" />
-                        Export Campaign
-                      </Button>
-                    )}
+                    <Button 
+                      className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg hover:shadow-xl transition-all"
+                      size="lg"
+                      data-testid="button-export-campaign"
+                    >
+                      <Download className="h-5 w-5 mr-2" />
+                      Export Campaign
+                    </Button>
                   </CardContent>
                 </Card>
               </div>
