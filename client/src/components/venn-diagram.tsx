@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, Target, Zap } from "lucide-react";
+import { Users, Target, Zap, UserCheck, ArrowDown, ArrowDownLeft, ArrowDownRight } from "lucide-react";
 import type { StrategicTargeting, TargetingGroup } from "@shared/schema";
 
 interface VennDiagramProps {
@@ -127,116 +127,183 @@ export function VennDiagram({ selectedCategories, audienceSize, onCategoryToggle
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center gap-2 text-lg font-semibold">
           <Target className="h-5 w-5 text-blue-600" />
-          Strategic Audience Intersection
+          Your Target Audience
         </CardTitle>
         <p className="text-sm text-gray-600 dark:text-gray-400">
-          AND logic between groups creates precise targeting
+          Finding people who match multiple characteristics for precise targeting
         </p>
       </CardHeader>
 
       <CardContent className="space-y-6">
-        {/* Venn Diagram Visualization */}
+        {/* Enhanced Venn Diagram with User Icons */}
         <div className="flex justify-center">
           <div className="relative">
             <svg
-              width="320"
+              width="380"
               height="320"
-              viewBox="0 0 320 320"
+              viewBox="0 0 380 320"
               className="overflow-visible bg-gradient-to-br from-blue-50/20 to-purple-50/20 rounded-lg"
             >
-              {/* Background grid for reference */}
               <defs>
-                <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                  <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e5e7eb" strokeWidth="0.5" opacity="0.3"/>
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid)" />
-              
-              {/* Draw circles with better visual hierarchy */}
-              {circles.map((circle, index) => (
-                <g key={circle.id}>
-                  {/* Circle shadow */}
-                  <circle
-                    cx={circle.x + 2}
-                    cy={circle.y + 2}
-                    r={circle.radius}
-                    fill="rgba(0,0,0,0.1)"
-                    opacity="0.3"
-                  />
-                  
-                  {/* Main circle */}
-                  <circle
-                    cx={circle.x}
-                    cy={circle.y}
-                    r={circle.radius}
-                    fill={circle.color}
-                    fillOpacity={0.25}
-                    stroke={circle.color}
-                    strokeWidth={3}
-                    className="transition-all duration-300 hover:fill-opacity-40 hover:stroke-width-4"
-                  />
-                  
-                  {/* Category count in circle */}
-                  <text
-                    x={circle.x}
-                    y={circle.y}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    className="text-sm font-bold"
-                    fill={circle.color}
-                  >
-                    {circle.selectedCount}
-                  </text>
-                  
-                  {/* Group label with background */}
-                  <g>
-                    <rect
-                      x={circle.x - 35}
-                      y={circle.y - circle.radius - 25}
-                      width="70"
-                      height="16"
-                      rx="8"
-                      fill="white"
-                      stroke={circle.color}
-                      strokeWidth="1.5"
-                      opacity="0.95"
-                    />
-                    <text
-                      x={circle.x}
-                      y={circle.y - circle.radius - 16}
-                      textAnchor="middle"
-                      dominantBaseline="middle"
-                      className="text-xs font-semibold"
-                      fill={circle.color}
-                    >
-                      {circle.name.length > 12 ? `${circle.name.slice(0, 12)}...` : circle.name}
-                    </text>
-                  </g>
+                {/* User icon definition for reuse */}
+                <g id="userIcon">
+                  <circle cx="0" cy="-2" r="2" fill="currentColor" />
+                  <path d="M -2.5 2 Q -2.5 0 0 0 Q 2.5 0 2.5 2 L 2.5 4 Q 2.5 5 1.5 5 L -1.5 5 Q -2.5 5 -2.5 4 Z" fill="currentColor" />
                 </g>
-              ))}
+                {/* Arrow definitions */}
+                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                  <polygon points="0 0, 10 3.5, 0 7" fill="#3B82F6" />
+                </marker>
+              </defs>
               
-              {/* Enhanced intersection indicators */}
+              {/* Draw circles with user icons and smart positioning */}
+              {circles.map((circle, index) => {
+                // Calculate title position to avoid overlaps
+                let titleY = circle.y - circle.radius - 30;
+                let titleX = circle.x;
+                
+                // Adjust title positioning for overlapping circles
+                if (circles.length === 2) {
+                  if (index === 0) {
+                    titleX = circle.x - 20;
+                    titleY = circle.y - circle.radius - 35;
+                  } else {
+                    titleX = circle.x + 20;
+                    titleY = circle.y - circle.radius - 35;
+                  }
+                } else if (circles.length >= 3) {
+                  if (index === 0) {
+                    titleY = circle.y - circle.radius - 40;
+                  } else if (index === 1) {
+                    titleX = circle.x + 30;
+                    titleY = circle.y - circle.radius - 25;
+                  } else if (index === 2) {
+                    titleX = circle.x - 30;
+                    titleY = circle.y - circle.radius - 25;
+                  }
+                }
+
+                return (
+                  <g key={circle.id}>
+                    {/* Circle shadow */}
+                    <circle
+                      cx={circle.x + 3}
+                      cy={circle.y + 3}
+                      r={circle.radius}
+                      fill="rgba(0,0,0,0.1)"
+                      opacity="0.2"
+                    />
+                    
+                    {/* Main circle */}
+                    <circle
+                      cx={circle.x}
+                      cy={circle.y}
+                      r={circle.radius}
+                      fill={circle.color}
+                      fillOpacity={0.2}
+                      stroke={circle.color}
+                      strokeWidth={3}
+                      className="transition-all duration-300 hover:fill-opacity-35"
+                    />
+                    
+                    {/* User icons scattered throughout the circle */}
+                    {Array.from({ length: Math.min(8, Math.max(3, circle.selectedCount)) }, (_, i) => {
+                      const angle = (i / Math.max(3, circle.selectedCount)) * 2 * Math.PI;
+                      const distance = Math.random() * (circle.radius - 20) + 10;
+                      const userX = circle.x + Math.cos(angle) * distance;
+                      const userY = circle.y + Math.sin(angle) * distance;
+                      
+                      return (
+                        <use
+                          key={i}
+                          href="#userIcon"
+                          x={userX}
+                          y={userY}
+                          color={circle.color}
+                          opacity="0.7"
+                          className="transition-opacity hover:opacity-100"
+                        />
+                      );
+                    })}
+                    
+                    {/* Smart title positioning with adaptive background */}
+                    <g>
+                      {/* Measure text width for adaptive background */}
+                      <rect
+                        x={titleX - Math.min(circle.name.length * 4 + 8, 80)}
+                        y={titleY - 12}
+                        width={Math.min(circle.name.length * 8 + 16, 160)}
+                        height={24}
+                        rx="12"
+                        fill="white"
+                        stroke={circle.color}
+                        strokeWidth="2"
+                        opacity="0.95"
+                        filter="drop-shadow(0 2px 4px rgba(0,0,0,0.1))"
+                      />
+                      <text
+                        x={titleX}
+                        y={titleY}
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        className="text-sm font-bold"
+                        fill={circle.color}
+                      >
+                        {circle.name.length > 15 ? 
+                          `${circle.name.slice(0, 15)}...` : 
+                          circle.name
+                        }
+                      </text>
+                    </g>
+                  </g>
+                );
+              })}
+              
+              {/* Enhanced intersection area with user icons */}
               {circles.length === 2 && (
                 <g>
-                  {/* Intersection highlight */}
+                  {/* Intersection area with special user icons */}
                   <ellipse
-                    cx={160}
+                    cx={190}
                     cy={160}
-                    rx={25}
-                    ry={20}
-                    fill="rgba(59, 130, 246, 0.6)"
-                    stroke="rgba(59, 130, 246, 0.8)"
-                    strokeWidth="2"
+                    rx={30}
+                    ry={25}
+                    fill="rgba(16, 185, 129, 0.3)"
+                    stroke="rgba(16, 185, 129, 0.8)"
+                    strokeWidth="3"
+                    strokeDasharray="5,3"
                     className="animate-pulse"
                   />
-                  <text
-                    x={160}
-                    y={165}
-                    textAnchor="middle"
-                    className="text-xs font-bold fill-white drop-shadow-sm"
-                  >
-                    AND
-                  </text>
+                  
+                  {/* Special targeted users in intersection */}
+                  {Array.from({ length: 4 }, (_, i) => {
+                    const angle = (i / 4) * 2 * Math.PI;
+                    const distance = 15;
+                    const userX = 190 + Math.cos(angle) * distance;
+                    const userY = 160 + Math.sin(angle) * distance;
+                    
+                    return (
+                      <use
+                        key={`target-${i}`}
+                        href="#userIcon"
+                        x={userX}
+                        y={userY}
+                        color="#10B981"
+                        className="drop-shadow-sm"
+                      />
+                    );
+                  })}
+                  
+                  {/* Arrows pointing to intersection */}
+                  <line
+                    x1={190}
+                    y1={100}
+                    x2={190}
+                    y2={130}
+                    stroke="#3B82F6"
+                    strokeWidth="2"
+                    markerEnd="url(#arrowhead)"
+                  />
                 </g>
               )}
               
@@ -244,40 +311,74 @@ export function VennDiagram({ selectedCategories, audienceSize, onCategoryToggle
                 <g>
                   {/* Three-way intersection */}
                   <circle
-                    cx={160}
+                    cx={190}
                     cy={160}
-                    r={25}
-                    fill="rgba(59, 130, 246, 0.7)"
-                    stroke="rgba(59, 130, 246, 0.9)"
-                    strokeWidth="2"
+                    r={28}
+                    fill="rgba(16, 185, 129, 0.3)"
+                    stroke="rgba(16, 185, 129, 0.8)"
+                    strokeWidth="3"
+                    strokeDasharray="5,3"
                     className="animate-pulse"
                   />
-                  <text
-                    x={160}
-                    y={155}
-                    textAnchor="middle"
-                    className="text-xs font-bold fill-white drop-shadow-sm"
-                  >
-                    AND
-                  </text>
-                  <text
-                    x={160}
-                    y={167}
-                    textAnchor="middle"
-                    className="text-xs font-medium fill-white drop-shadow-sm"
-                  >
-                    ALL
-                  </text>
+                  
+                  {/* Premium targeted users in center */}
+                  {Array.from({ length: 6 }, (_, i) => {
+                    const angle = (i / 6) * 2 * Math.PI;
+                    const distance = 15;
+                    const userX = 190 + Math.cos(angle) * distance;
+                    const userY = 160 + Math.sin(angle) * distance;
+                    
+                    return (
+                      <use
+                        key={`premium-${i}`}
+                        href="#userIcon"
+                        x={userX}
+                        y={userY}
+                        color="#10B981"
+                        className="drop-shadow-sm"
+                      />
+                    );
+                  })}
+                  
+                  {/* Multiple arrows pointing to center */}
+                  <line
+                    x1={190}
+                    y1={90}
+                    x2={190}
+                    y2={125}
+                    stroke="#3B82F6"
+                    strokeWidth="2"
+                    markerEnd="url(#arrowhead)"
+                  />
+                  <line
+                    x1={150}
+                    y1={120}
+                    x2={170}
+                    y2={140}
+                    stroke="#3B82F6"
+                    strokeWidth="2"
+                    markerEnd="url(#arrowhead)"
+                  />
+                  <line
+                    x1={230}
+                    y1={120}
+                    x2={210}
+                    y2={140}
+                    stroke="#3B82F6"
+                    strokeWidth="2"
+                    markerEnd="url(#arrowhead)"
+                  />
                 </g>
               )}
             </svg>
             
-            {/* Enhanced intersection label */}
+            {/* Enhanced targeting explanation */}
             {circles.length > 1 && (
-              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-6">
-                <Badge variant="secondary" className="text-xs font-bold bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 border-blue-300 shadow-sm">
-                  🎯 Strategic Intersection
-                </Badge>
+              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-8">
+                <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-100 to-emerald-100 border-2 border-green-300 rounded-full shadow-sm">
+                  <UserCheck className="h-4 w-4 text-green-700" />
+                  <span className="text-sm font-bold text-green-800">Your Perfect Audience</span>
+                </div>
               </div>
             )}
           </div>
@@ -368,16 +469,16 @@ export function VennDiagram({ selectedCategories, audienceSize, onCategoryToggle
           </div>
         </div>
 
-        {/* Strategy explanation */}
-        <div className="p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30 rounded-lg border border-blue-200 dark:border-blue-800">
-          <h5 className="font-medium text-blue-900 dark:text-blue-100 mb-2 flex items-center gap-2">
-            <Target className="h-4 w-4" />
-            Strategic Approach
+        {/* User-friendly explanation */}
+        <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30 rounded-lg border border-green-200 dark:border-green-800">
+          <h5 className="font-medium text-green-900 dark:text-green-100 mb-2 flex items-center gap-2">
+            <UserCheck className="h-4 w-4" />
+            How This Works
           </h5>
-          <p className="text-sm text-blue-800 dark:text-blue-200 leading-relaxed">
-            This targeting forces Meta to find users who match <strong>ALL {circles.length} groups simultaneously</strong> using AND logic. 
-            Within each group, categories use OR logic for flexibility. This creates highly qualified audiences 
-            with multiple behavioral and demographic indicators.
+          <p className="text-sm text-green-800 dark:text-green-200 leading-relaxed">
+            Each circle represents people with different characteristics. The intersection (where circles overlap) 
+            shows your ideal customers - people who have <strong>multiple qualities you're looking for</strong>. 
+            These are the most qualified prospects for your campaign.
           </p>
         </div>
       </CardContent>
