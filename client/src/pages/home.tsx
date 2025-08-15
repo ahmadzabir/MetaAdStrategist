@@ -345,34 +345,42 @@ export default function Home() {
                             <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Recommended Targets ({aiRecommendations.length})</h4>
                             <div className="space-y-2">
                               {aiRecommendations.map((rec) => (
-                                <div key={rec.id} className="flex items-center justify-between p-4 bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 hover:border-emerald-300 dark:hover:border-emerald-600 transition-colors">
-                                  <div className="flex-1 min-w-0">
-                                    <div className="flex items-center gap-2 mb-2">
-                                      <h5 className="font-semibold text-gray-900 dark:text-white truncate">{rec.name}</h5>
-                                      <div className="flex items-center gap-2 text-xs">
-                                        <span className="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full font-medium">
-                                          Level {rec.level}
-                                        </span>
-                                        <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full font-medium">
-                                          {rec.estimatedReach}
-                                        </span>
+                                <div key={rec.id} className="p-4 bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 hover:border-emerald-300 dark:hover:border-emerald-600 transition-colors">
+                                  <div className="flex items-start justify-between mb-3">
+                                    <div className="flex-1 min-w-0">
+                                      <div className="flex items-center gap-2 mb-2">
+                                        <h5 className="font-semibold text-gray-900 dark:text-white truncate">{rec.name}</h5>
+                                        <div className="flex items-center gap-2 text-xs">
+                                          <span className="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full font-medium">
+                                            Level {rec.level}
+                                          </span>
+                                          <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full font-medium">
+                                            {rec.estimatedReach}
+                                          </span>
+                                        </div>
                                       </div>
+                                      {rec.breadcrumbs && rec.breadcrumbs.length > 1 && (
+                                        <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                                          <span className="text-gray-500 dark:text-gray-500">📍 </span>
+                                          {rec.breadcrumbs.join(" › ")}
+                                        </div>
+                                      )}
                                     </div>
-                                    {rec.breadcrumbs && rec.breadcrumbs.length > 1 && (
-                                      <div className="text-sm text-gray-600 dark:text-gray-400">
-                                        <span className="text-gray-500 dark:text-gray-500">📍 </span>
-                                        {rec.breadcrumbs.join(" › ")}
-                                      </div>
-                                    )}
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      onClick={() => handleSelectCategory(rec.id)}
+                                      className={selectedCategories.includes(rec.id) ? "bg-emerald-100 border-emerald-300" : ""}
+                                    >
+                                      {selectedCategories.includes(rec.id) ? "Added" : "Add"}
+                                    </Button>
                                   </div>
-                                  <Button
-                                    size="sm"
-                                    variant="outline"
-                                    onClick={() => handleSelectCategory(rec.id)}
-                                    className={selectedCategories.includes(rec.id) ? "bg-emerald-100 border-emerald-300" : ""}
-                                  >
-                                    {selectedCategories.includes(rec.id) ? "Added" : "Add"}
-                                  </Button>
+                                  {rec.justification && (
+                                    <div className="p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg border border-emerald-200 dark:border-emerald-700">
+                                      <div className="text-xs font-medium text-emerald-700 dark:text-emerald-300 mb-1">Why this audience?</div>
+                                      <p className="text-sm text-emerald-800 dark:text-emerald-200">{rec.justification}</p>
+                                    </div>
+                                  )}
                                 </div>
                               ))}
                             </div>
