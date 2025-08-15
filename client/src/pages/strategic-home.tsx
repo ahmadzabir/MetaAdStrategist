@@ -69,21 +69,33 @@ export default function StrategicHome() {
 
   // Load categories for expert mode when needed
   const loadExpertData = async () => {
-    if (appMode !== "expert" || (categories.length > 0 && flatCategories.length > 0)) return;
+    if (appMode !== "expert") return;
     
     try {
+      console.log("Loading expert data...");
+      
       // Load hierarchical categories
       const hierarchicalResponse = await fetch('/api/targeting-categories/hierarchical');
       const hierarchicalData = await hierarchicalResponse.json();
-      if (hierarchicalData.success) {
+      console.log("Hierarchical response:", hierarchicalData);
+      
+      if (hierarchicalData.success && hierarchicalData.categories) {
+        console.log(`Setting ${hierarchicalData.categories.length} hierarchical categories`);
         setCategories(hierarchicalData.categories);
+      } else {
+        console.error("Failed to load hierarchical categories:", hierarchicalData);
       }
 
       // Load flat categories
       const flatResponse = await fetch('/api/targeting-categories');
       const flatData = await flatResponse.json();
-      if (flatData.success) {
+      console.log("Flat response:", flatData);
+      
+      if (flatData.success && flatData.categories) {
+        console.log(`Setting ${flatData.categories.length} flat categories`);
         setFlatCategories(flatData.categories);
+      } else {
+        console.error("Failed to load flat categories:", flatData);
       }
     } catch (error) {
       console.error("Error loading expert data:", error);
