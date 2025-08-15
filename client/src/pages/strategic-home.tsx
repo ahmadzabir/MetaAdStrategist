@@ -486,6 +486,7 @@ export default function StrategicHome() {
                   onExportCampaign={handleExportCampaign}
                   onProceedToVisualization={handleProceedToVisualization}
                   selectedCategories={selectedCategories}
+                  businessDiscovery={businessDiscovery}
                 />
                 
                 {/* Venn Diagram */}
