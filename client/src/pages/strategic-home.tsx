@@ -28,6 +28,7 @@ import { apiRequest } from "@/lib/queryClient";
 
 // Strategic components
 import { StrategicDiscovery } from "@/components/strategic-discovery";
+import { StrategicResults } from "@/components/strategic-results";
 import { VennDiagram } from "@/components/venn-diagram";
 import { StrategicConversation } from "@/components/strategic-conversation";
 import SimpleTree from "@/components/simple-tree";
@@ -41,7 +42,7 @@ import type {
 } from "@shared/schema";
 
 type AppMode = "guided" | "expert";
-type DiscoveryPhase = "discovery" | "conversation" | "targeting" | "campaign";
+type DiscoveryPhase = "discovery" | "results" | "conversation" | "targeting" | "campaign";
 
 export default function StrategicHome() {
   // App state
@@ -87,7 +88,7 @@ export default function StrategicHome() {
       }
       
       setStrategicTargeting(data.strategicTargeting);
-      setCurrentPhase("conversation");
+      setCurrentPhase("results");
       
       toast({
         title: "Strategic Targeting Generated!",
@@ -265,6 +266,15 @@ export default function StrategicHome() {
                   initialDiscovery={businessDiscovery}
                 />
               </div>
+            )}
+
+            {currentPhase === "results" && strategicTargeting && (
+              <StrategicResults
+                strategicTargeting={strategicTargeting}
+                onCategorySelect={handleCategorySelect}
+                onStartConversation={() => setCurrentPhase("conversation")}
+                selectedCategories={selectedCategories}
+              />
             )}
 
             {currentPhase === "conversation" && strategicTargeting && (
