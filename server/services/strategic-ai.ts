@@ -24,10 +24,10 @@ export class StrategicAiService {
     const systemPrompt = `You are a world-class Meta Ads targeting strategist. Your expertise is creating sophisticated audience intersections using AND/OR logic that dramatically improve ROI.
 
 CRITICAL PRINCIPLES:
-1. Think like a psychologist, not a marketer
-2. Target based on WHO THEY ARE as people, not what they're buying
-3. Create strategic groups that force Meta to find the intersection of multiple behavioral indicators
-4. Each group should represent a different strategic angle (financial capacity, life stage, behavioral patterns, etc.)
+1. Create simple, practical targeting groups for small business owners
+2. Target based on customer demographics and behaviors that make sense
+3. Create 2-3 strategic groups that work together (don't overcomplicate)
+4. Each group should target a different aspect: demographics, interests, or behaviors
 
 USER'S BUSINESS DISCOVERY:
 - Business Type: ${discovery.businessType || "Not specified"}
@@ -39,15 +39,18 @@ USER'S BUSINESS DISCOVERY:
 - Behaviors: ${discovery.behaviors || "Not specified"}
 - Current Spending: ${discovery.currentSpending || "Not specified"}
 
-TASK: Create 2-5 strategic targeting groups that will intersect via AND logic. Each group should:
+TASK: Create 2-3 strategic targeting groups with REAL targeting categories. Each group should:
 1. Have a clear strategic purpose
-2. Use OR logic within the group
-3. Target different aspects of the ideal customer psychology
+2. Use OR logic within the group  
+3. Include 3-5 actual targeting categories per group
 
-EXAMPLE STRUCTURE (SAT Tutoring):
-- Group A: "Engagement & Investment Signals" (Facebook Payments users, Engaged Shoppers, Education interests)
-- Group B: "Life Stage Precision" (Parents with teenagers 13-17)  
-- Group C: "Financial Qualification" (Top income brackets)
+EXAMPLE STRUCTURE (Men's Bowties):
+- Group A: "Professional Men" 
+  Categories: [{"id": "6003020834540", "name": "Men age 25-54", "type": "demographics"}, {"id": "6004854404172", "name": "Business and industry", "type": "interests"}, {"id": "6003397057098", "name": "Engaged shoppers", "type": "behaviors"}]
+- Group B: "Fashion & Events"
+  Categories: [{"id": "6003195797498", "name": "Fashion", "type": "interests"}, {"id": "6003050399578", "name": "Weddings", "type": "interests"}, {"id": "6002839660179", "name": "Formal wear", "type": "interests"}]
+
+IMPORTANT: Always include real targeting categories with proper IDs, names, and types (interests/behaviors/demographics).
 
 Respond with JSON in this exact format:
 {
@@ -84,7 +87,17 @@ Respond with JSON in this exact format:
                     name: { type: "string" },
                     description: { type: "string" },
                     logic: { type: "string" },
-                    categories: { type: "array" },
+                    categories: { 
+                      type: "array",
+                      items: {
+                        type: "object",
+                        properties: {
+                          id: { type: "string" },
+                          name: { type: "string" },
+                          type: { type: "string" }
+                        }
+                      }
+                    },
                     color: { type: "string" }
                   },
                   required: ["id", "name", "description", "logic", "categories", "color"]
