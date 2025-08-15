@@ -326,6 +326,7 @@ export default function StrategicHome() {
                           selectedCategories={selectedCategories}
                           audienceSize={audienceSize}
                           onCategoryToggle={handleCategorySelect}
+                          strategicTargeting={strategicTargeting}
                         />
                       </CardContent>
                     </Card>
@@ -369,6 +370,7 @@ export default function StrategicHome() {
                       selectedCategories={selectedCategories}
                       audienceSize={audienceSize}
                       onCategoryToggle={handleCategorySelect}
+                      strategicTargeting={strategicTargeting}
                     />
                   </CardContent>
                 </Card>
