@@ -394,10 +394,10 @@ export function LocationSearch({
             <button
               key={`${location.key}-${index}`}
               onClick={() => handleSelect(location)}
-              className={`w-full text-left px-4 py-3 border-b border-gray-100 dark:border-gray-700 last:border-b-0 transition-colors ${
+              className={`w-full text-left px-4 py-3 border-b border-gray-100 dark:border-gray-700 last:border-b-0 transition-all duration-200 ${
                 index === selectedIndex
-                  ? 'bg-blue-50 dark:bg-blue-900/20'
-                  : 'hover:bg-gray-50 dark:hover:bg-gray-700/50'
+                  ? 'bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200'
+                  : 'hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50/30 dark:hover:from-gray-700 dark:hover:to-blue-900/10 hover:text-blue-700 dark:hover:text-blue-300'
               }`}
               data-testid={`location-suggestion-${location.key}`}
             >

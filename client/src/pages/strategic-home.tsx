@@ -424,11 +424,11 @@ export default function StrategicHome() {
                   <SelectTrigger className="w-40 bg-white dark:bg-gray-800 border-0 shadow-sm font-semibold text-gray-800 dark:text-white" data-testid="select-app-mode">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                    <SelectItem value="guided" className="font-medium text-gray-800 dark:text-white hover:bg-blue-50 dark:hover:bg-blue-900/20">
+                  <SelectContent className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
+                    <SelectItem value="guided" className="font-medium text-gray-800 dark:text-white hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 dark:hover:from-blue-900/30 dark:hover:to-indigo-900/30 hover:text-blue-800 dark:hover:text-blue-200 cursor-pointer transition-all duration-200">
                       Guided Strategy
                     </SelectItem>
-                    <SelectItem value="expert" className="font-medium text-gray-800 dark:text-white hover:bg-purple-50 dark:hover:bg-purple-900/20">
+                    <SelectItem value="expert" className="font-medium text-gray-800 dark:text-white hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 dark:hover:from-purple-900/30 dark:hover:to-pink-900/30 hover:text-purple-800 dark:hover:text-purple-200 cursor-pointer transition-all duration-200">
                       Expert Manual
                     </SelectItem>
                   </SelectContent>
