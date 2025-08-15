@@ -102,20 +102,47 @@ export function LocationSearch({
           { key: 'BR', name: 'Brazil', type: 'country', country_name: 'Brazil' },
           { key: 'MX', name: 'Mexico', type: 'country', country_name: 'Mexico' },
           { key: 'JP', name: 'Japan', type: 'country', country_name: 'Japan' },
-          { key: 'IN', name: 'India', type: 'country', country_name: 'India' }
+          { key: 'IN', name: 'India', type: 'country', country_name: 'India' },
+          { key: 'CN', name: 'China', type: 'country', country_name: 'China' },
+          { key: 'RU', name: 'Russia', type: 'country', country_name: 'Russia' },
+          { key: 'KR', name: 'South Korea', type: 'country', country_name: 'South Korea' },
+          { key: 'SG', name: 'Singapore', type: 'country', country_name: 'Singapore' },
+          { key: 'MY', name: 'Malaysia', type: 'country', country_name: 'Malaysia' },
+          { key: 'TH', name: 'Thailand', type: 'country', country_name: 'Thailand' },
+          { key: 'PH', name: 'Philippines', type: 'country', country_name: 'Philippines' },
+          { key: 'ID', name: 'Indonesia', type: 'country', country_name: 'Indonesia' },
+          { key: 'VN', name: 'Vietnam', type: 'country', country_name: 'Vietnam' },
+          { key: 'PK', name: 'Pakistan', type: 'country', country_name: 'Pakistan' },
+          { key: 'BD', name: 'Bangladesh', type: 'country', country_name: 'Bangladesh' },
+          { key: 'NG', name: 'Nigeria', type: 'country', country_name: 'Nigeria' },
+          { key: 'ZA', name: 'South Africa', type: 'country', country_name: 'South Africa' },
+          { key: 'EG', name: 'Egypt', type: 'country', country_name: 'Egypt' },
+          { key: 'AR', name: 'Argentina', type: 'country', country_name: 'Argentina' },
+          { key: 'CL', name: 'Chile', type: 'country', country_name: 'Chile' },
+          { key: 'CO', name: 'Colombia', type: 'country', country_name: 'Colombia' },
+          { key: 'PE', name: 'Peru', type: 'country', country_name: 'Peru' },
+          { key: 'NL', name: 'Netherlands', type: 'country', country_name: 'Netherlands' },
+          { key: 'BE', name: 'Belgium', type: 'country', country_name: 'Belgium' },
+          { key: 'CH', name: 'Switzerland', type: 'country', country_name: 'Switzerland' },
+          { key: 'AT', name: 'Austria', type: 'country', country_name: 'Austria' },
+          { key: 'SE', name: 'Sweden', type: 'country', country_name: 'Sweden' },
+          { key: 'NO', name: 'Norway', type: 'country', country_name: 'Norway' },
+          { key: 'DK', name: 'Denmark', type: 'country', country_name: 'Denmark' },
+          { key: 'FI', name: 'Finland', type: 'country', country_name: 'Finland' },
+          { key: 'PL', name: 'Poland', type: 'country', country_name: 'Poland' },
+          { key: 'TR', name: 'Turkey', type: 'country', country_name: 'Turkey' },
+          { key: 'IL', name: 'Israel', type: 'country', country_name: 'Israel' },
+          { key: 'AE', name: 'United Arab Emirates', type: 'country', country_name: 'United Arab Emirates' },
+          { key: 'SA', name: 'Saudi Arabia', type: 'country', country_name: 'Saudi Arabia' },
+          { key: 'NZ', name: 'New Zealand', type: 'country', country_name: 'New Zealand' }
         ].filter(loc => 
           loc.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
           !value.some(selected => selected.key === loc.key)
         ) as LocationResult[];
 
-        console.log('Using fallback locations:', basicLocations.length, 'matching query:', searchQuery);
         setSuggestions(basicLocations);
         setIsOpen(basicLocations.length > 0);
         setSelectedIndex(-1);
-        
-        if (data.message?.includes('Meta API not configured')) {
-          console.warn('Using basic location fallback - Meta API credentials needed for full location search');
-        }
       }
     } catch (error) {
       console.error('Error searching locations:', error);
@@ -126,13 +153,16 @@ export function LocationSearch({
         { key: 'GB', name: 'United Kingdom', type: 'country', country_name: 'United Kingdom' },
         { key: 'AU', name: 'Australia', type: 'country', country_name: 'Australia' },
         { key: 'DE', name: 'Germany', type: 'country', country_name: 'Germany' },
-        { key: 'FR', name: 'France', type: 'country', country_name: 'France' }
+        { key: 'FR', name: 'France', type: 'country', country_name: 'France' },
+        { key: 'IN', name: 'India', type: 'country', country_name: 'India' },
+        { key: 'BR', name: 'Brazil', type: 'country', country_name: 'Brazil' },
+        { key: 'PK', name: 'Pakistan', type: 'country', country_name: 'Pakistan' },
+        { key: 'BD', name: 'Bangladesh', type: 'country', country_name: 'Bangladesh' }
       ].filter(loc => 
         loc.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
         !value.some(selected => selected.key === loc.key)
       ) as LocationResult[];
       
-      console.log('Error fallback locations:', basicLocations.length, 'for query:', searchQuery);
       setSuggestions(basicLocations);
       setIsOpen(basicLocations.length > 0);
     } finally {
@@ -213,7 +243,6 @@ export function LocationSearch({
   };
 
   const handleInputFocus = () => {
-    console.log('Input focused, query:', query, 'suggestions:', suggestions.length);
     if (query.trim() && suggestions.length > 0) {
       setIsOpen(true);
     } else if (query.length === 0) {
@@ -224,12 +253,15 @@ export function LocationSearch({
         { key: 'GB', name: 'United Kingdom', type: 'country', country_name: 'United Kingdom' },
         { key: 'AU', name: 'Australia', type: 'country', country_name: 'Australia' },
         { key: 'DE', name: 'Germany', type: 'country', country_name: 'Germany' },
-        { key: 'FR', name: 'France', type: 'country', country_name: 'France' }
+        { key: 'FR', name: 'France', type: 'country', country_name: 'France' },
+        { key: 'IN', name: 'India', type: 'country', country_name: 'India' },
+        { key: 'BR', name: 'Brazil', type: 'country', country_name: 'Brazil' },
+        { key: 'JP', name: 'Japan', type: 'country', country_name: 'Japan' },
+        { key: 'MX', name: 'Mexico', type: 'country', country_name: 'Mexico' }
       ].filter(loc => !value.some(selected => selected.key === loc.key)) as LocationResult[];
       
       setSuggestions(popularCountries);
       setIsOpen(popularCountries.length > 0);
-      console.log('Setting popular countries:', popularCountries.length, 'open:', popularCountries.length > 0);
     }
   };
 
@@ -341,15 +373,7 @@ export function LocationSearch({
         )}
       </div>
 
-      {/* Debug info */}
-      {process.env.NODE_ENV === 'development' && (
-        <div className="text-xs text-gray-400 p-2 bg-yellow-50 border rounded">
-          Query: "{query}" | Suggestions: {suggestions.length} | Open: {isOpen.toString()} | Loading: {isLoading.toString()}
-          {suggestions.length > 0 && (
-            <div>Suggestions: {suggestions.map(s => s.name).join(', ')}</div>
-          )}
-        </div>
-      )}
+
 
       {/* Suggestions Dropdown - Always render but conditionally show */}
       <div 
@@ -416,7 +440,7 @@ export function LocationSearch({
 
       {/* Helper text */}
       <p className="text-xs text-gray-500 dark:text-gray-400">
-        Search for countries, states/provinces, or cities using Meta's targeting database. Selected: {value.length}/{maxSelections}
+        Search locations by name. {value.length > 0 ? `Selected: ${value.length}/${maxSelections}` : 'Click to see popular countries or start typing'}
       </p>
     </div>
   );
