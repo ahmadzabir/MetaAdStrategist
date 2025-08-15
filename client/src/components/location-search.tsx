@@ -93,15 +93,22 @@ export function LocationSearch({
         const basicLocations = [
           { key: 'US', name: 'United States', type: 'country', country_name: 'United States' },
           { key: 'CA', name: 'Canada', type: 'country', country_name: 'Canada' },
-          { key: 'UK', name: 'United Kingdom', type: 'country', country_name: 'United Kingdom' },
+          { key: 'GB', name: 'United Kingdom', type: 'country', country_name: 'United Kingdom' },
           { key: 'AU', name: 'Australia', type: 'country', country_name: 'Australia' },
           { key: 'DE', name: 'Germany', type: 'country', country_name: 'Germany' },
           { key: 'FR', name: 'France', type: 'country', country_name: 'France' },
+          { key: 'IT', name: 'Italy', type: 'country', country_name: 'Italy' },
+          { key: 'ES', name: 'Spain', type: 'country', country_name: 'Spain' },
+          { key: 'BR', name: 'Brazil', type: 'country', country_name: 'Brazil' },
+          { key: 'MX', name: 'Mexico', type: 'country', country_name: 'Mexico' },
+          { key: 'JP', name: 'Japan', type: 'country', country_name: 'Japan' },
+          { key: 'IN', name: 'India', type: 'country', country_name: 'India' }
         ].filter(loc => 
           loc.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
           !value.some(selected => selected.key === loc.key)
         ) as LocationResult[];
 
+        console.log('Using fallback locations:', basicLocations.length, 'matching query:', searchQuery);
         setSuggestions(basicLocations);
         setIsOpen(basicLocations.length > 0);
         setSelectedIndex(-1);
@@ -116,13 +123,16 @@ export function LocationSearch({
       const basicLocations = [
         { key: 'US', name: 'United States', type: 'country', country_name: 'United States' },
         { key: 'CA', name: 'Canada', type: 'country', country_name: 'Canada' },
-        { key: 'UK', name: 'United Kingdom', type: 'country', country_name: 'United Kingdom' },
+        { key: 'GB', name: 'United Kingdom', type: 'country', country_name: 'United Kingdom' },
         { key: 'AU', name: 'Australia', type: 'country', country_name: 'Australia' },
+        { key: 'DE', name: 'Germany', type: 'country', country_name: 'Germany' },
+        { key: 'FR', name: 'France', type: 'country', country_name: 'France' }
       ].filter(loc => 
         loc.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
         !value.some(selected => selected.key === loc.key)
       ) as LocationResult[];
       
+      console.log('Error fallback locations:', basicLocations.length, 'for query:', searchQuery);
       setSuggestions(basicLocations);
       setIsOpen(basicLocations.length > 0);
     } finally {
@@ -260,7 +270,7 @@ export function LocationSearch({
   };
 
   return (
-    <div className={`space-y-3 ${className}`}>
+    <div className={`space-y-3 relative ${className}`}>
       <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
         Geographic Targeting
       </Label>
@@ -316,11 +326,26 @@ export function LocationSearch({
         )}
       </div>
 
+      {/* Debug info */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="text-xs text-gray-400">
+          Query: "{query}" | Suggestions: {suggestions.length} | Open: {isOpen.toString()}
+        </div>
+      )}
+
       {/* Suggestions Dropdown */}
       {isOpen && suggestions.length > 0 && (
         <div 
           ref={dropdownRef}
-          className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl z-50 max-h-80 overflow-y-auto"
+          className="absolute left-0 right-0 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl max-h-80 overflow-y-auto"
+          style={{ 
+            position: 'absolute', 
+            top: '100%', 
+            left: 0, 
+            right: 0, 
+            zIndex: 9999,
+            marginTop: '8px'
+          }}
         >
           {suggestions.map((location, index) => (
             <button
