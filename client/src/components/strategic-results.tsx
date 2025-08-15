@@ -78,14 +78,29 @@ export function StrategicResults({
             <Target className="h-5 w-5 text-blue-600 mt-0.5" />
             <div className="space-y-2">
               <h4 className="font-semibold text-blue-900 dark:text-blue-100">How Strategic Groups Work</h4>
-              <p className="text-sm text-blue-800 dark:text-blue-200">
-                Each group below represents a different angle to target your ideal customer. 
-                When you select categories from multiple groups, Meta will find people who match 
-                <strong> ALL groups simultaneously</strong> (AND logic) - creating precise audience intersections.
-              </p>
-              <p className="text-xs text-blue-700 dark:text-blue-300">
-                Within each group, categories use OR logic (anyone matching any category in the group qualifies).
-              </p>
+              <div className="space-y-3">
+                <p className="text-sm text-blue-800 dark:text-blue-200">
+                  <strong>How AND/OR Logic Works:</strong>
+                </p>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-start gap-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                    <div>
+                      <strong>Within each group:</strong> OR logic (select any/all categories you want)
+                      <br/>
+                      <span className="text-blue-700 dark:text-blue-300 text-xs">Example: Age 25-34 OR Age 35-44</span>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <div className="w-2 h-2 bg-purple-500 rounded-full mt-2"></div>
+                    <div>
+                      <strong>Between groups:</strong> AND logic (must match ALL selected groups)
+                      <br/>
+                      <span className="text-blue-700 dark:text-blue-300 text-xs">Example: (Demographics) AND (Interests) AND (Behaviors)</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </CardContent>
@@ -164,14 +179,26 @@ export function StrategicResults({
                                 <p className="font-medium text-gray-800 dark:text-gray-200">
                                   {category.name}
                                 </p>
-                                <div className="flex items-center gap-2 mt-1">
-                                  <Badge variant="outline" className="text-xs">
-                                    {category.categoryType}
-                                  </Badge>
-                                  {category.size && (
-                                    <Badge variant="secondary" className="text-xs">
-                                      {category.size} audience
+                                <div className="space-y-2 mt-2">
+                                  <div className="flex items-center gap-2">
+                                    <Badge variant="outline" className="text-xs">
+                                      {category.categoryType}
                                     </Badge>
+                                    {category.size && (
+                                      <Badge variant="secondary" className="text-xs">
+                                        {category.size} audience
+                                      </Badge>
+                                    )}
+                                  </div>
+                                  {category.id && (
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                                      ID: {category.id}
+                                    </p>
+                                  )}
+                                  {category.parentId && (
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                                      Parent: {category.parentId}
+                                    </p>
                                   )}
                                 </div>
                               </div>
