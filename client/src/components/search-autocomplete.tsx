@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Search, ChevronDown } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -85,14 +85,20 @@ export function SearchAutocomplete({
     }
   };
 
-  const handleSelect = (category: TargetingCategory) => {
-    onSelect(category);
-    setQuery('');
-    setSuggestions([]);
-    setIsOpen(false);
-    setSelectedIndex(-1);
-    inputRef.current?.blur();
-  };
+  const handleSelect = useCallback((category: TargetingCategory) => {
+    try {
+      onSelect(category);
+      setQuery('');
+      setSuggestions([]);
+      setIsOpen(false);
+      setSelectedIndex(-1);
+      if (inputRef.current) {
+        inputRef.current.blur();
+      }
+    } catch (error) {
+      console.error('Error in handleSelect:', error);
+    }
+  }, [onSelect]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -104,15 +110,17 @@ export function SearchAutocomplete({
     }
   };
 
-  const handleInputBlur = (e: React.FocusEvent) => {
+  const handleInputBlur = useCallback((e: React.FocusEvent) => {
     // Delay closing to allow clicking on suggestions
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       if (!dropdownRef.current?.contains(e.relatedTarget as Node)) {
         setIsOpen(false);
         setSelectedIndex(-1);
       }
     }, 200);
-  };
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   const getCategoryTypeColor = (type: string) => {
     switch (type) {

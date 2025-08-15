@@ -750,11 +750,15 @@ export default function StrategicHome() {
                       <SearchAutocomplete
                         categories={flatCategories}
                         onSelect={(category) => {
-                          handleCategorySelect(category.id, true);
-                          toast({
-                            title: "Target Added",
-                            description: `${category.name} added to your campaign targeting.`
-                          });
+                          try {
+                            handleCategorySelect(category.id, true);
+                            toast({
+                              title: "Target Added",
+                              description: `${category.name} added to your campaign targeting.`
+                            });
+                          } catch (error) {
+                            console.error('Error selecting category:', error);
+                          }
                         }}
                         placeholder="Search targeting categories... (e.g., fashion, fitness, parents)"
                         className="w-full"
@@ -763,7 +767,7 @@ export default function StrategicHome() {
                       {/* View Mode Toggle */}
                       <div className="flex items-center justify-between">
                         <div className="text-sm text-gray-600 dark:text-gray-400">
-                          Browse {categories.length > 0 ? 'all categories' : 'available categories'} or search above
+                          Browse all categories or search above
                         </div>
                         <div className="flex items-center gap-2">
                           <Button
@@ -799,37 +803,29 @@ export default function StrategicHome() {
                         />
                       ) : (
                         <div className="space-y-2">
-                          {flatCategories.map((category) => (
-                            <div
-                              key={category.id}
-                              className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-                            >
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-2">
-                                  <span className="font-medium text-gray-900 dark:text-gray-100 truncate">
-                                    {category.name}
-                                  </span>
-                                  <Badge variant="outline" className="text-xs shrink-0">
+                          {flatCategories
+                            .filter(cat => !searchQuery || cat.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                            .map((category) => (
+                              <div
+                                key={category.id}
+                                className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
+                              >
+                                <div className="flex-1">
+                                  <span className="font-medium">{category.name}</span>
+                                  <Badge variant="outline" className="ml-2 text-xs">
                                     {category.categoryType}
                                   </Badge>
                                 </div>
-                                {category.size && category.size !== 'Unknown' && category.size !== 'Not available' && (
-                                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                    {category.size} people
-                                  </p>
-                                )}
+                                <Button
+                                  size="sm"
+                                  variant={selectedCategories.includes(category.id) ? "secondary" : "outline"}
+                                  onClick={() => handleCategorySelect(category.id, !selectedCategories.includes(category.id))}
+                                  data-testid={`button-category-${category.id}`}
+                                >
+                                  {selectedCategories.includes(category.id) ? "Added" : "Add"}
+                                </Button>
                               </div>
-                              <Button
-                                size="sm"
-                                variant={selectedCategories.includes(category.id) ? "secondary" : "outline"}
-                                onClick={() => handleCategorySelect(category.id, !selectedCategories.includes(category.id))}
-                                data-testid={`button-category-${category.id}`}
-                                className="shrink-0 ml-3"
-                              >
-                                {selectedCategories.includes(category.id) ? "Added" : "Add"}
-                              </Button>
-                            </div>
-                          ))}
+                            ))}
                         </div>
                       )}
                     </div>
