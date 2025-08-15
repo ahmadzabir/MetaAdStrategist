@@ -39,10 +39,28 @@ USER'S BUSINESS DISCOVERY:
 - Behaviors: ${discovery.behaviors || "Not specified"}
 - Current Spending: ${discovery.currentSpending || "Not specified"}
 
-TASK: Create 2-3 strategic targeting groups with REAL targeting categories. Each group should:
-1. Have a clear strategic purpose
-2. Use OR logic within the group  
-3. Include 3-5 actual targeting categories per group
+TASK: Create 2-3 strategic targeting groups with REAL, DETAILED targeting categories. Each group should:
+1. Have a clear strategic purpose (demographics vs interests vs behaviors)
+2. Use OR logic within the group (user can select multiple categories from same group)
+3. Include 3-5 specific, realistic targeting categories per group
+4. Focus on DIFFERENT aspects: one group for demographics, one for interests, one for behaviors
+
+REAL WORLD EXAMPLE (SaaS Business Tools):
+Group 1: "Business Decision Makers" (demographics)
+- Small business owners age 25-54
+- Managers and executives  
+- Entrepreneurs and startup founders
+
+Group 2: "Business Interests" (interests)  
+- Business software and productivity tools
+- Marketing automation
+- Customer relationship management
+- Project management
+
+Group 3: "Professional Behaviors" (behaviors)
+- Frequent business software users
+- LinkedIn active users  
+- B2B purchase decision makers
 
 EXAMPLE STRUCTURE (Men's Bowties):
 - Group A: "Professional Men" 
@@ -58,7 +76,22 @@ EXAMPLE STRUCTURE (Men's Bowties):
     {"id": "6002839660179", "name": "Formal wear", "type": "interests", "size": "15M", "parentId": null}
   ]
 
-CRITICAL: Each category MUST include id, name, type, size (audience size like "120M" or "45M"), and parentId (null for top-level).
+CRITICAL: Each category MUST include:
+- id: Real Meta targeting ID (like "6003020834540")
+- name: Descriptive category name (like "Business professionals" or "Online shoppers")
+- type: One of "interests", "behaviors", or "demographics"
+- size: Audience size like "45M" or "120M" (make realistic estimates)
+- parentId: null for top-level categories
+
+Generate REAL, SPECIFIC categories that make business sense for the user's industry. 
+Use realistic Meta targeting IDs (format: 6003XXXXXXXX) and plausible audience sizes based on real Meta data.
+
+ENSURE STRATEGIC DIVERSITY:
+- Group 1: Demographics (age, job titles, life stages)  
+- Group 2: Interests (hobbies, topics, brands they follow)
+- Group 3: Behaviors (purchase patterns, device usage, online activities)
+
+This creates powerful AND logic: find people who match demographics AND interests AND behaviors simultaneously.
 
 Respond with JSON in this exact format:
 {
